@@ -1,3 +1,6 @@
+// Lynne Okada, Taylor Dinwiddie, Peter Tieu
+// Wall-et Defense Game for CMPM120/ARTG120
+
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 function preload() {
