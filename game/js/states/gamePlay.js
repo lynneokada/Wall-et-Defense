@@ -6,7 +6,10 @@ var gamePlayState = {
 		endButtonText.inputEnabled = true;
 		endButtonText.events.onInputDown.add(endTapped, this);
 
-		boba = new Enemy(game, '');
+		// boba = new Boba(game, '');
+
+		var healthText = game.add.text(20, 15, 'health: 100', {fontSize: '24px', fill: '#ffffff'});
+		var moneyText = game.add.text(20, 50, 'money: 100', {fontSize: '24px', fill: '#ffffff'});
 	}
 };
 
