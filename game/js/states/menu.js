@@ -1,9 +1,12 @@
 // menu.js
 
 var menuState = {
+	preload: function(){
+		game.load.audio('dramatic', './assets/audio/WalletTitle0001.ogg');
+	},
 	create: function() {
 		var gameTitle = game.add.text(game.world.centerX, 200, 'Wall-et Defense', {fontSize: '44px', fill: '#ffffff'});
-	
+
 		var startButtonText = game.add.text(game.world.centerX, game.world.centerY, 'START', {fontSize: '24px', fill: '#ffffff'});
 		startButtonText.inputEnabled = true;
 		startButtonText.events.onInputDown.add(startTapped, this);
@@ -11,6 +14,12 @@ var menuState = {
 		var tutorialButtonText = game.add.text(game.world.centerX, game.world.centerY+50, 'tutorial', {fontSize: '24px', fill: '#ffffff'});
 		tutorialButtonText.inputEnabled = true;
 		tutorialButtonText.events.onInputDown.add(tutorialTapped, this);
+
+		// Background music
+		game.sound.stopAll();
+		game.menuMusic = game.add.audio('dramatic', 0.5, true);
+		game.menuMusic.play();
+
 	}
 };
 
