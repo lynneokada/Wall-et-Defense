@@ -1,8 +1,11 @@
 // boba.js
 
 function Boba(game, x, y, spriteName) {
-	Enemy.call(this, game, spriteName, x, y, 10, 2, 20);
-
+	this.speed = 50;
+	this.health = 100;
+	this.attack = 10;
+	
+	Enemy.call(this, game, x, y, spriteName);
 }
 
 Boba.prototype = Object.create(Enemy.prototype);

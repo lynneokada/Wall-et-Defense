@@ -1,13 +1,12 @@
 // enemy.js
 
-function Enemy(game, spriteName, x, y, health, attack, speed) {
-	Phaser.sprite.call(this, game, x, y, spriteName);
+function Enemy(game, x, y, spriteName) {
+	Phaser.Sprite.call(this, game, x, y, 'gameAtlas', spriteName);
+	
 	this.anchor.setTo(0.5, 0.5);
-
 	game.physics.enable(this);
-	this.speed = 10;
-	this.health = 100;
-	this.attack = 1;
+
+	game.add.existing(this);
 }
 
 Enemy.prototype = Object.create(Phaser.Sprite.prototype);
