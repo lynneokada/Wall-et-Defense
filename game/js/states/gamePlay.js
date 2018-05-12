@@ -14,9 +14,6 @@ var gamePlayState = {
 		endButtonText.inputEnabled = true;
 		endButtonText.events.onInputDown.add(endTapped, this);
 
-		boba = new Boba(game, 100, 200, 'boba0002');
-		boba.scale.setTo(.4, .4);
-
 		var healthText = game.add.text(20, 15, 'health: 100', {fontSize: '24px', fill: '#ffffff'});
 		var moneyText = game.add.text(20, 50, 'money: 100', {fontSize: '24px', fill: '#ffffff'});
 
@@ -38,6 +35,8 @@ var gamePlayState = {
 
 		mapLayer.resizeWorld();
 
+		boba = new Boba(game, 100, 500, 'boba0002');
+		boba.scale.setTo(.4, .4);
 		// Background music
 		game.menuMusic.stop();
 		game.playMusic = game.add.audio('defense', 0.4, true);
