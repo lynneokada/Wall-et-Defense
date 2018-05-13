@@ -39,6 +39,7 @@ var gamePlayState = {
 
 		mapLayer.resizeWorld();
 
+		this.spawnWallet();
 		this.spawnPlayer();
 
 		// Spawning Boba enemies
@@ -55,6 +56,10 @@ var gamePlayState = {
 		game.menuMusic.stop();
 		game.playMusic = game.add.audio('defense', 0.4, true);
 		game.playMusic.play();
+	},
+
+	spawnWallet: function() {
+		var wallet = new Wallet(game, game.world.centerX, game.world.centerY, 'Bank0001');
 	},
 
 	spawnPlayer: function() {
