@@ -47,7 +47,7 @@ var gamePlayState = {
 		timer.start();
 
 		// Spawn weather tower
-		weatherTower = new WeatherT(game, 800, 400,'Weather0001');
+		weatherTower = new WeatherT(game, 800, 400,'Weather0001', 10, 6);
 		// Background music
 		game.menuMusic.stop();
 		game.playMusic = game.add.audio('defense', 0.4, true);
@@ -67,6 +67,13 @@ var gamePlayState = {
 
 	render: function() {
 		// game.debug.body(boba);
+	},
+
+	update: function(){
+		if(game.physics.arcade.distanceBetween(this.boba, weatherTower)< 50){
+			this.boba.kill();
+			console.log('help');
+		}
 	}
 };
 
