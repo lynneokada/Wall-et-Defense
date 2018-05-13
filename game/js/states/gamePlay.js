@@ -14,13 +14,16 @@ var gamePlayState = {
 		endButtonText.inputEnabled = true;
 		endButtonText.events.onInputDown.add(endTapped, this);
 
+		// Health and money UI indicators
 		var healthText = game.add.text(20, 15, 'health: 100', {fontSize: '24px', fill: '#ffffff'});
 		var moneyText = game.add.text(20, 50, 'money: 100', {fontSize: '24px', fill: '#ffffff'});
 
+		// Enables physics system
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
 		game.stage.setBackgroundColor('#87CEEB');
 
+		// Adding the map
 		map = game.add.tilemap('levelOne');
 
 		map.addTilesetImage('WTspritesheetR', 'tilesheet');
@@ -35,15 +38,28 @@ var gamePlayState = {
 
 		mapLayer.resizeWorld();
 
-		boba = new Boba(game, 100, 500, 'boba0002');
-		boba.scale.setTo(.4, .4);
+		// Spawning Boba enemies
+		this.boba = this.add.group();
+		//this.spawnBoba(this.boba);
+		timer = game.time.create(false);
+		timer.loop(2000, this.spawnBoba, this, this.boba);
+		timer.start();
+		//var bobaTimer = game.time.create(false);
+		//boba = new Boba(game, 100, 500, 'boba0002');
+		//boba.scale.setTo(.4, .4);
+
 		// Background music
 		game.menuMusic.stop();
 		game.playMusic = game.add.audio('defense', 0.4, true);
 		game.playMusic.play();
 	},
-	render: function() {
-		game.debug.body(boba);
+	//render: function() {
+		//game.debug.body(boba);
+	//},
+	spawnBoba: function(group){
+		var boba = new Boba(game, 100, 500, 'boba0002');
+		boba.scale.setTo(.4, .4);
+		group.add(boba);
 	}
 };
 
