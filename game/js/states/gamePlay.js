@@ -9,13 +9,15 @@ var gamePlayState = {
 		endButtonText.inputEnabled = true;
 		endButtonText.events.onInputDown.add(endTapped, this);
 
-		boba = new Boba(game, game.world.centerX, game.world.centerY, 'boba0002');
+		// boba = new Boba(game, game.world.centerX, game.world.centerY, 'boba0002');
+		player = new Player(game, game.world.centerX, game.world.centerY, 'boba0002');
 
 		var healthText = game.add.text(20, 15, 'health: 100', {fontSize: '24px', fill: '#ffffff'});
 		var moneyText = game.add.text(20, 50, 'money: 100', {fontSize: '24px', fill: '#ffffff'});
 	},
 	render: function() {
-		game.debug.body(boba);
+		// game.debug.body(boba);
+		game.debug.body(player);
 	}
 };
 
