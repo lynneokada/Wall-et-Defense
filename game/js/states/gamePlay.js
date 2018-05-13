@@ -8,6 +8,7 @@ var gamePlayState = {
 		game.load.spritesheet('tilesheet', 'assets/img/WTspritesheetR.png', 32, 32);
 		game.load.spritesheet('banktile', 'assets/img/WTspritesheetBank.png', 32, 32);
 		game.load.spritesheet('grasstile', 'assets/img/WTspritesheetG.png', 32, 32);
+		game.load.audio('defense', './assets/audio/WalletDefense0001.ogg');
 	},
 
 	create: function() {
@@ -45,6 +46,8 @@ var gamePlayState = {
 		timer.loop(2000, this.spawnBoba, this, this.boba);
 		timer.start();
 
+		// Spawn weather tower
+		weatherTower = new WeatherT(game, 800, 400,'Weather0001');
 		// Background music
 		game.menuMusic.stop();
 		game.playMusic = game.add.audio('defense', 0.4, true);
