@@ -7,7 +7,7 @@ function Tower(game, x, y, frame, health, ammo, attack, atkrange, atktargets, at
 	this.health = health;
 	this.ammo = ammo;
 	this.attack = attack;
-	
+
 	this.atkrange = atkrange;
 	this.atktargets = atktargets;
 	this.atkspeed = atkspeed;
@@ -15,7 +15,7 @@ function Tower(game, x, y, frame, health, ammo, attack, atkrange, atktargets, at
 	game.physics.enable(this);
 	game.add.existing(this);
 
-}  
+}
 
 Tower.prototype = Object.create(Phaser.Sprite.prototype);
-Tower.prototype.contrusctor = Tower;
+Tower.prototype.constructor = Tower;
