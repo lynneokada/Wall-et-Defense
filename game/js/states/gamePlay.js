@@ -40,14 +40,14 @@ var gamePlayState = {
 		this.spawnPlayer();
 
 		// Spawning Boba enemies
-		this.boba = this.add.group();
+		this.bobaG = this.add.group();
 		//this.spawnBoba(this.boba);
 		timer = game.time.create(false);
-		timer.loop(2000, this.spawnBoba, this, this.boba);
+		timer.loop(2000, this.spawnBoba, this, this.bobaG);
 		timer.start();
 
 		// Spawn weather tower
-		weatherTower = new WeatherT(game, 800, 400,'Weather0001', 10, 6);
+		this.weatherTower = new WeatherT(game, 800, 400,'Weather0001', 10, 6);
 		// Background music
 		game.menuMusic.stop();
 		game.playMusic = game.add.audio('defense', 0.4, true);
@@ -60,9 +60,9 @@ var gamePlayState = {
 	},
 
 	spawnBoba: function(group){
-		var boba = new Boba(game, -50, 500, 'boba0002');
-		boba.scale.setTo(.4, .4);
-		group.add(boba);
+		this.boba = new Boba(game, -50, 500, 'boba0002');
+		this.boba.scale.setTo(.4, .4);
+		group.add(this.bobaG);
 	},
 
 	render: function() {
@@ -70,8 +70,8 @@ var gamePlayState = {
 	},
 
 	update: function(){
-		if(game.physics.arcade.distanceBetween(this.boba, weatherTower)< 50){
-			this.boba.kill();
+		if(game.physics.arcade.distanceToXY(this.bobaG, 400, 400)< 500){
+			this.bobaG.kill();
 			console.log('help');
 		}
 	}

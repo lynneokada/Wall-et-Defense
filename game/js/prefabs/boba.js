@@ -6,14 +6,14 @@ function Boba(game, x, y, spriteName) {
 	this.attack = 10;
 
 	Enemy.call(this, game, x, y, spriteName);
-	this.body.velocity.x = 50;
+	this.body.velocity.x = 200;
 }
 
 Boba.prototype = Object.create(Enemy.prototype);
 Boba.prototype.constructor = Boba;
 
-Boba.prototype.update = function() {
+//Boba.prototype.update = function() {
 
 	// can call base class handlers for update()
 	// Enemy.prototype.update.call(this);
-};
+//};
