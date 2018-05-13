@@ -37,7 +37,10 @@ var gamePlayState = {
 
 		mapLayer.resizeWorld();
 
-		this.spawnPlayer();
+
+		player = new Player(game, game.world.centerX, game.world.centerY, 'Player0001');
+		player.scale.setTo(0.2,0.2);
+		//this.spawnPlayer();
 
 		// Spawning Boba enemies
 		this.bobaG = this.add.group();
@@ -48,16 +51,19 @@ var gamePlayState = {
 
 		// Spawn weather tower
 		this.weatherTower = new WeatherT(game, 800, 400,'Weather0001', 10, 6);
+		this.weatherTower.immovable = true;
+
+		console.log(this.weatherTower.ammo);
 		// Background music
 		game.menuMusic.stop();
 		game.playMusic = game.add.audio('defense', 0.4, true);
 		game.playMusic.play();
 	},
 
-	spawnPlayer: function() {
-		var player = new Player(game, game.world.centerX, game.world.centerY, 'Player0001');
-		player.scale.setTo(0.2,0.2);
-	},
+	//spawnPlayer: function() {
+	//	var player = new Player(game, game.world.centerX, game.world.centerY, 'Player0001');
+	//	player.scale.setTo(0.2,0.2);
+	//},
 
 	spawnBoba: function(group){
 		this.boba = new Boba(game, -50, 500, 'boba0002');
@@ -70,13 +76,20 @@ var gamePlayState = {
 	},
 
 	update: function(){
-		if(game.physics.arcade.distanceToXY(this.bobaG, 400, 400)< 500){
-			this.bobaG.kill();
-			console.log('help');
+		if(game.physics.arcade.collide(player, this.weatherTower)){
+			this.weatherTower.ammo = this.weatherTower.ammo -1;
+			console.log(this.weatherTower.ammo);
 		}
+
+
+		//if(game.physics.arcade.distanceToXY(this.bobaG, (400, 400))< 500){
+		//	this.bobaG.kill();
+		//	console.log('help');
+		//}
 	}
 };
 
 function endTapped(item) {
 	game.state.start('over');
 }
+
