@@ -1,7 +1,6 @@
 // gamePlay.js
 
-var health = 100;
-var money = 100;
+
 var gamePlayState = {
 	preload: function() {
 		game.load.atlas('gameAtlas', 'assets/img/spriteatlas.png', 'assets/img/sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
@@ -12,14 +11,15 @@ var gamePlayState = {
 		game.load.spritesheet('grasstile', 'assets/img/WTspritesheetG.png', 32, 32);
 		game.load.audio('defense', './assets/audio/WalletDefense0001.ogg');
 	},
-
 	create: function() {
+		this.game.health = 100;
+		this.game.money = 100;
 		var endButtonText = game.add.text(game.world.width-60,10, 'end', {fontSize: '24px', fill: '#ffffff'});
 		endButtonText.inputEnabled = true;
 		endButtonText.events.onInputDown.add(endTapped, this);
 
-		var healthText = game.add.text(20, 15, 'health: ' + health, {fontSize: '24px', fill: '#ffffff'});
-		var moneyText = game.add.text(20, 50, 'money: ' + money, {fontSize: '24px', fill: '#ffffff'});
+		 this.healthText = game.add.text(20, 15, 'Health: ' + this.game.health, {fontSize: '24px', fill: '#ffffff'});
+		 this.moneyText = game.add.text(20, 50, 'Money: ' + this.game.money, {fontSize: '24px', fill: '#ffffff'});
 		var tutorialText = game.add.text(20, 75, "Open the console for", {fontSize: '24px', fill: '#ffffff'});
 			tutorialText = game.add.text(20, 100, "the status of your", {fontSize: '24px', fill: '#ffffff'});
 			tutorialText = game.add.text(20, 125, "towers and money!", {fontSize: '24px', fill: '#ffffff'});
@@ -90,8 +90,9 @@ var gamePlayState = {
 		var towerUpgrade = game.physics.arcade.collide(this.player, this.weatherTower);
 
 		if (hitEnemy) {
-			this.wallet.money -= 10;
-			console.log("Money = " +this.wallet.money);
+			this.game.money -= 10;
+			console.log("Money = " +this.game.money);
+			this.moneyText.text = 'Money: ' + this.game.money;
 			this.target = this.bobaG.getClosestTo(this.wallet);
 			this.target.kill();
 		}
@@ -103,18 +104,22 @@ var gamePlayState = {
 			console.log("Weather Tower ammo = " + this.weatherTower.ammo);
 		}
 
-		if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo > 0){
+		if(game.physics.arcade.overlap(this.bobaG, this.weatherTower) && this.weatherTower.ammo > 0){
 			this.target = this.bobaG.getClosestTo(this.weatherTower);
 			this.target.kill();
-			this.weatherTower.ammo = this.weatherTower.ammo -1;	
+			this.weatherTower.ammo = this.weatherTower.ammo -1;
 			console.log("Weather Tower ammo = " + this.weatherTower.ammo);
-		} else if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo <= 0){
-			this.boba.kill();
-			health = health -10;
+		}
+		else if(game.physics.arcade.overlap(this.bobaG, this.weatherTower) && this.weatherTower.ammo <= 0)
+		{
+			this.target = this.bobaG.getClosestTo(this.weatherTower);
+			this.target.kill();
+			this.game.health -= 10;
+			this.healthText.text = 'Health: ' + this.game.health;
 		}
 
 		// game over condition
-		if (this.wallet.money == 0 || this.health == 0) {
+		if (this.game.money == 0 || this.game.health == 0) {
 			game.state.start('over');
 		}
 	}
