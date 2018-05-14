@@ -21,18 +21,18 @@ Player.prototype.update = function() {
 	this.body.velocity.y = 0;
 
 	if (cursors.left.isDown) {
-		console.log("left");
+		//console.log("left");
 		this.body.velocity.x = -this.speed;
 	} else if (cursors.right.isDown) {
-		console.log("right");
+		//console.log("right");
 		this.body.velocity.x = this.speed;
 	}
 
 	if (cursors.up.isDown) {
-		console.log("up");
+		//console.log("up");
 		this.body.velocity.y = -this.speed;
 	} else if (cursors.down.isDown) {
-		console.log("down");
+		//console.log("down");
 		this.body.velocity.y = this.speed;
 	}
 }
