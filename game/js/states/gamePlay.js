@@ -20,7 +20,9 @@ var gamePlayState = {
 
 		var healthText = game.add.text(20, 15, 'health: ' + health, {fontSize: '24px', fill: '#ffffff'});
 		var moneyText = game.add.text(20, 50, 'money: ' + money, {fontSize: '24px', fill: '#ffffff'});
-
+		var tutorialText = game.add.text(20, 75, "Open the console for", {fontSize: '24px', fill: '#ffffff'});
+			tutorialText = game.add.text(20, 100, "the status of your", {fontSize: '24px', fill: '#ffffff'});
+			tutorialText = game.add.text(20, 125, "towers and money!", {fontSize: '24px', fill: '#ffffff'});
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
 		game.stage.setBackgroundColor('#87CEEB');
@@ -54,7 +56,7 @@ var gamePlayState = {
 		this.weatherTower.scale.setTo(.5, .5);
 		this.weatherTower.body.immovable = true;
 
-		console.log(this.weatherTower.ammo);
+		console.log("ammo = " +this.weatherTower.ammo);
 		// Background music
 		game.menuMusic.stop();
 		game.playMusic = game.add.audio('defense', 0.4, true);
@@ -91,14 +93,13 @@ var gamePlayState = {
 			console.log("Money = " +this.wallet.money);
 			this.target = this.bobaG.getClosestTo(this.wallet);
 			this.target.kill();
-			moneyText = game.add.text(20, 50, 'money: ' + money, {fontSize: '24px', fill: '#ffffff'});
 		}
 
 		if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo > 0){
 			this.target = this.bobaG.getClosestTo(this.weatherTower);
 			this.target.kill();
 			this.weatherTower.ammo = this.weatherTower.ammo -1;
-			console.log("ammo = " + this.weatherTower.ammo);
+			console.log("Weather Tower ammo = " + this.weatherTower.ammo);
 		} else if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo <= 0){
 			this.boba.kill();
 			health = health -10;
