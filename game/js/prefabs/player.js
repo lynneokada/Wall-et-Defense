@@ -3,6 +3,7 @@
 function Player(game, x, y, spriteName) {
 	Phaser.Sprite.call(this, game, x, y, 'gameAtlas', spriteName);
 	game.physics.enable(this);
+	this.enableBody = true;
 	this.anchor.setTo(0.5,0.5);
 
 	this.health = 100;

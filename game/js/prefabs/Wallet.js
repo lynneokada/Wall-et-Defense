@@ -3,7 +3,9 @@
 function Wallet(game, x, y, spriteName) {
 	Phaser.Sprite.call(this, game, x, y, 'gameAtlas', spriteName);
 	this.anchor.setTo(0.5,0.5);
-	game.physics.arcade.enable(this);
+	game.physics.enable(this);
+	this.enableBody = true;
+	this.body.immovable = true;
 
 	this.happiness = 100;
 	this.money = 100;
