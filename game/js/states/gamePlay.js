@@ -87,14 +87,7 @@ var gamePlayState = {
 
 	update: function(){
 		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
-		var reloadAmmo = game.physics.arcade.collide(this.player, this.weatherTower);
-
-		if (reloadAmmo) {
-			// reload to max only if ammo is less than 6
-			if (this.weatherTower.ammo < 6) {
-				this.weatherTower.ammo = 6;	
-			}
-		}
+		var towerUpgrade = game.physics.arcade.collide(this.player, this.weatherTower);
 
 		if (hitEnemy) {
 			this.wallet.money -= 10;
@@ -103,20 +96,20 @@ var gamePlayState = {
 			this.target.kill();
 		}
 
+		if(towerUpgrade && game.input.keyboard.isDown(Phaser.Keyboard.R)){
+			this.weatherTower.ammo = this.weatherTower.ammo +1;
+			console.log("Weather Tower ammo = " + this.weatherTower.ammo);
+		}
+
 		if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo > 0){
 			this.target = this.bobaG.getClosestTo(this.weatherTower);
 			this.target.kill();
-			this.weatherTower.ammo = this.weatherTower.ammo -1;
+			this.weatherTower.ammo = this.weatherTower.ammo -1;	
 			console.log("Weather Tower ammo = " + this.weatherTower.ammo);
 		} else if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo <= 0){
 			this.boba.kill();
 			health = health -10;
 		}
-
-		//if(game.physics.arcade.distanceToXY(this.bobaG, (400, 400))< 500){
-		//	this.bobaG.kill();
-		//	console.log('help');
-		//}
 
 		// game over condition
 		if (this.wallet.money == 0 || this.health == 0) {

@@ -1,12 +1,12 @@
 // boba.js
 
 function Boba(game, x, y, spriteName) {
-	this.speed = 50;
+	this.speed = 100;
 	this.health = 100;
 	this.attack = 10;
 
 	Enemy.call(this, game, x, y, spriteName);
-	this.body.velocity.x = 200;
+	this.body.velocity.x = this.speed;
 }
 
 Boba.prototype = Object.create(Enemy.prototype);
