@@ -75,12 +75,13 @@ var gamePlayState = {
 
 	update: function(){
 		if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo > 0){
-			this.bobaG.kill();
+			this.target = this.bobaG.getClosestTo(this.weatherTower);
+			this.target.kill();
 			this.weatherTower.ammo = this.weatherTower.ammo -1;
 			console.log(this.weatherTower.ammo);
 		} else if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo <= 0){
-			this.bobaG.kill();
-			health = health -10; 
+			this.boba.kill();
+			health = health -10;
 		}
 
 		//if(game.physics.arcade.distanceToXY(this.bobaG, (400, 400))< 500){
@@ -93,4 +94,3 @@ var gamePlayState = {
 function endTapped(item) {
 	game.state.start('over');
 }
-
