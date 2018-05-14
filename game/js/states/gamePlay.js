@@ -86,13 +86,19 @@ var gamePlayState = {
 	},
 
 	update: function(){
-		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet)
+		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
+		var towerUpgrade = game.physics.arcade.collide(this.player, this.weatherTower);
 
 		if (hitEnemy) {
 			this.wallet.money -= 10;
 			console.log("Money = " +this.wallet.money);
 			this.target = this.bobaG.getClosestTo(this.wallet);
 			this.target.kill();
+		}
+
+		if(towerUpgrade && game.input.keyboard.isDown(Phaser.Keyboard.R)){
+			this.weatherTower.ammo = this.weatherTower.ammo +1;
+			console.log("Weather Tower ammo = " + this.weatherTower.ammo);
 		}
 
 		if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo > 0){
@@ -105,10 +111,7 @@ var gamePlayState = {
 			health = health -10;
 		}
 
-		//if(game.physics.arcade.distanceToXY(this.bobaG, (400, 400))< 500){
-		//	this.bobaG.kill();
-		//	console.log('help');
-		//}
+
 
 		// game over condition
 		if (this.wallet.money == 0 || this.health == 0) {
