@@ -75,7 +75,7 @@ var gamePlayState = {
 	},
 
 	render: function() {
-		game.debug.body(this.wallet);
+		// game.debug.body(this.wallet);
 	},
 
 	update: function(){
@@ -84,7 +84,8 @@ var gamePlayState = {
 		if (hitEnemy) {
 			this.wallet.money -= 10;
 			console.log(this.wallet.money);
-			this.bobaG.kill();
+			this.target = this.bobaG.getClosestTo(this.weatherTower);
+			this.target.kill();
 		}
 
 		if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo > 0){
@@ -101,6 +102,11 @@ var gamePlayState = {
 		//	this.bobaG.kill();
 		//	console.log('help');
 		//}
+
+		// game over condition
+		if (this.wallet.money == 0 || this.health == 0) {
+			game.state.start('over');
+		}
 	}
 };
 
