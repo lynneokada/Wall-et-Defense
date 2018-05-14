@@ -1,5 +1,6 @@
 // gamePlay.js
 
+var health = 100;
 var gamePlayState = {
 	preload: function() {
 		game.load.atlas('gameAtlas', 'assets/img/spriteatlas.png', 'assets/img/sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
@@ -16,7 +17,7 @@ var gamePlayState = {
 		endButtonText.inputEnabled = true;
 		endButtonText.events.onInputDown.add(endTapped, this);
 
-		var healthText = game.add.text(20, 15, 'health: 100', {fontSize: '24px', fill: '#ffffff'});
+		var healthText = game.add.text(20, 15, 'health: ' + health, {fontSize: '24px', fill: '#ffffff'});
 		var moneyText = game.add.text(20, 50, 'money: 100', {fontSize: '24px', fill: '#ffffff'});
 
 		game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -37,10 +38,7 @@ var gamePlayState = {
 
 		mapLayer.resizeWorld();
 
-
-		player = new Player(game, game.world.centerX, game.world.centerY, 'Player0001');
-		player.scale.setTo(0.2,0.2);
-		//this.spawnPlayer();
+		this.spawnPlayer();
 
 		// Spawning Boba enemies
 		this.bobaG = this.add.group();
@@ -51,7 +49,7 @@ var gamePlayState = {
 
 		// Spawn weather tower
 		this.weatherTower = new WeatherT(game, 800, 400,'Weather0001', 10, 6);
-		this.weatherTower.immovable = true;
+		this.weatherTower.body.immovable = true;
 
 		console.log(this.weatherTower.ammo);
 		// Background music
@@ -60,15 +58,15 @@ var gamePlayState = {
 		game.playMusic.play();
 	},
 
-	//spawnPlayer: function() {
-	//	var player = new Player(game, game.world.centerX, game.world.centerY, 'Player0001');
-	//	player.scale.setTo(0.2,0.2);
-	//},
+	spawnPlayer: function() {
+		var player = new Player(game, game.world.centerX, game.world.centerY, 'Player0001');
+		player.scale.setTo(0.2,0.2);
+	},
 
 	spawnBoba: function(group){
 		this.boba = new Boba(game, -50, 500, 'boba0002');
 		this.boba.scale.setTo(.4, .4);
-		group.add(this.bobaG);
+		this.bobaG.add(this.boba);
 	},
 
 	render: function() {
@@ -76,11 +74,14 @@ var gamePlayState = {
 	},
 
 	update: function(){
-		if(game.physics.arcade.collide(player, this.weatherTower)){
+		if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo > 0){
+			this.bobaG.kill();
 			this.weatherTower.ammo = this.weatherTower.ammo -1;
 			console.log(this.weatherTower.ammo);
+		} else if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo <= 0){
+			this.bobaG.kill();
+			health = health -10; 
 		}
-
 
 		//if(game.physics.arcade.distanceToXY(this.bobaG, (400, 400))< 500){
 		//	this.bobaG.kill();
