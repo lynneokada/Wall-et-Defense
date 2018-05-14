@@ -86,7 +86,15 @@ var gamePlayState = {
 	},
 
 	update: function(){
-		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet)
+		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
+		var reloadAmmo = game.physics.arcade.collide(this.player, this.weatherTower);
+
+		if (reloadAmmo) {
+			// reload to max only if ammo is less than 6
+			if (this.weatherTower.ammo < 6) {
+				this.weatherTower.ammo = 6;	
+			}
+		}
 
 		if (hitEnemy) {
 			this.wallet.money -= 10;
