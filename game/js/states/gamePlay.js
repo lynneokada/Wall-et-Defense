@@ -97,7 +97,9 @@ var gamePlayState = {
 		}
 
 		if(towerUpgrade && game.input.keyboard.isDown(Phaser.Keyboard.R)){
-			this.weatherTower.ammo = this.weatherTower.ammo +1;
+			if (this.weatherTower.ammo < 6) {
+				this.weatherTower.ammo = this.weatherTower.ammo +1;
+			}
 			console.log("Weather Tower ammo = " + this.weatherTower.ammo);
 		}
 
