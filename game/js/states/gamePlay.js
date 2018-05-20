@@ -1,6 +1,6 @@
 // gamePlay.js
 
-
+var bool = false;
 var gamePlayState = {
 	preload: function() {
 		game.load.atlas('gameAtlas', 'assets/img/spriteatlas.png', 'assets/img/sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
