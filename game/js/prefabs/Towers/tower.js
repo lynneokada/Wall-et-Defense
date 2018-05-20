@@ -15,7 +15,6 @@ function Tower(game, x, y, frame, health, ammo, attack, atkrange, atktargets, at
 	this.immovable = true;
 	game.physics.enable(this);
 	game.add.existing(this);
-
 }
 
 Tower.prototype = Object.create(Phaser.Sprite.prototype);

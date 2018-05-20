@@ -56,6 +56,11 @@ var gamePlayState = {
 		this.weatherTower.scale.setTo(.5, .5);
 		this.weatherTower.body.immovable = true;
 
+		// spawn recycle tower
+		this.recycleTower = new RecycleT(game, 200, 500, 'Weather0001', 10, 6);
+		this.recycleTower.scale.setTo(.5, .5);
+		this.recycleTower.body.immovable = true;
+
 		console.log("ammo = " +this.weatherTower.ammo);
 		// Background music
 		game.menuMusic.stop();
@@ -82,7 +87,7 @@ var gamePlayState = {
 	},
 
 	render: function() {
-		// game.debug.body(this.wallet);
+		game.debug.body(this.recycleTower);
 	},
 
 	update: function(){
@@ -108,11 +113,26 @@ var gamePlayState = {
 			this.target = this.bobaG.getClosestTo(this.weatherTower);
 			this.target.kill();
 			this.weatherTower.ammo = this.weatherTower.ammo -1;
-			console.log("Weather Tower ammo = " + this.weatherTower.ammo);
+			// console.log("Weather Tower ammo = " + this.weatherTower.ammo);
 		}
 		else if(game.physics.arcade.overlap(this.bobaG, this.weatherTower) && this.weatherTower.ammo <= 0)
 		{
 			this.target = this.bobaG.getClosestTo(this.weatherTower);
+			this.target.kill();
+			this.game.health -= 10;
+			// this.healthText.text = 'Health: ' + this.game.health;
+		}
+
+		// collision detection between enemy and recycle tower
+		if(game.physics.arcade.overlap(this.bobaG, this.recycleTower) && this.recycleTower.ammo > 0){
+			this.target = this.bobaG.getClosestTo(this.recycleTower);
+			this.target.kill();
+			this.recycleTower.ammo = this.recycleTower.ammo -1;
+			console.log("Recycle Tower ammo = " + this.recycleTower.ammo);
+		}
+		else if(game.physics.arcade.overlap(this.bobaG, this.recycleTower) && this.recycleTower.ammo <= 0)
+		{
+			this.target = this.bobaG.getClosestTo(this.recycleTower);
 			this.target.kill();
 			this.game.health -= 10;
 			this.healthText.text = 'Health: ' + this.game.health;
