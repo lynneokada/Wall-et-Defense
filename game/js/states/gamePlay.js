@@ -1,5 +1,6 @@
 // gamePlay.js
 
+var bool = false;
 var health = 100;
 var money = 100;
 var gamePlayState = {
@@ -17,6 +18,11 @@ var gamePlayState = {
 		var endButtonText = game.add.text(game.world.width-60,10, 'end', {fontSize: '24px', fill: '#ffffff'});
 		endButtonText.inputEnabled = true;
 		endButtonText.events.onInputDown.add(endTapped, this);
+
+		console.log(bool);
+		var towerText = game.add.text(game.world.width-60, 50, 'Towers', {fontSize: '24px', fill: '#ffffff'});
+		towerText.inputEnabled = true;
+		towerText.events.onInputDown.add(towerPlacement, this);
 
 		var healthText = game.add.text(20, 15, 'health: ' + health, {fontSize: '24px', fill: '#ffffff'});
 		var moneyText = game.add.text(20, 50, 'money: ' + money, {fontSize: '24px', fill: '#ffffff'});
@@ -41,6 +47,29 @@ var gamePlayState = {
 
 		mapLayer.resizeWorld();
 
+// if icon is pressed, trigger = true
+// if trigger = true, make the marker drawRect stuff
+// then get tile properties
+// (in tile properties) 
+// if tile.properties.grass = true 
+// tower = newWeatherTower(this.x, this.y)
+
+		marker = game.add.graphics();
+
+		if(bool = true){
+			marker.lineStyle(2, 0xffffff, 1);
+			marker.drawRect(0, 0, 32, 32);
+			console.log(bool);
+			game.input.addMoveCallback(updateMarker, this);
+			game.input.onDown.add(getTileProperties, this);
+		}
+		
+
+		//game.input.addMoveCallback(updateMarker, this);
+		//game.input.onDown.add(getTileProperties, this);
+
+		cursors = game.input.keyboard.createCursorKeys();
+
 		this.spawnWallet();
 		this.spawnPlayer();
 
@@ -52,6 +81,7 @@ var gamePlayState = {
 		timer.start();
 
 		// Spawn weather tower
+		this.weatherGroup = this.add.group();
 		this.weatherTower = new WeatherT(game, 200, 375,'Weather0001', 10, 6);
 		this.weatherTower.scale.setTo(.5, .5);
 		this.weatherTower.body.immovable = true;
@@ -81,6 +111,13 @@ var gamePlayState = {
 		this.bobaG.add(this.boba2);
 	},
 
+	spawnWeatherTower: function(){
+		this.weatherTower = new WeatherT(game, game.input.activePointer.worldX -32, game.input.activePointer.worldY -32,'Weather0001', 10, 6);
+		this.weatherTower.scale.setTo(.3, .3);
+		this.weatherTower.body.immovable = true;
+		this.weatherGroup.add(this.weatherTower);
+	},
+
 	render: function() {
 		// game.debug.body(this.wallet);
 	},
@@ -89,6 +126,9 @@ var gamePlayState = {
 		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
 		var towerUpgrade = game.physics.arcade.collide(this.player, this.weatherTower);
 
+		if(bool = false){
+			marker.clear();
+		}
 		if (hitEnemy) {
 			this.wallet.money -= 10;
 			console.log("Money = " +this.wallet.money);
@@ -119,6 +159,37 @@ var gamePlayState = {
 		}
 	}
 };
+
+
+
+	function getTileProperties(){
+
+		var x = grassLayer.getTileX(game.input.activePointer.worldX);
+		var y = grassLayer.getTileY(game.input.activePointer.worldY);
+
+		var tile = map.getTile(x, y, grassLayer);
+
+		currentDataString = JSON.stringify( tile.properties );
+		tile.properties.grass = true;
+		console.log(currentDataString); 
+
+		if(tile.properties.grass = true){
+			console.log("bool1: " + bool);
+			this.spawnWeatherTower();
+			bool = false;
+			console.log("bool2: "+ bool);
+		}
+
+	}
+
+	function updateMarker(){
+		marker.x = grassLayer.getTileX(game.input.activePointer.worldX) * 32;
+		marker.y = grassLayer.getTileY(game.input.activePointer.worldY) * 32;
+	}
+
+	function towerPlacement(){
+		//bool = true;
+	}
 
 function endTapped(item) {
 	game.state.start('over');
