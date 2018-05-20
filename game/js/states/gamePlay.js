@@ -82,7 +82,7 @@ var gamePlayState = {
 
 		// Spawn weather tower
 		this.weatherGroup = this.add.group();
-		this.weatherTower = 0;
+		// this.weatherTower = new WeatherT(game, 200, 375,'Weather0001', 10, 6);
 		// this.weatherTower.scale.setTo(.5, .5);
 		// this.weatherTower.body.immovable = true;
 
@@ -151,19 +151,15 @@ var gamePlayState = {
 			console.log("Weather Tower ammo = " + this.weatherTower.ammo);
 		}
 
-		if(game.physics.arcade.overlap(this.bobaG, this.weatherTower) && this.weatherTower.ammo > 0){
-			this.target = this.bobaG.getClosestTo(this.weatherTower);
-			this.target.kill();
-			this.weatherTower.ammo = this.weatherTower.ammo -1;
-			console.log("Weather Tower ammo = " + this.weatherTower.ammo);
-		}
-		else if(game.physics.arcade.overlap(this.bobaG, this.weatherTower) && this.weatherTower.ammo <= 0)
-		{
-			this.target = this.bobaG.getClosestTo(this.weatherTower);
-			this.target.kill();
-			this.game.health -= 10;
-			this.healthText.text = 'Health: ' + this.game.health;
-		}
+		//if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo > 0){
+			//this.target = this.bobaG.getClosestTo(this.weatherTower);
+			//this.target.kill();
+			//this.weatherTower.ammo = this.weatherTower.ammo -1;
+			//console.log("Weather Tower ammo = " + this.weatherTower.ammo);
+		//} else if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo <= 0){
+		//	this.boba.kill();
+		//	health = health -10;
+		//}
 
 		// game over condition
 		if (this.wallet.money == 0 || this.health == 0) {
