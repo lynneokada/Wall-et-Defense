@@ -44,12 +44,18 @@ var gamePlayState = {
 		this.spawnWallet();
 		this.spawnPlayer();
 
-		// Spawning Boba enemies
+		// ENEMY TIMER SET UP -----------------------------
 		this.bobaG = this.add.group();
 		//this.spawnBoba(this.boba);
-		timer = game.time.create(false);
-		timer.loop(2000, this.spawnBoba, this, this.bobaG);
-		timer.start();
+		bobaTimer = game.time.create(false);
+		bobaTimer.loop(2000, this.spawnBoba, this, this.bobaG);
+		bobaTimer.start();
+
+		this.cartB = this.add.group();
+		cartTimer = game.time.create(false);
+		cartTimer.loop(4000, this.spawnCart, this, this.cartB);
+		cartTimer.start();
+		// ------------------------------------------------
 
 		// Spawn weather tower
 		this.weatherTower = new WeatherT(game, 200, 375,'Weather0001', 10, 6);
