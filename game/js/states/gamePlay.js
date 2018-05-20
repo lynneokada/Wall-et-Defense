@@ -86,7 +86,7 @@ var gamePlayState = {
 		// this.weatherTower.scale.setTo(.5, .5);
 		// this.weatherTower.body.immovable = true;
 
-		console.log("ammo = " +this.weatherTower.ammo);
+		//console.log("ammo = " +this.weatherTower.ammo);
 		// Background music
 		game.menuMusic.stop();
 		game.playMusic = game.add.audio('defense', 0.4, true);
@@ -151,15 +151,15 @@ var gamePlayState = {
 			console.log("Weather Tower ammo = " + this.weatherTower.ammo);
 		}
 
-		if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo > 0){
-			this.target = this.bobaG.getClosestTo(this.weatherTower);
-			this.target.kill();
-			this.weatherTower.ammo = this.weatherTower.ammo -1;
-			console.log("Weather Tower ammo = " + this.weatherTower.ammo);
-		} else if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo <= 0){
-			this.boba.kill();
-			health = health -10;
-		}
+		//if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo > 0){
+			//this.target = this.bobaG.getClosestTo(this.weatherTower);
+			//this.target.kill();
+			//this.weatherTower.ammo = this.weatherTower.ammo -1;
+			//console.log("Weather Tower ammo = " + this.weatherTower.ammo);
+		//} else if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo <= 0){
+		//	this.boba.kill();
+		//	health = health -10;
+		//}
 
 		// game over condition
 		if (this.wallet.money == 0 || this.health == 0) {
