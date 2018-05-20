@@ -56,7 +56,7 @@ var gamePlayState = {
 
 		marker = game.add.graphics();
 
-		if(bool = true){
+		if(bool == true){
 			marker.lineStyle(2, 0xffffff, 1);
 			marker.drawRect(0, 0, 32, 32);
 			console.log(bool);
@@ -126,9 +126,17 @@ var gamePlayState = {
 		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
 		var towerUpgrade = game.physics.arcade.collide(this.player, this.weatherTower);
 
-		if(bool = false){
+		if(bool == false){
 			marker.clear();
+			console.log("clearing");
 		}
+
+		if(bool == true){
+			makeMarker();
+			game.input.addMoveCallback(updateMarker, this);
+			game.input.onDown.add(getTileProperties, this);
+		}
+
 		if (hitEnemy) {
 			this.wallet.money -= 10;
 			console.log("Money = " +this.wallet.money);
@@ -188,7 +196,13 @@ var gamePlayState = {
 	}
 
 	function towerPlacement(){
-		//bool = true;
+		bool = true;
+	}
+
+	function makeMarker(){
+		marker.lineStyle(2, 0xffffff, 1);
+		marker.drawRect(0, 0, 32, 32);
+		console.log(bool);
 	}
 
 function endTapped(item) {
