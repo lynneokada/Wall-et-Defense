@@ -50,8 +50,8 @@ var gamePlayState = {
 // if icon is pressed, trigger = true
 // if trigger = true, make the marker drawRect stuff
 // then get tile properties
-// (in tile properties) 
-// if tile.properties.grass = true 
+// (in tile properties)
+// if tile.properties.grass = true
 // tower = newWeatherTower(this.x, this.y)
 
 		marker = game.add.graphics();
@@ -63,7 +63,7 @@ var gamePlayState = {
 			game.input.addMoveCallback(updateMarker, this);
 			game.input.onDown.add(getTileProperties, this);
 		}
-		
+
 
 		//game.input.addMoveCallback(updateMarker, this);
 		//game.input.onDown.add(getTileProperties, this);
@@ -82,9 +82,9 @@ var gamePlayState = {
 
 		// Spawn weather tower
 		this.weatherGroup = this.add.group();
-		this.weatherTower = new WeatherT(game, 200, 375,'Weather0001', 10, 6);
-		this.weatherTower.scale.setTo(.5, .5);
-		this.weatherTower.body.immovable = true;
+		// this.weatherTower = new WeatherT(game, 200, 375,'Weather0001', 10, 6);
+		// this.weatherTower.scale.setTo(.5, .5);
+		// this.weatherTower.body.immovable = true;
 
 		console.log("ammo = " +this.weatherTower.ammo);
 		// Background music
@@ -113,7 +113,7 @@ var gamePlayState = {
 
 	spawnWeatherTower: function(){
 		this.weatherTower = new WeatherT(game, game.input.activePointer.worldX -32, game.input.activePointer.worldY -32,'Weather0001', 10, 6);
-		this.weatherTower.scale.setTo(.3, .3);
+		this.weatherTower.scale.setTo(.5, .5);
 		this.weatherTower.body.immovable = true;
 		this.weatherGroup.add(this.weatherTower);
 	},
@@ -154,7 +154,7 @@ var gamePlayState = {
 		if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo > 0){
 			this.target = this.bobaG.getClosestTo(this.weatherTower);
 			this.target.kill();
-			this.weatherTower.ammo = this.weatherTower.ammo -1;	
+			this.weatherTower.ammo = this.weatherTower.ammo -1;
 			console.log("Weather Tower ammo = " + this.weatherTower.ammo);
 		} else if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo <= 0){
 			this.boba.kill();
@@ -179,7 +179,7 @@ var gamePlayState = {
 
 		currentDataString = JSON.stringify( tile.properties );
 		tile.properties.grass = true;
-		console.log(currentDataString); 
+		console.log(currentDataString);
 
 		if(tile.properties.grass = true){
 			console.log("bool1: " + bool);
