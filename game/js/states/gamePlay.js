@@ -54,6 +54,16 @@ var gamePlayState = {
 		cartTimer = game.time.create(false);
 		cartTimer.loop(4000, this.spawnCart, this, this.cartG);
 		cartTimer.start();
+
+		this.ticketG = this.add.group();
+		ticketTimer = game.time.create(false);
+		ticketTimer.loop(4000, this.spawnTicket, this, this.ticketG);
+		ticketTimer.start();
+
+		this.shirtG = this.add.group();
+		shirtTimer = game.time.create(false);
+		shirtTimer.loop(4000, this.spawnShirt, this, this.shirtG);
+		shirtTimer.start();
 		// ------------------------------------------------
 
 		// Spawn weather tower
@@ -95,6 +105,18 @@ var gamePlayState = {
 		this.cart = new Cart(game, -50, 500, 'Cart0001');
 		this.cart.scale.setTo(.2, .2);
 		this.cartG.add(this.cart);
+	},
+
+	spawnTicket: function(group) {
+		this.ticket = new Ticket(game, -50, 500, 'Ticket0001');
+		this.ticket.scale.setTo(.2,.2);
+		this.ticketG.add(this.ticket);
+	},
+
+	spawnShirt: function(group) {
+		this.shirt = new Shirt(game, -50, 500, 'Clothes0001');
+		this.shirt.scale.setTo(.2,.2);
+		this.shirtG.add(this.shirt);
 	},
 
 	render: function() {

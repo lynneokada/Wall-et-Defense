@@ -1,6 +1,6 @@
-// boba.js
+// shirt.js
 
-function Boba(game, x, y, spriteName) {
+function Shirt(game, x, y, spriteName) {
 	this.speed = 100;
 	this.health = 100;
 	this.attack = 10;
@@ -9,5 +9,5 @@ function Boba(game, x, y, spriteName) {
 	this.body.velocity.x = this.speed;
 }
 
-Boba.prototype = Object.create(Enemy.prototype);
-Boba.prototype.constructor = Boba;
+Shirt.prototype = Object.create(Enemy.prototype);
+Shirt.prototype.constructor = Shirt;
