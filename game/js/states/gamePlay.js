@@ -64,6 +64,11 @@ var gamePlayState = {
 		shirtTimer = game.time.create(false);
 		shirtTimer.loop(4000, this.spawnShirt, this, this.shirtG);
 		shirtTimer.start();
+
+		// this.steamG = this.add.group();
+		// steamTimer = game.time.create(false);
+		// steamTimer.loop(4000, this.steamTimer, this, this.steamG);
+		// steamTimer.start();
 		// ------------------------------------------------
 
 		// Spawn weather tower
@@ -117,6 +122,12 @@ var gamePlayState = {
 		this.shirt = new Shirt(game, -50, 500, 'Clothes0001');
 		this.shirt.scale.setTo(.2,.2);
 		this.shirtG.add(this.shirt);
+	},
+
+	spawnSteam: function(group) {
+		this.steam = new Steam(game, -50, 500, 'Games0001');
+		this.steam.scale.setTo(.2,.2);
+		this.steamG.add(this.steam);
 	},
 
 	render: function() {
