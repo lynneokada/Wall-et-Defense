@@ -13,6 +13,7 @@ var gamePlayState = {
 		slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
 		slickUI.load('assets/ui/kenney/kenney.json');
 		game.load.audio('breach', './assets/audio/WalletBreach0001.ogg');
+		game.load.audio('reloadSound', './assets/audio/WalletReload0001.ogg');
 	},
 	create: function() {
 		this.game.health = 100;
@@ -206,6 +207,8 @@ var gamePlayState = {
 		if(towerUpgrade && game.input.keyboard.isDown(Phaser.Keyboard.R)){
 			if (this.weatherTower.ammo < 6) {
 				this.weatherTower.ammo = this.weatherTower.ammo +1;
+				this.reloadSFX = game.add.audio('reloadSound', 0.1);
+				this.reloadSFX.play();
 			}
 			console.log("Weather Tower ammo = " + this.weatherTower.ammo);
 		}
