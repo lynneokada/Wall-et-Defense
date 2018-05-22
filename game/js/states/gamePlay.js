@@ -1,6 +1,5 @@
 // gamePlay.js
 
-
 var gamePlayState = {
 	preload: function() {
 		game.load.atlas('gameAtlas', 'assets/img/spriteatlas.png', 'assets/img/sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
@@ -10,16 +9,19 @@ var gamePlayState = {
 		game.load.spritesheet('banktile', 'assets/img/WTspritesheetBank.png', 32, 32);
 		game.load.spritesheet('grasstile', 'assets/img/WTspritesheetG.png', 32, 32);
 		game.load.audio('defense', './assets/audio/WalletDefense0001.ogg');
+		game.load.image('menu-button', 'assets/ui/menu.png');
+		slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
+		slickUI.load('assets/ui/kenney/kenney.json');
 	},
 	create: function() {
 		this.game.health = 100;
 		this.game.money = 100;
-		var endButtonText = game.add.text(game.world.width-60,10, 'end', {fontSize: '24px', fill: '#ffffff'});
-		endButtonText.inputEnabled = true;
-		endButtonText.events.onInputDown.add(endTapped, this);
+		// var endButtonText = game.add.text(game.world.width-60,10, 'end', {fontSize: '24px', fill: '#ffffff'});
+		// endButtonText.inputEnabled = true;
+		// endButtonText.events.onInputDown.add(endTapped, this);
 
-		 this.healthText = game.add.text(20, 15, 'Health: ' + this.game.health, {fontSize: '24px', fill: '#ffffff'});
-		 this.moneyText = game.add.text(20, 50, 'Money: ' + this.game.money, {fontSize: '24px', fill: '#ffffff'});
+		this.healthText = game.add.text(20, 15, 'Health: ' + this.game.health, {fontSize: '24px', fill: '#ffffff'});
+		this.moneyText = game.add.text(20, 50, 'Money: ' + this.game.money, {fontSize: '24px', fill: '#ffffff'});
 		var tutorialText = game.add.text(20, 75, "Open the console for", {fontSize: '24px', fill: '#ffffff'});
 			tutorialText = game.add.text(20, 100, "the status of your", {fontSize: '24px', fill: '#ffffff'});
 			tutorialText = game.add.text(20, 125, "towers and money!", {fontSize: '24px', fill: '#ffffff'});
@@ -86,6 +88,8 @@ var gamePlayState = {
 		game.menuMusic.stop();
 		game.playMusic = game.add.audio('defense', 0.4, true);
 		game.playMusic.play();
+
+		this.initializeTowerSelection();
 	},
 
 	spawnWallet: function() {
@@ -128,6 +132,56 @@ var gamePlayState = {
 		this.steam = new Steam(game, -50, 500, 'Games0001');
 		this.steam.scale.setTo(.2,.2);
 		this.steamG.add(this.steam);
+	},
+
+	initializeTowerSelection: function() {
+		var button, panel, menuButton;
+        slickUI.add(panel = new SlickUI.Element.Panel(game.width - 156, 8, 150, 355));
+        panel.add(new SlickUI.Element.Text(10,0, "Towers")).centerHorizontally().text.alpha = 0.5;
+
+        panel.add(button = new SlickUI.Element.Button(0, 30, 140, 80)).events.onInputUp.add(function () {
+            console.log('Clicked Weather Tower');
+        });
+        button.add(new SlickUI.Element.Text(0,0, "Weather")).center();
+
+        panel.add(button = new SlickUI.Element.Button(0, 120, 140, 80)).events.onInputUp.add(function () {
+            console.log('Clicked Recycle Tower');
+        });
+        button.add(new SlickUI.Element.Text(0,0, "Recycle")).center();
+
+        panel.add(button = new SlickUI.Element.Button(0, 210, 140, 80)).events.onInputUp.add(function () {
+            console.log('Clicked Laziness Tower');
+        });
+        button.add(new SlickUI.Element.Text(0,0, "Laziness")).center();
+
+        panel.add(button = new SlickUI.Element.Button(0, 300, 140, 40));
+        button.add(new SlickUI.Element.Text(0,0, "Close")).center();
+
+        panel.visible = false;
+        var basePosition = panel.x;
+
+        slickUI.add(menuButton = new SlickUI.Element.DisplayObject(game.width - 45, 8, game.make.sprite(0, 0, 'menu-button')));
+        menuButton.inputEnabled = true;
+        menuButton.input.useHandCursor = true;
+        menuButton.events.onInputDown.add(function () {
+            if(panel.visible) {
+                return;
+            }
+            panel.visible = true;
+            panel.x = basePosition + 156;
+            game.add.tween(panel).to( {x: basePosition}, 500, Phaser.Easing.Exponential.Out, true).onComplete.add(function () {
+                menuButton.visible = false;
+            });
+            slickUI.container.displayGroup.bringToTop(panel.container.displayGroup);
+        }, this);
+
+        button.events.onInputUp.add(function () {
+            game.add.tween(panel).to( {x: basePosition + 156}, 500, Phaser.Easing.Exponential.Out, true).onComplete.add(function () {
+                panel.visible = false;
+                panel.x -= 156;
+            });
+            menuButton.visible = true;
+        });
 	},
 
 	render: function() {
