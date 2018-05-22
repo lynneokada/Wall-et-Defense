@@ -1,6 +1,6 @@
 // gamePlay.js
 
-
+var bool = false;
 var gamePlayState = {
 	preload: function() {
 		game.load.atlas('gameAtlas', 'assets/img/spriteatlas.png', 'assets/img/sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
@@ -54,13 +54,13 @@ var gamePlayState = {
 
 		marker = game.add.graphics();
 
-		if(bool == true){
+		/*if(bool == true){
 			marker.lineStyle(2, 0xffffff, 1);
 			marker.drawRect(0, 0, 32, 32);
 			console.log(bool);
 			game.input.addMoveCallback(updateMarker, this);
 			game.input.onDown.add(getTileProperties, this);
-		}
+		}*/
 
 
 		//game.input.addMoveCallback(updateMarker, this);
@@ -114,6 +114,7 @@ var gamePlayState = {
 		this.weatherTower.scale.setTo(.5, .5);
 		this.weatherTower.body.immovable = true;
 		this.weatherGroup.add(this.weatherTower);
+		game.input.onDown.remove(getTileProperties, this);
 	},
 
 	render: function() {
