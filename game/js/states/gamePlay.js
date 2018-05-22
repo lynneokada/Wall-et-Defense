@@ -11,6 +11,7 @@ var gamePlayState = {
 		game.load.spritesheet('banktile', 'assets/img/WTspritesheetBank.png', 32, 32);
 		game.load.spritesheet('grasstile', 'assets/img/WTspritesheetG.png', 32, 32);
 		game.load.audio('defense', './assets/audio/WalletDefense0001.ogg');
+		game.load.audio('breach', './assets/audio/WalletBreach0001.ogg');
 	},
 
 	create: function() {
@@ -94,6 +95,8 @@ var gamePlayState = {
 			console.log("Money = " +this.wallet.money);
 			this.target = this.bobaG.getClosestTo(this.wallet);
 			this.target.kill();
+			this.breach = game.add.audio('breach', 0.2);
+			this.breach.play();
 		}
 
 		if(towerUpgrade && game.input.keyboard.isDown(Phaser.Keyboard.R)){
@@ -106,7 +109,7 @@ var gamePlayState = {
 		if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo > 0){
 			this.target = this.bobaG.getClosestTo(this.weatherTower);
 			this.target.kill();
-			this.weatherTower.ammo = this.weatherTower.ammo -1;	
+			this.weatherTower.ammo = this.weatherTower.ammo -1;
 			console.log("Weather Tower ammo = " + this.weatherTower.ammo);
 		} else if(game.physics.arcade.collide(this.bobaG, this.weatherTower) && this.weatherTower.ammo <= 0){
 			this.boba.kill();
