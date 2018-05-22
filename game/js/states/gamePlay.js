@@ -12,6 +12,7 @@ var gamePlayState = {
 		game.load.image('menu-button', 'assets/ui/menu.png');
 		slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
 		slickUI.load('assets/ui/kenney/kenney.json');
+		game.load.audio('breach', './assets/audio/WalletBreach0001.ogg');
 	},
 	create: function() {
 		this.game.health = 100;
@@ -198,6 +199,8 @@ var gamePlayState = {
 			this.moneyText.text = 'Money: ' + this.game.money;
 			this.target = this.bobaG.getClosestTo(this.wallet);
 			this.target.kill();
+			this.breach = game.add.audio('breach', 0.2);
+			this.breach.play();
 		}
 
 		if(towerUpgrade && game.input.keyboard.isDown(Phaser.Keyboard.R)){
@@ -220,15 +223,15 @@ var gamePlayState = {
 			this.target.kill();
 			this.game.health -= 10;
 			// this.healthText.text = 'Health: ' + this.game.health;
-		} 
-		
+		}
+
 		if (game.physics.arcade.overlap(this.cartG, this.weatherTower) && this.weatherTower.ammo > 0)
 		{
 			this.target = this.cartG.getClosestTo(this.weatherTower);
 			this.target.kill();
 			this.weatherTower.ammo = this.weatherTower.ammo -1;
 			// console.log("Weather Tower ammo = " + this.weatherTower.ammo);
-		} 
+		}
 		else if(game.physics.arcade.overlap(this.cartG, this.weatherTower) && this.weatherTower.ammo <= 0)
 		{
 			this.target = this.cartG.getClosestTo(this.weatherTower);
