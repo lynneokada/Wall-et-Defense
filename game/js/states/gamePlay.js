@@ -1,5 +1,10 @@
 // gamePlay.js
 
+var bool = false;
+var wflag = false;
+var rflag = false;
+var lflag = false;
+ 
 var gamePlayState = {
 	preload: function() {
 		game.load.atlas('gameAtlas', 'assets/img/spriteatlas.png', 'assets/img/sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
@@ -24,9 +29,7 @@ var gamePlayState = {
 
 		this.healthText = game.add.text(20, 15, 'Health: ' + this.game.health, {fontSize: '24px', fill: '#ffffff'});
 		this.moneyText = game.add.text(20, 50, 'Money: ' + this.game.money, {fontSize: '24px', fill: '#ffffff'});
-		var tutorialText = game.add.text(20, 75, "Open the console for", {fontSize: '24px', fill: '#ffffff'});
-			tutorialText = game.add.text(20, 100, "the status of your", {fontSize: '24px', fill: '#ffffff'});
-			tutorialText = game.add.text(20, 125, "towers and money!", {fontSize: '24px', fill: '#ffffff'});
+
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
 		game.stage.setBackgroundColor('#87CEEB');
@@ -44,6 +47,29 @@ var gamePlayState = {
 		grassLayer = map.createLayer('Grass');
 
 		mapLayer.resizeWorld();
+
+// if icon is pressed, trigger = true
+// if trigger = true, make the marker drawRect stuff
+// then get tile properties
+// (in tile properties)
+// if tile.properties.grass = true
+// tower = newWeatherTower(this.x, this.y)
+
+		marker = game.add.graphics();
+
+		/*if(bool == true){
+			marker.lineStyle(2, 0xffffff, 1);
+			marker.drawRect(0, 0, 32, 32);
+			console.log(bool);
+			game.input.addMoveCallback(updateMarker, this);
+			game.input.onDown.add(getTileProperties, this);
+		}*/
+
+
+		//game.input.addMoveCallback(updateMarker, this);
+		//game.input.onDown.add(getTileProperties, this);
+
+		cursors = game.input.keyboard.createCursorKeys();
 
 		this.spawnWallet();
 		this.spawnPlayer();
@@ -76,9 +102,10 @@ var gamePlayState = {
 		// ------------------------------------------------
 
 		// Spawn weather tower
-		this.weatherTower = new WeatherT(game, 200, 375,'Weather0001', 10, 6);
-		this.weatherTower.scale.setTo(.5, .5);
-		this.weatherTower.body.immovable = true;
+		this.weatherGroup = this.add.group();
+		this.weatherTower = 0;
+		// this.weatherTower.scale.setTo(.5, .5);
+		// this.weatherTower.body.immovable = true;
 
 		// spawn recycle tower
 		this.recycleTower = new RecycleT(game, 200, 500, 'Weather0001', 10, 6);
@@ -86,6 +113,7 @@ var gamePlayState = {
 		this.recycleTower.body.immovable = true;
 
 		console.log("ammo = " +this.weatherTower.ammo);
+
 		// Background music
 		game.menuMusic.stop();
 		game.playMusic = game.add.audio('defense', 0.4, true);
@@ -143,20 +171,35 @@ var gamePlayState = {
 
         panel.add(button = new SlickUI.Element.Button(0, 30, 140, 80)).events.onInputUp.add(function () {
             console.log('Clicked Weather Tower');
+            rflag = false;
+            lflag = false;
+            wflag = true;
+            this.towerPlacement();
         });
         button.add(new SlickUI.Element.Text(0,0, "Weather")).center();
 
         panel.add(button = new SlickUI.Element.Button(0, 120, 140, 80)).events.onInputUp.add(function () {
             console.log('Clicked Recycle Tower');
+            wflag = false;
+            lflag = false;
+            rflag = true;
+            this.towerPlacement();
         });
         button.add(new SlickUI.Element.Text(0,0, "Recycle")).center();
 
         panel.add(button = new SlickUI.Element.Button(0, 210, 140, 80)).events.onInputUp.add(function () {
             console.log('Clicked Laziness Tower');
+            rflag = false;
+            wflag = false;
+            lflag = true; 
+            this.towerPlacement();
         });
         button.add(new SlickUI.Element.Text(0,0, "Laziness")).center();
 
-        panel.add(button = new SlickUI.Element.Button(0, 300, 140, 40));
+        panel.add(button = new SlickUI.Element.Button(0, 300, 140, 40)).events.onInputUp.add(function () {
+        	console.log("clicked close");
+        	game.input.onDown.remove(getTileProperties, this);
+        });
         button.add(new SlickUI.Element.Text(0,0, "Close")).center();
 
         panel.visible = false;
@@ -184,6 +227,14 @@ var gamePlayState = {
             });
             menuButton.visible = true;
         });
+    },
+
+	spawnWeatherTower: function(){
+		this.weatherTower = new WeatherT(game, game.input.activePointer.worldX -32, game.input.activePointer.worldY -32,'Weather0001', 10, 6);
+		this.weatherTower.scale.setTo(.5, .5);
+		this.weatherTower.body.immovable = true;
+		this.weatherGroup.add(this.weatherTower);
+		game.input.onDown.remove(getTileProperties, this);
 	},
 
 	render: function() {
@@ -193,6 +244,17 @@ var gamePlayState = {
 	update: function(){
 		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
 		var towerUpgrade = game.physics.arcade.collide(this.player, this.weatherTower);
+
+		if(bool == false){
+			marker.clear();
+			console.log("clearing");
+		}
+
+		if(bool == true){
+			makeMarker();
+			game.input.addMoveCallback(updateMarker, this);
+			game.input.onDown.add(getTileProperties, this);
+		}
 
 		if (hitEnemy) {
 			this.game.money -= 10;
@@ -277,6 +339,47 @@ var gamePlayState = {
 		}
 	}
 };
+
+
+
+	function getTileProperties(){
+
+		var x = grassLayer.getTileX(game.input.activePointer.worldX);
+		var y = grassLayer.getTileY(game.input.activePointer.worldY);
+
+		var tile = map.getTile(x, y, grassLayer);
+
+		currentDataString = JSON.stringify( tile.properties );
+		tile.properties.grass = true;
+		console.log(currentDataString);
+
+		if(tile.properties.grass = true && wflag == true){
+			console.log("bool1: " + bool);
+			this.spawnWeatherTower();
+			bool = false;
+			console.log("bool2: "+ bool);
+		}
+
+	}
+
+	function updateMarker(){
+		marker.x = grassLayer.getTileX(game.input.activePointer.worldX) * 32;
+		marker.y = grassLayer.getTileY(game.input.activePointer.worldY) * 32;
+	}
+
+	function towerPlacement(){
+		bool = true;
+	}
+
+	function makeMarker(){
+		marker.lineStyle(2, 0xffffff, 1);
+		marker.drawRect(0, 0, 32, 32);
+		console.log(bool);
+	}
+
+	//function towerType(){
+
+	//}
 
 function endTapped(item) {
 	game.state.start('over');
