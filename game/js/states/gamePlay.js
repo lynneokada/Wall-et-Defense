@@ -151,10 +151,10 @@ var gamePlayState = {
 
 	initializeTowerSelection: function() {
 		var button, panel, menuButton;
-        slickUI.add(panel = new SlickUI.Element.Panel(game.width - 156, 8, 150, 355));
-        panel.add(new SlickUI.Element.Text(10,0, "Towers")).centerHorizontally().text.alpha = 0.5;
+        slickUI.add(panel = new SlickUI.Element.Panel(game.width - 156, 8, 150, 280));
+        panel.add(new SlickUI.Element.Text(10,0, "Towers")).centerHorizontally().text.alpha = 0.8;
 
-        panel.add(button = new SlickUI.Element.Button(0, 30, 140, 80)).events.onInputUp.add(function () {
+        panel.add(button = new SlickUI.Element.Button(0, 30, 140, 40)).events.onInputUp.add(function () {
             console.log('Clicked Weather Tower');
             rflag = false;
             lflag = false;
@@ -162,8 +162,9 @@ var gamePlayState = {
             this.towerPlacement();
         });
         button.add(new SlickUI.Element.Text(0,0, "Weather")).center();
+        panel.add(new SlickUI.Element.Text(10,66, "100 :)")).centerHorizontally().text.alpha = 0.5;
 
-        panel.add(button = new SlickUI.Element.Button(0, 120, 140, 80)).events.onInputUp.add(function () {
+        panel.add(button = new SlickUI.Element.Button(0, 100, 140, 40)).events.onInputUp.add(function () {
             console.log('Clicked Recycle Tower');
             wflag = false;
             lflag = false;
@@ -171,17 +172,19 @@ var gamePlayState = {
             this.towerPlacement();
         });
         button.add(new SlickUI.Element.Text(0,0, "Recycle")).center();
+        panel.add(new SlickUI.Element.Text(10,136, "200 :)")).centerHorizontally().text.alpha = 0.5;
 
-        panel.add(button = new SlickUI.Element.Button(0, 210, 140, 80)).events.onInputUp.add(function () {
+        panel.add(button = new SlickUI.Element.Button(0, 165, 140, 40)).events.onInputUp.add(function () {
             console.log('Clicked Laziness Tower');
             rflag = false;
             wflag = false;
-            lflag = true; 
+            lflag = true;
             this.towerPlacement();
         });
         button.add(new SlickUI.Element.Text(0,0, "Laziness")).center();
+        panel.add(new SlickUI.Element.Text(0,201, "300 :)")).centerHorizontally().text.alpha = 0.5;
 
-        panel.add(button = new SlickUI.Element.Button(0, 300, 140, 40)).events.onInputUp.add(function () {
+        panel.add(button = new SlickUI.Element.Button(0, 230, 140, 40)).events.onInputUp.add(function () {
         	console.log("clicked close");
         	game.input.onDown.remove(getTileProperties, this);
         });
