@@ -1,6 +1,6 @@
 function Tower(game, x, y, frame, health, ammo, attack, atkrange, atktargets, atkspeed){
 	//Phaser.sprite(game, x, y, key, frame)
-	Phaser.Sprite.call(this, game, x, y, 'weatherTower', frame);
+	Phaser.Sprite.call(this, game, x, y, 'gameAtlas', frame);
 	this.anchor.setTo = (0.5, 0.5);
 
 	this.health = health;
