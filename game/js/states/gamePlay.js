@@ -23,9 +23,6 @@ var gamePlayState = {
 	create: function() {
 		this.game.health = 100;
 		this.game.money = 100;
-		// var endButtonText = game.add.text(game.world.width-60,10, 'end', {fontSize: '24px', fill: '#ffffff'});
-		// endButtonText.inputEnabled = true;
-		// endButtonText.events.onInputDown.add(endTapped, this);
 
 		this.healthText = game.add.text(20, 15, 'Health: ' + this.game.health, {fontSize: '24px', fill: '#ffffff'});
 		this.moneyText = game.add.text(20, 50, 'Money: ' + this.game.money, {fontSize: '24px', fill: '#ffffff'});
@@ -56,18 +53,6 @@ var gamePlayState = {
 // tower = newWeatherTower(this.x, this.y)
 
 		marker = game.add.graphics();
-
-		/*if(bool == true){
-			marker.lineStyle(2, 0xffffff, 1);
-			marker.drawRect(0, 0, 32, 32);
-			console.log(bool);
-			game.input.addMoveCallback(updateMarker, this);
-			game.input.onDown.add(getTileProperties, this);
-		}*/
-
-
-		//game.input.addMoveCallback(updateMarker, this);
-		//game.input.onDown.add(getTileProperties, this);
 
 		cursors = game.input.keyboard.createCursorKeys();
 
@@ -377,10 +362,3 @@ var gamePlayState = {
 		console.log(bool);
 	}
 
-	//function towerType(){
-
-	//}
-
-function endTapped(item) {
-	game.state.start('over');
-}
