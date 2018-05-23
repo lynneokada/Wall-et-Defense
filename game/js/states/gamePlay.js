@@ -24,8 +24,8 @@ var gamePlayState = {
 		this.game.money = 100;
 
 		// GUI indicators for happiness and money values
-		this.happinessText = game.add.text(60, 5, ':'+this.game.happiness, {fontSize: '24px', fill: '#ffffff'});
-		this.moneyText = game.add.text(60, 50, ':'+this.game.money, {fontSize: '24px', fill: '#ffffff'});
+		this.happinessText = game.add.text(60, 5, ': ' + this.game.happiness, {fontSize: '24px', fill: '#ffffff'});
+		this.moneyText = game.add.text(60, 50, ': ' + this.game.money, {fontSize: '24px', fill: '#ffffff'});
 		this.happiness = game.add.sprite(0, 0, 'gameAtlas', 'Happiness0001');
 		this.happiness.scale.setTo(.1,.1);
 		this.money = game.add.sprite(0, 45, 'gameAtlas', 'Money0001');
@@ -110,6 +110,7 @@ var gamePlayState = {
 		this.initializeTowerSelection();
 	},
 
+ // Functions for spawning the bank, player and all the enemies
 	spawnWallet: function() {
 		this.wallet = new Wallet(game, game.world.centerX, game.world.centerY, 'Bank0001');
 	},
@@ -231,7 +232,7 @@ var gamePlayState = {
 		this.weatherGroup.callAll('play', null, 'idle');
 		game.input.onDown.remove(getTileProperties, this);
 		this.game.happiness -= 100;
-		this.happinessText.text = 'Happiness :) : ' + this.game.happiness;
+		this.happinessText.text = ': ' + this.game.happiness;
 
 	},
 
