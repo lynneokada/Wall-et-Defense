@@ -23,8 +23,13 @@ var gamePlayState = {
 		this.game.happiness = 100;
 		this.game.money = 100;
 
-		this.happinessText = game.add.text(20, 15, 'Happiness :) : ' + this.game.happiness, {fontSize: '24px', fill: '#ffffff'});
-		this.moneyText = game.add.text(20, 50, 'Money: ' + this.game.money, {fontSize: '24px', fill: '#ffffff'});
+		// GUI indicators for happiness and money values
+		this.happinessText = game.add.text(60, 5, ':'+this.game.happiness, {fontSize: '24px', fill: '#ffffff'});
+		this.moneyText = game.add.text(60, 50, ':'+this.game.money, {fontSize: '24px', fill: '#ffffff'});
+		this.happiness = game.add.sprite(0, 0, 'gameAtlas', 'Happiness0001');
+		this.happiness.scale.setTo(.1,.1);
+		this.money = game.add.sprite(0, 45, 'gameAtlas', 'Money0001');
+		this.money.scale.setTo(.1, .1);
 
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
