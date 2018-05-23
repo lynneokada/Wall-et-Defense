@@ -209,6 +209,10 @@ var gamePlayState = {
 		console.log(bool);
 	}
 
+	//function towerType(){
+
+	//}
+
 function endTapped(item) {
 	game.state.start('over');
 }
