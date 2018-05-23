@@ -8,7 +8,6 @@ var lflag = false;
 var gamePlayState = {
 	preload: function() {
 		game.load.atlas('gameAtlas', 'assets/img/spriteatlas.png', 'assets/img/sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
-		game.load.atlas('weatherTower', 'assets/img/towersprites/weatherTowerAtlas.png', 'assets/img/towersprites/weatherTowerAtlas.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
 		game.load.tilemap('levelOne', 'assets/img/WTTileMapOne.json', null, Phaser.Tilemap.TILED_JSON);
 		game.load.spritesheet('tilesheet', 'assets/img/WTspritesheetR.png', 32, 32);
 		game.load.spritesheet('banktile', 'assets/img/WTspritesheetBank.png', 32, 32);
@@ -89,12 +88,7 @@ var gamePlayState = {
 		// Spawn weather tower
 		this.weatherGroup = this.add.group();
 		this.weatherTower = 0;
-		// Animating the weather tower
-		var frameNames = Phaser.Animation.generateFrameNames('Weather', 0, 7, '', 4);
-		this.weatherGroup.callAll('animations.add','animations', 'idle', frameNames, 30, true);
-		this.weatherGroup.callAll('play', null, 'idle');
-		// this.weatherTower.scale.setTo(.5, .5);
-		// this.weatherTower.body.immovable = true;
+
 
 		// spawn recycle tower
 		this.recycleTower = new RecycleT(game, 200, 500, 'Weather0001', 10, 6);
@@ -226,6 +220,10 @@ var gamePlayState = {
 		this.weatherTower.scale.setTo(.5, .5);
 		this.weatherTower.body.immovable = true;
 		this.weatherGroup.add(this.weatherTower);
+		// Animating the weather tower
+		var frameNames = Phaser.Animation.generateFrameNames('Weather', 1, 7, '', 4);
+		this.weatherGroup.callAll('animations.add','animations', 'idle', frameNames, 5, true);
+		this.weatherGroup.callAll('play', null, 'idle');
 		game.input.onDown.remove(getTileProperties, this);
 	},
 
