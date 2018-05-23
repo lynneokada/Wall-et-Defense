@@ -21,10 +21,10 @@ var gamePlayState = {
 		game.load.audio('reloadSound', './assets/audio/WalletReload0001.ogg');
 	},
 	create: function() {
-		this.game.health = 100;
+		this.game.happiness = 100;
 		this.game.money = 100;
 
-		this.healthText = game.add.text(20, 15, 'Health: ' + this.game.health, {fontSize: '24px', fill: '#ffffff'});
+		this.happinessText = game.add.text(20, 15, 'Happiness :) : ' + this.game.happiness, {fontSize: '24px', fill: '#ffffff'});
 		this.moneyText = game.add.text(20, 50, 'Money: ' + this.game.money, {fontSize: '24px', fill: '#ffffff'});
 
 		game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -219,10 +219,13 @@ var gamePlayState = {
 
 	spawnWeatherTower: function(){
 		this.weatherTower = new WeatherT(game, game.input.activePointer.worldX -32, game.input.activePointer.worldY -32,'Weather0001', 10, 6);
-		this.weatherTower.scale.setTo(.5, .5);
+		this.weatherTower.scale.setTo(.4, .4);
 		this.weatherTower.body.immovable = true;
 		this.weatherGroup.add(this.weatherTower);
 		game.input.onDown.remove(getTileProperties, this);
+		this.game.happiness -= 100;
+		this.happinessText.text = 'Happiness :) : ' + this.game.happiness;
+
 	},
 
 	render: function() {
@@ -274,8 +277,6 @@ var gamePlayState = {
 		{
 			this.target = this.bobaG.getClosestTo(this.weatherTower);
 			this.target.kill();
-			this.game.health -= 10;
-			// this.healthText.text = 'Health: ' + this.game.health;
 		}
 
 		if (game.physics.arcade.overlap(this.cartG, this.weatherTower) && this.weatherTower.ammo > 0)
@@ -289,7 +290,6 @@ var gamePlayState = {
 		{
 			this.target = this.cartG.getClosestTo(this.weatherTower);
 			this.target.kill();
-			this.game.health -= 10;
 		}
 
 		// collision detection for Recycle Tower and Enemies
@@ -303,8 +303,6 @@ var gamePlayState = {
 		{
 			this.target = this.bobaG.getClosestTo(this.recycleTower);
 			this.target.kill();
-			this.game.health -= 10;
-			this.healthText.text = 'Health: ' + this.game.health;
 		}
 
 		if(game.physics.arcade.overlap(this.cartG, this.recycleTower) && this.recycleTower.ammo > 0){
@@ -317,12 +315,12 @@ var gamePlayState = {
 		{
 			this.target = this.cartG.getClosestTo(this.recycleTower);
 			this.target.kill();
-			this.game.health -= 10;
-			this.healthText.text = 'Health: ' + this.game.health;
 		}
 
 		// game over condition
-		if (this.game.money == 0 || this.game.health == 0) {
+		if (this.game.money == 0) {
+			game.input.onDown.remove(getTileProperties, this);
+			marker.clear();
 			game.state.start('over');
 		}
 	}
@@ -336,12 +334,13 @@ var gamePlayState = {
 		var y = grassLayer.getTileY(game.input.activePointer.worldY);
 
 		var tile = map.getTile(x, y, grassLayer);
+		var badTile = map.getTile(x, y, )
 
 		currentDataString = JSON.stringify( tile.properties );
 		tile.properties.grass = true;
 		console.log(currentDataString);
 
-		if(tile.properties.grass = true && wflag == true){
+		if(tile.properties.grass = true && wflag == true && this.game.happiness >99){
 			console.log("bool1: " + bool);
 			this.spawnWeatherTower();
 			bool = false;
