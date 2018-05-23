@@ -4,7 +4,7 @@ var bool = false;
 var wflag = false;
 var rflag = false;
 var lflag = false;
- 
+
 var gamePlayState = {
 	preload: function() {
 		game.load.atlas('gameAtlas', 'assets/img/spriteatlas.png', 'assets/img/sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
@@ -89,6 +89,10 @@ var gamePlayState = {
 		// Spawn weather tower
 		this.weatherGroup = this.add.group();
 		this.weatherTower = 0;
+		// Animating the weather tower
+		var frameNames = Phaser.Animation.generateFrameNames('Weather', 0, 7, '', 4);
+		this.weatherGroup.callAll('animations.add','animations', 'idle', frameNames, 30, true);
+		this.weatherGroup.callAll('play', null, 'idle');
 		// this.weatherTower.scale.setTo(.5, .5);
 		// this.weatherTower.body.immovable = true;
 
@@ -364,4 +368,3 @@ var gamePlayState = {
 		marker.drawRect(0, 0, 32, 32);
 		console.log(bool);
 	}
-
