@@ -107,6 +107,16 @@ var gamePlayState = {
 		game.playMusic = game.add.audio('defense', 0.4, true);
 		game.playMusic.play();
 
+
+		// // Makes a button to mute music
+		if (game.sound.mute == true){
+			game.zero = 'MusicNote0002';
+			game.one = 'MusicNote0001';
+			game.two = 'MusicNote0001';
+		}
+		this.game.soundButton = this.game.add.button(900, 0, 'gameAtlas', muteSound, this.game, game.one, game.zero, game.two);
+		this.game.soundButton.scale.setTo(0.3, 0.3);
+
 		this.initializeTowerSelection();
 	},
 

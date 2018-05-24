@@ -22,6 +22,16 @@ var menuState = {
 		game.menuMusic = game.add.audio('dramatic', 0.5, true);
 		game.menuMusic.play();
 
+		// Makes a button to mute music
+		// new Button(game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame)
+		// Referenced code from XekeDeath's post: http://www.html5gamedevs.com/topic/1730-click-sprite-and-button-question/
+		game.zero = 'MusicNote0001';
+		game.one = 'MusicNote0001';
+		game.two = 'MusicNote0002';
+		game.soundButton = game.add.button(900, 0, 'gameAtlas', muteSound, this.game, game.one, game.zero, game.two);
+		game.soundButton.on = false;
+		game.soundButton.scale.setTo(0.3, 0.3);
+
 	}
 };
 
@@ -31,4 +41,10 @@ function startTapped(item) {
 
 function tutorialTapped(item) {
 	game.state.start('tutorial');
+}
+function muteSound(item) {
+	game.sound.mute =! game.sound.mute;
+	item.on =! item.on;
+	item.setFrames(game.one, (item.on)?game.two:game.zero, game.two);
+	item.frame = (item.on)?game.two:game.zero;
 }
