@@ -96,9 +96,9 @@ var gamePlayState = {
 
 
 		// spawn recycle tower
-		this.recycleTower = new RecycleT(game, 200, 500, 'Weather0001', 10, 6);
-		this.recycleTower.scale.setTo(.5, .5);
-		this.recycleTower.body.immovable = true;
+		this.recycleTower = 0;
+		// this.recycleTower.scale.setTo(.5, .5);
+		// this.recycleTower.body.immovable = true;
 
 		console.log("ammo = " +this.weatherTower.ammo);
 
@@ -236,9 +236,9 @@ var gamePlayState = {
 
 	},
 
-	render: function() {
-		game.debug.body(this.recycleTower);
-	},
+	// render: function() {
+	// 	game.debug.body(this.recycleTower);
+	// },
 
 	update: function(){
 		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
@@ -258,7 +258,7 @@ var gamePlayState = {
 		if (hitEnemy) {
 			this.game.money -= 10;
 			console.log("Money = " +this.game.money);
-			this.moneyText.text = 'Money: ' + this.game.money;
+			this.moneyText.text = ': ' + this.game.money;
 			this.target = this.bobaG.getClosestTo(this.wallet);
 			this.target.kill();
 			this.breach = game.add.audio('breach', 0.2);
