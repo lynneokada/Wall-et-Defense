@@ -96,11 +96,16 @@ var gamePlayState = {
 
 
 		// spawn recycle tower
+		this.recycleGroup = this.add.group();
 		this.recycleTower = 0;
 		// this.recycleTower.scale.setTo(.5, .5);
 		// this.recycleTower.body.immovable = true;
 
 		console.log("ammo = " +this.weatherTower.ammo);
+
+		//spawn Lazy tower
+		this.lazyGroup = this.add.group();
+		this.lazyTower = 0;
 
 		// Background music
 		game.menuMusic.stop();
@@ -246,6 +251,26 @@ var gamePlayState = {
 
 	},
 
+	spawnRecycleTower: function(){
+		this.recycleTower = new RecycleT(game, game.input.activePointer.worldX - 32, game.input.activePointer.worldY - 32, 'Recycle0001', 10, 6);
+		this.recycleTower.scale.setTo(.2, .2);
+		this.recycleTower.body.immovable = true;
+		this.recycleGroup.add(this.recycleTower);
+		game.input.onDown.remove(getTileProperties, this);
+		this.game.happiness -= 200;
+		this.happinessText.text = ': ' + this.game.happiness;
+	},
+
+	spawnLazyTower: function(){
+		this.lazyTower = new LazyT(game, game.input.activePointer.worldX - 32, game.input.activePointer.worldY - 32, 'Laziness0001', 10, 6);
+		this.lazyTower.scale.setTo(.2, .2);
+		this.lazyTower.body.immovable = true;
+		this.lazyGroup.add(this.lazyTower);
+		game.input.onDown.remove(getTileProperties, this);
+		this.game.happiness -= 300;
+		this.happinessText.text = ': ' + this.game.happiness;
+	},
+
 	// render: function() {
 	// 	game.debug.body(this.recycleTower);
 	// },
@@ -363,6 +388,16 @@ var gamePlayState = {
 			this.spawnWeatherTower();
 			bool = false;
 			console.log("bool2: "+ bool);
+		}
+
+		if(tile.properties.grass = true && rflag == true && this.game.happiness > 199){
+			this.spawnRecycleTower();
+			bool = false;
+		}
+
+		if(tile.properties.grass = true && lflag == true && this.game.happiness > 299){
+			this.spawnLazyTower();
+			bool = false;
 		}
 
 	}
