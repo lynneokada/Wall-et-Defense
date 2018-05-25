@@ -20,7 +20,7 @@ var gamePlayState = {
 		game.load.audio('reloadSound', './assets/audio/WalletReload0001.ogg');
 	},
 	create: function() {
-		this.game.happiness = 100;
+		this.game.happiness = 500;
 		this.game.money = 100;
 
 		// GUI indicators for happiness and money values

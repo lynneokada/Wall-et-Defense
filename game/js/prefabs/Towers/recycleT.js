@@ -6,6 +6,8 @@ function RecycleT(game, x, y, frame, health, ammo, attack, atkrange, atkspeed) {
     var timer = game.time.create(false);
     timer.loop(5000, updateCounter, this);
     timer.start();
+
+    this.ammoText = game.add.text(0, 0, "ammo: " + this.ammo, {fontSize: '24px', fill: '#ffffff'});
 }
 
 function updateCounter() {
