@@ -12,7 +12,6 @@ var gamePlayState = {
 		game.load.spritesheet('tilesheet', 'assets/img/WTspritesheetR.png', 32, 32);
 		game.load.spritesheet('banktile', 'assets/img/WTspritesheetBank.png', 32, 32);
 		game.load.spritesheet('grasstile', 'assets/img/WTspritesheetG.png', 32, 32);
-		game.load.spritesheet('circle', 'assets/img/circle.png')
 		game.load.audio('defense', './assets/audio/WalletDefense0001.ogg');
 		game.load.image('menu-button', 'assets/ui/menu.png');
 		slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
@@ -21,7 +20,7 @@ var gamePlayState = {
 		game.load.audio('reloadSound', './assets/audio/WalletReload0001.ogg');
 	},
 	create: function() {
-		this.game.happiness = 100;
+		this.game.happiness = 500;
 		this.game.money = 100;
 
 		// GUI indicators for happiness and money values
@@ -247,9 +246,9 @@ var gamePlayState = {
 
 	},
 
-	// render: function() {
-	// 	game.debug.body(this.recycleTower);
-	// },
+	render: function() {
+		game.debug.body(this.weatherTower);
+	},
 
 	update: function(){
 		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
@@ -286,7 +285,7 @@ var gamePlayState = {
 		}
 
 		// collision detection for Weather Tower and Enemies
-		if(game.physics.arcade.collide(this.bobaG, this.weatherTower.circle) && this.weatherTower.ammo > 0){
+		if(game.physics.arcade.overlap(this.bobaG, this.weatherTower.circle) && this.weatherTower.ammo > 0){
 			this.target = this.bobaG.getClosestTo(this.weatherTower);
 			this.target.kill();
 			this.weatherTower.ammo = this.weatherTower.ammo -1;
