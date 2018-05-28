@@ -66,7 +66,7 @@ var gamePlayState = {
 		// ENEMY TIMER SET UP -----------------------------
 		this.bobaG = this.add.group();
 		bobaTimer = game.time.create(false);
-		bobaTimer.loop(2000, this.spawnBoba, this, this.bobaG);
+		bobaTimer.loop(5000, this.spawnBoba, this, this.bobaG);
 		bobaTimer.start();
 
 		this.cartG = this.add.group();
@@ -309,7 +309,7 @@ var gamePlayState = {
 		}
 
 		// collision detection for Weather Tower and Enemies
-		if(game.physics.arcade.overlap(this.bobaG, this.weatherTower) && this.weatherTower.ammo > 0){
+		if(game.physics.arcade.overlap(this.bobaG, this.weatherTower.circle) && this.weatherTower.ammo > 0){
 			this.target = this.bobaG.getClosestTo(this.weatherTower);
 			this.target.kill();
 			this.weatherTower.ammo = this.weatherTower.ammo -1;
