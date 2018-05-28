@@ -84,10 +84,10 @@ var gamePlayState = {
 		shirtTimer.loop(4000, this.spawnShirt, this, this.shirtG);
 		shirtTimer.start();
 
-		// this.steamG = this.add.group();
-		// steamTimer = game.time.create(false);
-		// steamTimer.loop(4000, this.steamTimer, this, this.steamG);
-		// steamTimer.start();
+		this.steamG = this.add.group();
+		steamTimer = game.time.create(false);
+		steamTimer.loop(4000, this.steamTimer, this, this.steamG);
+		steamTimer.start();
 		// ------------------------------------------------
 
 		// Spawn weather tower
@@ -111,6 +111,12 @@ var gamePlayState = {
 		game.menuMusic.stop();
 		game.playMusic = game.add.audio('defense', 0.4, true);
 		game.playMusic.play();
+
+		// Initialize sound effects
+		this.breach = game.add.audio('breach', 0.2);
+		this.reloadSFX = game.add.audio('reloadSound', 0.1);
+
+
 
 
 		// // Makes a button to mute music
@@ -137,11 +143,11 @@ var gamePlayState = {
 
 	spawnBoba: function(group){
 		this.boba = new Boba(game, -50, 500, 'boba0002');
-		this.boba2 = new Boba(game, -50, 550, 'boba0002');
+		//this.boba2 = new Boba(game, -50, 550, 'boba0002');
 		this.boba.scale.setTo(.4, .4);
-		this.boba2.scale.setTo(.4, .4);
+		//this.boba2.scale.setTo(.4, .4);
 		this.bobaG.add(this.boba);
-		this.bobaG.add(this.boba2);
+		//this.bobaG.add(this.boba2);
 	},
 
 	spawnCart: function(group) {
@@ -296,14 +302,12 @@ var gamePlayState = {
 			this.moneyText.text = ': ' + this.game.money;
 			this.target = this.bobaG.getClosestTo(this.wallet);
 			this.target.kill();
-			this.breach = game.add.audio('breach', 0.2);
 			this.breach.play();
 		}
 
 		if(towerUpgrade && game.input.keyboard.isDown(Phaser.Keyboard.R)){
 			if (this.weatherTower.ammo < 6) {
 				this.weatherTower.ammo = this.weatherTower.ammo +1;
-				this.reloadSFX = game.add.audio('reloadSound', 0.1);
 				this.reloadSFX.play();
 			}
 			console.log("Weather Tower ammo = " + this.weatherTower.ammo);
