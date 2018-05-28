@@ -103,7 +103,7 @@ var gamePlayState = {
 		this.lazyGroup = this.add.group();
 		this.lazyTower = 0;
 		//Audio--------------------------------------------------------------------
-		game.menuMusic.stop();
+		game.sound.stopAll();
 		game.playMusic = game.add.audio('defense', 0.4, true);
 		game.playMusic.play();
 
@@ -335,7 +335,7 @@ var gamePlayState = {
 		}
 
 		// collision detection for Recycle Tower and Enemies
-		if(game.physics.arcade.overlap(this.bobaG, this.recycleTower) && this.recycleTower.ammo > 0){
+		if(game.physics.arcade.overlap(this.bobaG, this.recycleTower.circle) && this.recycleTower.ammo > 0){
 			this.target = this.bobaG.getClosestTo(this.recycleTower);
 			this.target.kill();
 			this.recycleTower.ammo = this.recycleTower.ammo -1;
