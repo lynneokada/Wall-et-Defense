@@ -84,10 +84,6 @@ var gamePlayState = {
 		shirtTimer.loop(4000, this.spawnShirt, this, this.shirtG);
 		shirtTimer.start();
 
-		// this.steamG = this.add.group();
-		// steamTimer = game.time.create(false);
-		// steamTimer.loop(4000, this.steamTimer, this, this.steamG);
-		// steamTimer.start();
 		// ------------------------------------------------
 
 		// Spawn weather tower
@@ -106,11 +102,16 @@ var gamePlayState = {
 		//spawn Lazy tower
 		this.lazyGroup = this.add.group();
 		this.lazyTower = 0;
-
-		// Background music
+		//Audio--------------------------------------------------------------------
 		game.menuMusic.stop();
 		game.playMusic = game.add.audio('defense', 0.4, true);
 		game.playMusic.play();
+
+		// Add sound effects
+		this.reloadSFX = game.add.audio('reloadSound', 0.1);
+		this.breach = game.add.audio('breach', 0.2);
+
+
 
 
 		// // Makes a button to mute music
@@ -121,7 +122,7 @@ var gamePlayState = {
 		}
 		this.game.soundButton = this.game.add.button(900, 0, 'gameAtlas', muteSound, this.game, game.one, game.zero, game.two);
 		this.game.soundButton.scale.setTo(0.3, 0.3);
-
+		//------------------------------------------------------------------
 		this.initializeTowerSelection();
 	},
 
@@ -296,14 +297,12 @@ var gamePlayState = {
 			this.moneyText.text = ': ' + this.game.money;
 			this.target = this.bobaG.getClosestTo(this.wallet);
 			this.target.kill();
-			this.breach = game.add.audio('breach', 0.2);
 			this.breach.play();
 		}
 
 		if(towerUpgrade && game.input.keyboard.isDown(Phaser.Keyboard.R)){
 			if (this.weatherTower.ammo < 6) {
 				this.weatherTower.ammo = this.weatherTower.ammo +1;
-				this.reloadSFX = game.add.audio('reloadSound', 0.1);
 				this.reloadSFX.play();
 			}
 			console.log("Weather Tower ammo = " + this.weatherTower.ammo);
