@@ -12,6 +12,7 @@ var gamePlayState = {
 		game.load.spritesheet('tilesheet', 'assets/img/WTspritesheetR.png', 32, 32);
 		game.load.spritesheet('banktile', 'assets/img/WTspritesheetBank.png', 32, 32);
 		game.load.spritesheet('grasstile', 'assets/img/WTspritesheetG.png', 32, 32);
+		game.load.spritesheet('circle', 'assets/img/circle.png')
 		game.load.audio('defense', './assets/audio/WalletDefense0001.ogg');
 		game.load.image('menu-button', 'assets/ui/menu.png');
 		slickUI = game.plugins.add(Phaser.Plugin.SlickUI);

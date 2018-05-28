@@ -3,6 +3,11 @@ function Tower(game, x, y, frame, health, ammo, attack, atkrange, atktargets, at
 	Phaser.Sprite.call(this, game, x, y, 'gameAtlas', frame);
 	this.anchor.setTo = (0.5, 0.5);
 
+	this.circle = game.add.sprite(x, y,'circle');
+	this.circle.scale.setTo(0.5, 0.5);
+	this.circle.visible = true;
+
+
 	this.health = health;
 	this.ammo = ammo;
 	this.attack = attack;
