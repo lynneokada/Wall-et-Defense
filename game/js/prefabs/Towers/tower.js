@@ -1,7 +1,19 @@
 function Tower(game, x, y, frame, health, ammo, attack, atkrange, atktargets, atkspeed){
 	//Phaser.sprite(game, x, y, key, frame)
 	Phaser.Sprite.call(this, game, x, y, 'gameAtlas', frame);
-	this.anchor.setTo = (0.5, 0.5);
+	this.anchor.setTo(0.5, 0.5);
+	// Adds a circle to indicate attack radius
+  this.circle = this.addChild(game.make.sprite(x, y, 'gameAtlas', 'Circle0001'));
+	this.circle.scale.setTo(0.5, 0.5);
+	this.circle.anchor.setTo(0.5, 0.5);
+	this.circle.visible = true;
+	this.circle.enableBody = true;
+	this.circle.immovable = true;
+	game.physics.enable(this.circle);
+	game.add.existing(this.circle);
+
+
+
 
 	this.health = health;
 	this.ammo = ammo;

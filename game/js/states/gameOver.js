@@ -1,8 +1,15 @@
 // gameOver.js
 
 var gameOverState = {
+	preload: function(){
+		game.load.audio('endMusic', './assets/audio/WalletEnd0001.ogg');
+	},
+
 	create: function() {
 		game.sound.stopAll();
+		game.endMusic = game.add.audio('endMusic', 1.0, true);
+		game.endMusic.play();
+
 		this.game.add.sprite(0, 0, 'gameAtlas', 'WalletOver');
 
         // menuText = game.add.text(300, 100, "Game Over!" , {fontSize: '32px' , fill: '#000'}); //game over output message
