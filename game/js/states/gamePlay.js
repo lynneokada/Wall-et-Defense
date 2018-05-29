@@ -129,6 +129,7 @@ var gamePlayState = {
  // Functions for spawning the bank, player and all the enemies
 	spawnWallet: function() {
 		this.wallet = new Wallet(game, game.world.centerX, game.world.centerY, 'Bank0001');
+		this.wallet.body.setSize(205,252,25,3);
 	},
 
 	spawnPlayer: function() {
@@ -272,9 +273,9 @@ var gamePlayState = {
 		this.happinessText.text = ': ' + this.game.happiness;
 	},
 
-	// render: function() {
-	// 	game.debug.body(this.recycleTower);
-	// },
+	render: function() {
+		game.debug.body(this.wallet);
+	},
 
 	update: function(){
 		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
