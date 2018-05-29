@@ -137,7 +137,7 @@ var gamePlayState = {
 	},
 
 	spawnBoba: function(group){
-		this.boba = new Boba(game, -50, 500, 'boba0002');
+		this.boba = new Boba(game, game.world.width/2, -50, 'boba0002');
 		this.boba2 = new Boba(game, -50, 550, 'boba0002');
 		this.boba.scale.setTo(.4, .4);
 		this.boba2.scale.setTo(.4, .4);
@@ -146,13 +146,13 @@ var gamePlayState = {
 	},
 
 	spawnCart: function(group) {
-		this.cart = new Cart(game, -50, 500, 'Cart0001');
+		this.cart = new Cart(game, game.world.width + 50, 500, 'Cart0001');
 		this.cart.scale.setTo(.2, .2);
 		this.cartG.add(this.cart);
 	},
 
 	spawnTicket: function(group) {
-		this.ticket = new Ticket(game, -50, 500, 'Ticket0001');
+		this.ticket = new Ticket(game, game.world.width/2, game.world.height+50, 'Ticket0001');
 		this.ticket.scale.setTo(.2,.2);
 		this.ticketG.add(this.ticket);
 	},
@@ -164,7 +164,7 @@ var gamePlayState = {
 	},
 
 	spawnSteam: function(group) {
-		this.steam = new Steam(game, -50, 500, 'Games0001');
+		this.steam = new Steam(game, game.world.width/2, game.world.height+50, 'Games0001');
 		this.steam.scale.setTo(.2,.2);
 		this.steamG.add(this.steam);
 	},
