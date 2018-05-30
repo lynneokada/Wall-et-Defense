@@ -294,7 +294,7 @@ var gamePlayState = {
 			console.log("Money = " +this.game.money);
 			this.moneyText.text = ': ' + this.game.money;
 			this.target = this.bobaG.getClosestTo(this.wallet);
-			this.target.kill();
+			this.target.destroy();
 			this.breach.play();
 		}
 
@@ -309,52 +309,52 @@ var gamePlayState = {
 		// collision detection for Weather Tower and Enemies
 		if(game.physics.arcade.overlap(this.bobaG, this.weatherTower.circle) && this.weatherTower.ammo > 0){
 			this.target = this.bobaG.getClosestTo(this.weatherTower);
-			this.target.kill();
+			this.target.destroy();
 			this.weatherTower.ammo = this.weatherTower.ammo -1;
 			// console.log("Weather Tower ammo = " + this.weatherTower.ammo);
 		}
 		else if(game.physics.arcade.overlap(this.bobaG, this.weatherTower) && this.weatherTower.ammo <= 0)
 		{
 			this.target = this.bobaG.getClosestTo(this.weatherTower);
-			this.target.kill();
+			this.target.destroy();
 		}
 
 		if (game.physics.arcade.overlap(this.cartG, this.weatherTower) && this.weatherTower.ammo > 0)
 		{
 			this.target = this.cartG.getClosestTo(this.weatherTower);
-			this.target.kill();
+			this.target.destroy();
 			this.weatherTower.ammo = this.weatherTower.ammo -1;
 			// console.log("Weather Tower ammo = " + this.weatherTower.ammo);
 		}
 		else if(game.physics.arcade.overlap(this.cartG, this.weatherTower) && this.weatherTower.ammo <= 0)
 		{
 			this.target = this.cartG.getClosestTo(this.weatherTower);
-			this.target.kill();
+			this.target.destroy();
 		}
 
 		// collision detection for Recycle Tower and Enemies
 		if(game.physics.arcade.overlap(this.bobaG, this.recycleTower.circle) && this.recycleTower.ammo > 0){
 			this.target = this.bobaG.getClosestTo(this.recycleTower);
-			this.target.kill();
+			this.target.destroy();
 			this.recycleTower.ammo = this.recycleTower.ammo -1;
 			console.log("Recycle Tower ammo = " + this.recycleTower.ammo);
 		}
 		else if(game.physics.arcade.overlap(this.bobaG, this.recycleTower) && this.recycleTower.ammo <= 0)
 		{
 			this.target = this.bobaG.getClosestTo(this.recycleTower);
-			this.target.kill();
+			this.target.destroy();
 		}
 
 		if(game.physics.arcade.overlap(this.cartG, this.recycleTower) && this.recycleTower.ammo > 0){
 			this.target = this.cartG.getClosestTo(this.recycleTower);
-			this.target.kill();
+			this.target.destroy();
 			this.recycleTower.ammo = this.recycleTower.ammo -1;
 			console.log("Recycle Tower ammo = " + this.recycleTower.ammo);
 		}
 		else if(game.physics.arcade.overlap(this.cartG, this.recycleTower) && this.recycleTower.ammo <= 0)
 		{
 			this.target = this.cartG.getClosestTo(this.recycleTower);
-			this.target.kill();
+			this.target.destroy();
 		}
 
 		// collision detection for player and enemies
