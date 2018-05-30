@@ -15,7 +15,10 @@ function Tower(game, x, y, frame, health, ammo, attack, atkrange, atktargets, at
 	this.circleGroup.add(this.circle);
 
 
-
+	// Display circle radius on click
+	var clickableTower = this.circle;
+	clickableTower.inputEnabled = true;
+	clickableTower.events.onInputDown.add(toggleRange, this);
 
 	this.health = health;
 	this.ammo = ammo;
@@ -33,3 +36,11 @@ function Tower(game, x, y, frame, health, ammo, attack, atkrange, atktargets, at
 
 Tower.prototype = Object.create(Phaser.Sprite.prototype);
 Tower.prototype.constructor = Tower;
+
+function toggleRange(item) {
+	if(this.circle.alpha != 0){
+		this.circle.alpha = 0;
+	}else{
+		this.circle.alpha = 100;
+	}
+}
