@@ -86,8 +86,6 @@ var gamePlayState = {
 
 		// ------------------------------------------------
 
-		this.towerGroup = this.add.group();
-
 		// Spawn weather tower
 		this.weatherGroup = this.add.group();
 		this.weatherTower = 0;
@@ -245,7 +243,6 @@ var gamePlayState = {
 		this.weatherTower.scale.setTo(.4, .4);
 		this.weatherTower.body.immovable = true;
 		this.weatherGroup.add(this.weatherTower);
-		this.towerGroup.add(this.weatherTower);
 		// Animating the weather tower
 		var frameNames = Phaser.Animation.generateFrameNames('Weather', 1, 7, '', 4);
 		this.weatherGroup.callAll('animations.add','animations', 'idle', frameNames, 5, true);
@@ -261,8 +258,6 @@ var gamePlayState = {
 		this.recycleTower.scale.setTo(.2, .2);
 		this.recycleTower.body.immovable = true;
 		this.recycleGroup.add(this.recycleTower);
-		this.towerGroup.add(this.recycleTower);
-
 		game.input.onDown.remove(getTileProperties, this);
 		this.game.happiness -= 200;
 		this.happinessText.text = ': ' + this.game.happiness;
@@ -273,8 +268,6 @@ var gamePlayState = {
 		this.lazyTower.scale.setTo(.2, .2);
 		this.lazyTower.body.immovable = true;
 		this.lazyGroup.add(this.lazyTower);
-		this.towerGroup.add(this.lazyTower);
-
 		game.input.onDown.remove(getTileProperties, this);
 		this.game.happiness -= 300;
 		this.happinessText.text = ': ' + this.game.happiness;
@@ -286,7 +279,7 @@ var gamePlayState = {
 
 	update: function(){
 		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
-		var towerUpgrade = game.physics.arcade.collide(this.player, this.towerGroup);
+		var towerUpgrade = game.physics.arcade.collide(this.player, this.weatherTower);
 
 		if(bool == false){
 			marker.clear();
@@ -316,16 +309,14 @@ var gamePlayState = {
 			console.log("Weather Tower ammo = " + this.weatherTower.ammo);
 		}
 
-		game.physics.arcade.overlap(this.weatherGroup, this.bobaG, bobaCollision);
-		//game.physics.arcade.collide(this.weatherGroup, player, playerReload);
 		// collision detection for Weather Tower and Enemies
-		/*if(game.physics.arcade.overlap(this.bobaG, this.weatherTower.circle) && this.weatherTower.ammo > 0){
+		if(game.physics.arcade.overlap(this.bobaG, this.weatherTower.circle) && this.weatherTower.ammo > 0){
 			this.target = this.bobaG.getClosestTo(this.weatherTower);
 			this.target.kill();
 			this.weatherTower.ammo = this.weatherTower.ammo -1;
 			// console.log("Weather Tower ammo = " + this.weatherTower.ammo);
 		}
-		else */ if(game.physics.arcade.overlap(this.bobaG, this.weatherTower) && this.weatherTower.ammo <= 0)
+		else if(game.physics.arcade.overlap(this.bobaG, this.weatherTower) && this.weatherTower.ammo <= 0)
 		{
 			this.target = this.bobaG.getClosestTo(this.weatherTower);
 			this.target.kill();
@@ -424,13 +415,4 @@ var gamePlayState = {
 		marker.lineStyle(2, 0xffffff, 1);
 		marker.drawRect(0, 0, 32, 32);
 		console.log(bool);
-	}
-
-
-	function bobaCollision(weatherTower, boba){
-	if(weatherTower.ammo> 0){
-		boba.kill();
-		weatherTower.ammo--;
-	}
-		
 	}
