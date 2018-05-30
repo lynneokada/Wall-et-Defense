@@ -37,4 +37,19 @@ Player.prototype.update = function() {
 		//console.log("down");
 		this.body.velocity.y = this.speed;
 	}
+
+	// player cannot leave map
+	if (this.body.x < 0) {
+		this.body.x = 0
+	}
+	if (this.body.x > game.world.width-this.body.width) {
+		this.body.x = game.world.width-this.body.width;
+	}
+	if (this.body.y < 0) {
+		this.body.y = 0;
+	}
+	if (this.body.y > game.world.height-this.body.height) {
+		this.body.y = game.world.height-this.body.height;
+	}
+
 }
