@@ -7,7 +7,7 @@ function Cart(game, x, y, spriteName) {
 	this.attack = 50;
 
 	Enemy.call(this, game, x, y, spriteName);
-	this.body.setSize(285,285,100,150);
+	this.body.setSize(475,400,25,120);
 	if (x < 0) {
 		this.speed = 100;
 		this.body.velocity.x = this.speed;

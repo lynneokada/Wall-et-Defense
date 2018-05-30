@@ -5,6 +5,7 @@ function Player(game, x, y, spriteName) {
 	game.physics.enable(this);
 	this.enableBody = true;
 	this.anchor.setTo(0.5,0.5);
+	this.body.setSize(300,500,90,20);
 
 	this.health = 100;
 	this.speed = 80;

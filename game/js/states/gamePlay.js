@@ -49,6 +49,9 @@ var gamePlayState = {
 
 		mapLayer.resizeWorld();
 
+		this.shirt = new Shirt(game, 500, 50, 'Clothes0001');
+		this.shirt.scale.setTo(.2,.2);	
+
 // if icon is pressed, trigger = true
 // if trigger = true, make the marker drawRect stuff
 // then get tile properties
@@ -163,12 +166,6 @@ var gamePlayState = {
 		this.shirtG.add(this.shirt);
 	},
 
-	spawnSteam: function(group) {
-		this.steam = new Steam(game, game.world.width/2, game.world.height+50, 'Games0001');
-		this.steam.scale.setTo(.2,.2);
-		this.steamG.add(this.steam);
-	},
-
 	initializeTowerSelection: function() {
 		var button, panel, menuButton;
         slickUI.add(panel = new SlickUI.Element.Panel(game.width - 156, 8, 150, 280));
@@ -273,7 +270,7 @@ var gamePlayState = {
 	},
 
 	render: function() {
-		// game.debug.body(this.wallet);
+		game.debug.body(this.shirt);
 	},
 
 	update: function(){

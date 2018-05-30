@@ -6,7 +6,7 @@ function Shirt(game, x, y, spriteName) {
 	this.attack = 10;
 
 	Enemy.call(this, game, x, y, spriteName);
-	this.body.setSize(250,275,150,150);
+	this.body.setSize(470,350,20,100);
 	if (x < 0) {
 		this.speed = 100;
 		this.body.velocity.x = this.speed;
