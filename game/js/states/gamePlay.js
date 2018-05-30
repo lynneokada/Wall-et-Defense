@@ -370,7 +370,7 @@ var gamePlayState = {
 		}
 
 		// game over condition
-		if (this.game.money == 0) {
+		if (this.game.money == 0 || this.game.happiness == 0) {
 			game.input.onDown.remove(getTileProperties, this);
 			marker.clear();
 			game.state.start('over');
