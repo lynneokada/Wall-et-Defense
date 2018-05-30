@@ -49,9 +49,6 @@ var gamePlayState = {
 
 		mapLayer.resizeWorld();
 
-		this.shirt = new Shirt(game, 500, 50, 'Clothes0001');
-		this.shirt.scale.setTo(.2,.2);	
-
 // if icon is pressed, trigger = true
 // if trigger = true, make the marker drawRect stuff
 // then get tile properties
