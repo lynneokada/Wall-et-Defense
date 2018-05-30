@@ -237,9 +237,9 @@ var gamePlayState = {
 		this.weatherTower.body.immovable = true;
 		this.weatherGroup.add(this.weatherTower);
 		// Animating the weather tower
-		var frameNames = Phaser.Animation.generateFrameNames('Weather', 1, 7, '', 4);
-		this.weatherGroup.callAll('animations.add','animations', 'idle', frameNames, 5, true);
-		this.weatherGroup.callAll('play', null, 'idle');
+		var weatherFrames = Phaser.Animation.generateFrameNames('Weather', 1, 7, '', 4);
+		this.weatherGroup.callAll('animations.add','animations', 'idleWeather', weatherFrames, 5, true);
+		this.weatherGroup.callAll('play', null, 'idleWeather');
 		game.input.onDown.remove(getTileProperties, this);
 		this.game.happiness -= 100;
 		this.happinessText.text = ': ' + this.game.happiness;
@@ -251,6 +251,10 @@ var gamePlayState = {
 		this.recycleTower.scale.setTo(.2, .2);
 		this.recycleTower.body.immovable = true;
 		this.recycleGroup.add(this.recycleTower);
+		// Animating the Recycle tower
+		var recycleFrames = Phaser.Animation.generateFrameNames('Recycle', 1, 35, '', 4);
+		this.recycleGroup.callAll('animations.add','animations', 'idleRecycle', recycleFrames, 10, true);
+		this.recycleGroup.callAll('play', null, 'idleRecycle');
 		game.input.onDown.remove(getTileProperties, this);
 		this.game.happiness -= 200;
 		this.happinessText.text = ': ' + this.game.happiness;
