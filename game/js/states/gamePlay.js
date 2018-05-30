@@ -267,7 +267,7 @@ var gamePlayState = {
 	},
 
 	render: function() {
-		game.debug.body(this.shirt);
+		game.debug.body(this.player);
 	},
 
 	update: function(){
