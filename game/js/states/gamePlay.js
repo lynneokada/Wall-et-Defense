@@ -83,7 +83,6 @@ var gamePlayState = {
 		shirtTimer = game.time.create(false);
 		shirtTimer.loop(4000, this.spawnShirt, this, this.shirtG);
 		shirtTimer.start();
-
 		// ------------------------------------------------
 
 		// Spawn weather tower
@@ -274,7 +273,7 @@ var gamePlayState = {
 	},
 
 	render: function() {
-		game.debug.body(this.wallet);
+		// game.debug.body(this.wallet);
 	},
 
 	update: function(){
@@ -358,6 +357,22 @@ var gamePlayState = {
 		{
 			this.target = this.cartG.getClosestTo(this.recycleTower);
 			this.target.kill();
+		}
+
+		// collision detection for player and enemies
+		var playerBobaCollision = game.physics.arcade.collide(this.bobaG, this.player);
+		var playerCartCollision = game.physics.arcade.collide(this.cartG, this.player);
+		var playerTicketCollision = game.physics.arcade.collide(this.ticketG, this.player);
+		var playerShirtCollision = game.physics.arcade.collide(this.shirtG, this.player);
+
+		if (playerBobaCollision) {
+			console.log("player collided with boba");
+		} else if (playerCartCollision) {
+			console.log("player collided with cart");
+		} else if (playerTicketCollision) {
+			console.log("player collided with ticket");
+		} else if (playerShirtCollision) {
+			console.log("player collided with shirt");
 		}
 
 		// game over condition

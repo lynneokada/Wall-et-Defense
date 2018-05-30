@@ -7,6 +7,7 @@ function Ticket(game, x, y, spriteName) {
 	this.attack = 50;
 
 	Enemy.call(this, game, x, y, spriteName);
+	this.body.setSize(225,200,150,175);
 	if (x < 0) {
 		this.speed = 100;
 		this.body.velocity.x = this.speed;
