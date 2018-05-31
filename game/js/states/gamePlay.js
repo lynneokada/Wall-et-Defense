@@ -87,6 +87,8 @@ var gamePlayState = {
 
 		// Spawn weather tower
 		this.weatherGroup = this.add.group();
+		this.circleGroup = this.add.group();
+		//this.weatherGroup.add(this.circleGroup);
 		this.weatherTower = 0;
 
 
@@ -233,7 +235,7 @@ var gamePlayState = {
 
 	spawnWeatherTower: function(){
 		this.weatherTower = new WeatherT(game, game.input.activePointer.worldX -32, game.input.activePointer.worldY -32,'Weather0001', 10, 6);
-		this.weatherTower.scale.setTo(1, .8);
+		this.weatherTower.scale.setTo(.5, .5);
 		this.weatherTower.body.immovable = true;
 		this.weatherGroup.add(this.weatherTower);
 		// Animating the weather tower
@@ -243,6 +245,7 @@ var gamePlayState = {
 		game.input.onDown.remove(getTileProperties, this);
 		this.game.happiness -= 100;
 		this.happinessText.text = ': ' + this.game.happiness;
+		this.circleGroup.add(this.weatherTower.circle);
 
 	},
 
@@ -307,7 +310,7 @@ var gamePlayState = {
 		}
 
 		// collision detection for Weather Tower and Enemies
-game.physics.arcade.overlap(this.bobaG, this.weatherGroup, weatherAttack, null, this);
+game.physics.arcade.overlap(this.bobaG, this.circleGroup, weatherAttack, hasAmmo, this);
 			// this.target = this.bobaG.getClosestTo(this.weatherTower);
 			// this.target.destroy();
 			// this.weatherTower.ammo = this.weatherTower.ammo -1;
@@ -431,10 +434,18 @@ game.physics.arcade.overlap(this.bobaG, this.weatherGroup, weatherAttack, null, 
 	}
 
 function weatherAttack(obj1, obj2){
-	if(obj2.ammo > 0){
 		obj1.kill();
-		obj2.ammo -= 1;
-	}else{
-	console.log('no ammo');
+		console.log('yas');
+}
+
+
+function hasAmmo(obj1, obj2){
+	tower = this.weatherGroup.getClosestTo(obj1);
+	if(tower.ammo>0){
+		tower.ammo -= 1;
+		return true;
+	}else if(tower.ammo<=0){
+		console.log('no ammo');
+		return false;
 	}
 }
