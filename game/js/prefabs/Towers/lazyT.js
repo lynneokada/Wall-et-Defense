@@ -1,6 +1,6 @@
 function LazyT(game, x, y, frame, health, ammo, attack, atkrange, atkspeed){
 	Tower.call(this, game, x, y, frame, 10, 6, 3, atkrange, 0, atkspeed);
-
+	this.attackSpeed = 150;
 	this.ammoText = game.add.text(x + 10, y - 25, "ammo: " + this.ammo, {fontSize: '24px', fill: '#ffffff'});
 }
 
