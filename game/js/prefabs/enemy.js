@@ -11,3 +11,10 @@ function Enemy(game, x, y, spriteName) {
 
 Enemy.prototype = Object.create(Phaser.Sprite.prototype);
 Enemy.prototype.constructor = Enemy;
+Enemy.prototype.update = function() {
+
+	// can call base class handlers for update()
+	 if(this.health <= 0){
+		 this.kill();
+	 }
+};

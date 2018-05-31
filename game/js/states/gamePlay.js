@@ -406,7 +406,7 @@ game.physics.arcade.overlap(this.shirtG, this.lazyCircleGroup, towerAttack, lazi
 	}
 
 function towerAttack(obj1, obj2){
-		obj1.kill();
+		obj1.health -= 100;
 }
 
 

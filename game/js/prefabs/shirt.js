@@ -26,3 +26,11 @@ function Shirt(game, x, y, spriteName) {
 
 Shirt.prototype = Object.create(Enemy.prototype);
 Shirt.prototype.constructor = Shirt;
+Cart.prototype.update = function() {
+
+	// can call base class handlers for update()
+	 Enemy.prototype.update.call(this);
+	 if(this.health <= 0){
+		 this.kill();
+	 }
+};

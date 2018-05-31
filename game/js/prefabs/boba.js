@@ -25,3 +25,11 @@ function Boba(game, x, y, spriteName) {
 
 Boba.prototype = Object.create(Enemy.prototype);
 Boba.prototype.constructor = Boba;
+Boba.prototype.update = function() {
+
+	// can call base class handlers for update()
+	 Enemy.prototype.update.call(this);
+	 if(this.health <= 0){
+		 this.kill();
+	 }
+};
