@@ -1,5 +1,6 @@
 function WeatherT(game, x, y, frame, health, ammo, attack, atkrange, atkspeed){
 	Tower.call(this, game, x, y, frame, 10, 6, 3, atkrange, 0, atkspeed);
+	this.attackSpeed = 100;
 
 	this.ammoText = game.add.text(x+15, y-25, "ammo: " + this.ammo, {fontSize: '20px', fill: '#ffffff'});
 }

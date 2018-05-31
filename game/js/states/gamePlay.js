@@ -99,7 +99,7 @@ var gamePlayState = {
 		// this.recycleTower.scale.setTo(.5, .5);
 		// this.recycleTower.body.immovable = true;
 
-		console.log("ammo = " +this.weatherTower.ammo);
+		//console.log("ammo = " +this.weatherTower.ammo);
 
 		//spawn Lazy tower
 		this.lazyGroup = this.add.group();
@@ -126,6 +126,7 @@ var gamePlayState = {
 		this.game.soundButton.scale.setTo(0.3, 0.3);
 		//------------------------------------------------------------------
 		this.initializeTowerSelection();
+
 	},
 
  // Functions for spawning the bank, player and all the enemies
@@ -235,7 +236,7 @@ var gamePlayState = {
     },
 
 	spawnWeatherTower: function(){
-		this.weatherTower = new WeatherT(game, game.input.activePointer.worldX -32, game.input.activePointer.worldY -32,'Weather0001', 10, 6);
+		this.weatherTower = new WeatherT(game, game.input.activePointer.worldX -32, game.input.activePointer.worldY -32,'Weather0001', 10, 6, 100, 2000);
 		this.weatherTower.scale.setTo(.5, .5);
 		this.weatherTower.body.immovable = true;
 		this.weatherGroup.add(this.weatherTower);
@@ -287,7 +288,7 @@ var gamePlayState = {
 
 		if(bool == false){
 			marker.clear();
-			console.log("clearing");
+		//	console.log("clearing");
 		}
 
 		if(bool == true){
@@ -320,16 +321,16 @@ game.physics.arcade.overlap(this.ticketG, this.weatherCircleGroup, towerAttack, 
 game.physics.arcade.overlap(this.shirtG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
 
 // Collision detection for Recycle Tower and Enemies
-game.physics.arcade.overlap(this.bobaG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
-game.physics.arcade.overlap(this.cartG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
-game.physics.arcade.overlap(this.ticketG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
-game.physics.arcade.overlap(this.shirtG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
-
-// Collision detection for Laziness Tower and Enemies
-game.physics.arcade.overlap(this.bobaG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
-game.physics.arcade.overlap(this.cartG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
-game.physics.arcade.overlap(this.ticketG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
-game.physics.arcade.overlap(this.shirtG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
+// game.physics.arcade.overlap(this.bobaG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
+// game.physics.arcade.overlap(this.cartG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
+// game.physics.arcade.overlap(this.ticketG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
+// game.physics.arcade.overlap(this.shirtG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
+//
+// // Collision detection for Laziness Tower and Enemies
+// game.physics.arcade.overlap(this.bobaG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
+// game.physics.arcade.overlap(this.cartG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
+// game.physics.arcade.overlap(this.ticketG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
+// game.physics.arcade.overlap(this.shirtG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
 
 
 		// collision detection for player and enemies
@@ -406,37 +407,47 @@ game.physics.arcade.overlap(this.shirtG, this.lazyCircleGroup, towerAttack, lazi
 	}
 
 function towerAttack(obj1, obj2){
-		obj1.health -= 100;
+		obj1.health -= 50;
+		console.log(obj1.health);
 }
 
 
 function weatherAmmo(obj1, obj2){
 	tower = this.weatherGroup.getClosestTo(obj1);
-	if(tower.ammo>0){
-		tower.ammo -= 1;
-		return true;
-	}else if(tower.ammo<=0){
-		console.log('no ammo');
+
+	if(tower.attackSpeed == 0){
+		if(tower.ammo>0){
+			tower.ammo -= 1;
+			tower.attackSpeed = 100;
+			console.log('ammo?');
+			return true;
+		}else if(tower.ammo<=0){
+			console.log('no ammo');
+			return false;
+		}
+	}else if(tower.attackSpeed >= 0){
+		tower.attackSpeed -= 1;
+		console.log(tower.attackSpeed);
 		return false;
 	}
 }
-function recycleAmmo(obj1, obj2){
-  tower = this.recycleGroup.getClosestTo(obj1);
-	if(tower.ammo>0){
-		tower.ammo -= 1;
-		return true;
-	}else if(tower.ammo<=0){
-		console.log('no ammo');
-		return false;
-	}
-}
-function lazinessAmmo(obj1, obj2){
-	tower = this.lazyGroup.getClosestTo(obj1);
-	if(tower.ammo>0){
-		tower.ammo -= 1;
-		return true;
-	}else if(tower.ammo<=0){
-		console.log('no ammo');
-		return false;
-	}
-}
+// function recycleAmmo(obj1, obj2){
+//   tower = this.recycleGroup.getClosestTo(obj1);
+// 	if(tower.ammo>0){
+// 		tower.ammo -= 1;
+// 		return true;
+// 	}else if(tower.ammo<=0){
+// 		console.log('no ammo');
+// 		return false;
+// 	}
+// }
+// function lazinessAmmo(obj1, obj2){
+// 	tower = this.lazyGroup.getClosestTo(obj1);
+// 	if(tower.ammo>0){
+// 		tower.ammo -= 1;
+// 		return true;
+// 	}else if(tower.ammo<=0){
+// 		console.log('no ammo');
+// 		return false;
+// 	}
+// }
