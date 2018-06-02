@@ -26,10 +26,11 @@ var gamePlayState = {
 		// GUI indicators for happiness and money values
 		this.happinessText = game.add.text(60, 5, ': ' + this.game.happiness, {fontSize: '24px', fill: '#ffffff'});
 		this.moneyText = game.add.text(60, 50, ': ' + this.game.money, {fontSize: '24px', fill: '#ffffff'});
-		this.happiness = game.add.sprite(0, 0, 'gameAtlas', 'Happiness0001');
-		this.happiness.scale.setTo(.1,.1);
-		this.money = game.add.sprite(0, 45, 'gameAtlas', 'Money0001');
-		this.money.scale.setTo(.1, .1);
+		this.happinessIcon = game.add.sprite(0, 0, 'gameAtlas', 'Happiness0001');
+		this.happinessFrames = Phaser.Animation.generateFrameNames('Happiness', 1, 3, '', 4);
+		this.happinessIcon.scale.setTo(.1,.1);
+		this.moneyIcon = game.add.sprite(0, 45, 'gameAtlas', 'Money0001');
+		this.moneyIcon.scale.setTo(.1, .1);
 
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -320,22 +321,22 @@ var gamePlayState = {
 		}
 
 		// collision detection for Weather Tower and Enemies
-game.physics.arcade.overlap(this.bobaG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
-game.physics.arcade.overlap(this.cartG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
-game.physics.arcade.overlap(this.ticketG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
-game.physics.arcade.overlap(this.shirtG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
+		game.physics.arcade.overlap(this.bobaG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
+		game.physics.arcade.overlap(this.cartG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
+		game.physics.arcade.overlap(this.ticketG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
+		game.physics.arcade.overlap(this.shirtG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
 
-// Collision detection for Recycle Tower and Enemies
-game.physics.arcade.overlap(this.bobaG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
-game.physics.arcade.overlap(this.cartG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
-game.physics.arcade.overlap(this.ticketG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
-game.physics.arcade.overlap(this.shirtG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
+		// Collision detection for Recycle Tower and Enemies
+		game.physics.arcade.overlap(this.bobaG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
+		game.physics.arcade.overlap(this.cartG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
+		game.physics.arcade.overlap(this.ticketG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
+		game.physics.arcade.overlap(this.shirtG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
 
-// // Collision detection for Laziness Tower and Enemies
-game.physics.arcade.overlap(this.bobaG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
-game.physics.arcade.overlap(this.cartG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
-game.physics.arcade.overlap(this.ticketG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
-game.physics.arcade.overlap(this.shirtG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
+		// // Collision detection for Laziness Tower and Enemies
+		game.physics.arcade.overlap(this.bobaG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
+		game.physics.arcade.overlap(this.cartG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
+		game.physics.arcade.overlap(this.ticketG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
+		game.physics.arcade.overlap(this.shirtG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
 
 
 		// collision detection for player and enemies
@@ -353,6 +354,15 @@ game.physics.arcade.overlap(this.shirtG, this.lazyCircleGroup, towerAttack, lazi
 		// } else if (playerShirtCollision) {
 		// 	console.log("player collided with shirt");
 		// }
+
+		// Updates happiness icon texture depending on amount of happiness
+		if(this.game.happiness >300){
+			this.happinessIcon.frameName = 'Happiness0001';
+		}else if(this.game.happiness>200){
+			this.happinessIcon.frameName = 'Happiness0002';
+		}else if(this.game.happiness>0){
+			this.happinessIcon.frameName = 'Happiness0003';
+		}
 
 		// game over condition
 		if (this.game.money == 0 || this.game.happiness == 0) {
