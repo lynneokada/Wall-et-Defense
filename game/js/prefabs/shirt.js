@@ -2,7 +2,7 @@
 
 function Shirt(game, x, y, spriteName) {
 	this.speed = 100;
-	this.health = 100;
+	this.Health = 100;
 	this.attack = 10;
 
 	Enemy.call(this, game, x, y, spriteName);
@@ -26,11 +26,3 @@ function Shirt(game, x, y, spriteName) {
 
 Shirt.prototype = Object.create(Enemy.prototype);
 Shirt.prototype.constructor = Shirt;
-Cart.prototype.update = function() {
-
-	// can call base class handlers for update()
-	 Enemy.prototype.update.call(this);
-	 if(this.health <= 0){
-		 this.kill();
-	 }
-};

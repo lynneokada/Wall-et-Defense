@@ -3,7 +3,7 @@
 function Ticket(game, x, y, spriteName) {
 	// determine direction of cart
 	this.speed = 100;
-	this.health = 100;
+	this.Health = 100;
 	this.attack = 50;
 
 	Enemy.call(this, game, x, y, spriteName);

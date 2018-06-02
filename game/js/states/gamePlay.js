@@ -69,10 +69,10 @@ var gamePlayState = {
 		// bobaTimer.loop(5000, this.spawnBoba, this, this.bobaG);
 		// bobaTimer.start();
 		//
-		// this.cartG = this.add.group();
-		// cartTimer = game.time.create(false);
-		// cartTimer.loop(3000, this.spawnCart, this, this.cartG);
-		// cartTimer.start();
+		this.cartG = this.add.group();
+		cartTimer = game.time.create(false);
+		cartTimer.loop(3000, this.spawnCart, this, this.cartG);
+		cartTimer.start();
 
 		this.ticketG = this.add.group();
 		ticketTimer = game.time.create(false);
@@ -148,7 +148,7 @@ var gamePlayState = {
 	spawnCart: function(group) {
 		this.cart = new Cart(game, game.world.width + 50, 500, 'Cart0001');
 		this.cart.scale.setTo(.2, .2);
-		// this.cart.deathAnim = this.cart.animations.add('death', Phaser.Animation.generateFrameNames('Cart', 1, 6, '', 4), 7);
+	  this.cart.deathAnim = this.cart.animations.add('death', Phaser.Animation.generateFrameNames('Cart', 1, 7, '', 4), 30);
 
 		this.cartG.add(this.cart);
 	},
@@ -410,15 +410,16 @@ game.physics.arcade.overlap(this.shirtG, this.lazyCircleGroup, towerAttack, lazi
 	}
 
 function towerAttack(obj1, obj2){
-		obj1.health -= 50;
-		if(obj1.health <= 0){
-			console.log('hello');
+		obj1.Health -= 50;
+		// obj1.deathAnim.play('death', false, true);
+
+		if(obj1.Health <= 0){
 			obj1.body.velocity = 0;
 			obj1.deathAnim.play('death', false, true);
 		}
 		obj1.alpha -= .3;
 
-		//console.log(obj1.health);
+		//console.log(obj1.Health);
 }
 
 
