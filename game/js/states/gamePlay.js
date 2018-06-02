@@ -5,6 +5,8 @@ var wflag = false;
 var rflag = false;
 var lflag = false;
 var tower = 0;
+var reloadableTower = 0;
+
 var gamePlayState = {
 	preload: function() {
 		game.load.atlas('gameAtlas', 'assets/img/spriteatlas.png', 'assets/img/sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
@@ -22,6 +24,8 @@ var gamePlayState = {
 	create: function() {
 		this.game.happiness = 500;
 		this.game.money = 100;
+		var rKey;
+		this.rKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
 
 		// GUI indicators for happiness and money values
 		this.happinessText = game.add.text(60, 5, ': ' + this.game.happiness, {fontSize: '24px', fill: '#ffffff'});
@@ -291,17 +295,17 @@ var gamePlayState = {
 	},
 
 	render: function() {
-<<<<<<< HEAD
 		game.debug.body(this.weatherTower);
 		game.debug.body(this.wallet);
-=======
+
 		game.debug.physicsGroup(this.bobaG);
->>>>>>> deathandtowerAnimations
 	},
 
 	update: function(){
 		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
-		var towerUpgrade = game.physics.arcade.collide(this.player, this.weatherTower);
+		//var weatherRecharge = game.physics.arcade.overlap(this.player, this.weatherCircleGroup);
+		//var recycleRecharge = game.physics.arcade.overlap(this.player, this.recycleCircleGroup);
+		//var lazyRecharge = game.physics.arcade.overlap(this.player, this.lazyCircleGroup);
 
 		if(bool == false){
 			marker.clear();
@@ -323,14 +327,21 @@ var gamePlayState = {
 			this.breach.play();
 		}
 
-		if(towerUpgrade && game.input.keyboard.isDown(Phaser.Keyboard.R)){
-			if (this.weatherTower.ammo < 6) {
-				this.weatherTower.ammo = this.weatherTower.ammo +1;
-				this.reloadSFX.play();
-			}
-		}
 
+
+		//Player and Tower reloading mechanics 
+		game.physics.arcade.overlap(this.player, this.weatherCircleGroup, weatherRecharge, null, this);
+		game.physics.arcade.overlap(this.player, this.recycleCircleGroup, recycleRecharge, null, this);
+		game.physics.arcade.overlap(this.player, this.lazyCircleGroup, lazyRecharge, null, this);
+
+		//player's collision with towers and bank
+		game.physics.arcade.collide(this.player, this.weatherGroup);
+		game.physics.arcade.collide(this.player, this.recycleGroup);
+		game.physics.arcade.collide(this.player, this.lazyGroup);
 		game.physics.arcade.collide(this.player, this.wallet);
+
+
+
 
 		// collision detection for Weather Tower and Enemies
 		game.physics.arcade.overlap(this.bobaG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
@@ -439,9 +450,7 @@ function towerAttack(obj1, obj2){
 		if(obj1.Health <= 0){
 			obj1.body.velocity = 0;
 			obj1.deathAnim.play('death', false, true);
-			console.log("Potential Happy: " + obj1.droppedHappiness);
 			this.game.happiness = this.game.happiness + obj1.droppedHappiness;
-			console.log("Calc Happy: " + this.game.happiness);
 			this.happinessText.text = ': ' + this.game.happiness;
 		}
 		obj1.alpha -= .3;
@@ -514,4 +523,38 @@ function recycleAmmo(obj1, obj2){
 			return false;
 		}
 		return false;
+	}
+
+
+
+	function weatherRecharge(player, circle){
+		
+		reloadableTower = this.weatherGroup.getClosestTo(player);
+		if(this.rKey.downDuration(5)){
+			if (reloadableTower.ammo < 12) {
+				reloadableTower.ammo++;
+				this.reloadSFX.play();
+			}
+		}
+	}
+
+	function recycleRecharge(player, circle){
+
+		reloadableTower = this.recycleGroup.getClosestTo(player);
+		if(this.rKey.downDuration(5)){
+			if (reloadableTower.ammo < 8) {
+				reloadableTower.ammo++;
+				this.reloadSFX.play();
+			}
+		}
+	}
+
+	function lazyRecharge(player, circle){
+		reloadableTower = this.lazyGroup.getClosestTo(player);
+		if(this.rKey.downDuration(5)){
+			if (reloadableTower.ammo < 15) {
+				reloadableTower.ammo++;
+				this.reloadSFX.play();
+			}
+		}
 	}
