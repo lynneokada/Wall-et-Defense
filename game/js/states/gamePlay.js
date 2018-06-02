@@ -64,25 +64,25 @@ var gamePlayState = {
 		this.spawnPlayer();
 
 		// ENEMY TIMER SET UP -----------------------------
-		this.bobaG = this.add.group();
-		bobaTimer = game.time.create(false);
-		bobaTimer.loop(5000, this.spawnBoba, this, this.bobaG);
-		bobaTimer.start();
-
-		this.cartG = this.add.group();
-		cartTimer = game.time.create(false);
-		cartTimer.loop(4000, this.spawnCart, this, this.cartG);
-		cartTimer.start();
+		// this.bobaG = this.add.group();
+		// bobaTimer = game.time.create(false);
+		// bobaTimer.loop(5000, this.spawnBoba, this, this.bobaG);
+		// bobaTimer.start();
+		//
+		// this.cartG = this.add.group();
+		// cartTimer = game.time.create(false);
+		// cartTimer.loop(3000, this.spawnCart, this, this.cartG);
+		// cartTimer.start();
 
 		this.ticketG = this.add.group();
 		ticketTimer = game.time.create(false);
-		ticketTimer.loop(4000, this.spawnTicket, this, this.ticketG);
+		ticketTimer.loop(3000, this.spawnTicket, this, this.ticketG);
 		ticketTimer.start();
 
-		this.shirtG = this.add.group();
-		shirtTimer = game.time.create(false);
-		shirtTimer.loop(4000, this.spawnShirt, this, this.shirtG);
-		shirtTimer.start();
+		// this.shirtG = this.add.group();
+		// shirtTimer = game.time.create(false);
+		// shirtTimer.loop(4000, this.spawnShirt, this, this.shirtG);
+		// shirtTimer.start();
 		// ------------------------------------------------
 
 		// Spawn weather tower
@@ -96,10 +96,6 @@ var gamePlayState = {
 		// spawn recycle tower
 		this.recycleGroup = this.add.group();
 		this.recycleTower = 0;
-		// this.recycleTower.scale.setTo(.5, .5);
-		// this.recycleTower.body.immovable = true;
-
-		//console.log("ammo = " +this.weatherTower.ammo);
 
 		//spawn Lazy tower
 		this.lazyGroup = this.add.group();
@@ -141,8 +137,8 @@ var gamePlayState = {
 	},
 
 	spawnBoba: function(group){
-		this.boba = new Boba(game, game.world.width/2, -50, 'boba0002');
-		this.boba2 = new Boba(game, -50, 550, 'boba0002');
+		this.boba = new Boba(game, game.world.width/2, -50, 'Boba0002');
+		this.boba2 = new Boba(game, -50, 550, 'Boba0002');
 		this.boba.scale.setTo(.4, .4);
 		this.boba2.scale.setTo(.4, .4);
 		this.bobaG.add(this.boba);
@@ -152,12 +148,16 @@ var gamePlayState = {
 	spawnCart: function(group) {
 		this.cart = new Cart(game, game.world.width + 50, 500, 'Cart0001');
 		this.cart.scale.setTo(.2, .2);
+		// this.cart.deathAnim = this.cart.animations.add('death', Phaser.Animation.generateFrameNames('Cart', 1, 6, '', 4), 7);
+
 		this.cartG.add(this.cart);
 	},
 
 	spawnTicket: function(group) {
 		this.ticket = new Ticket(game, game.world.width/2, game.world.height+50, 'Ticket0001');
 		this.ticket.scale.setTo(.2,.2);
+		this.ticket.deathAnim = this.ticket.animations.add('death', Phaser.Animation.generateFrameNames('Ticket', 2, 3, '', 4), 2);
+
 		this.ticketG.add(this.ticket);
 	},
 
@@ -241,9 +241,13 @@ var gamePlayState = {
 		this.weatherTower.body.immovable = true;
 		this.weatherGroup.add(this.weatherTower);
 		// Animating the weather tower
-		var weatherFrames = Phaser.Animation.generateFrameNames('Weather', 1, 7, '', 4);
-		this.weatherGroup.callAll('animations.add','animations', 'idleWeather', weatherFrames, 5, true);
-		this.weatherGroup.callAll('play', null, 'idleWeather');
+		var weatherFrames = Phaser.Animation.generateFrameNames('Weather', 1, 6, '', 4);
+    var weatherAttackFrames = Phaser.Animation.generateFrameNames('Weather', 7, 8, '', 4);
+		this.weatherTower.attackAnim = this.weatherTower.animations.add('attack', weatherAttackFrames, 2);
+		this.weatherTower.idleAnim = this.weatherTower.animations.add('idleWeather', weatherFrames, 7);
+		this.weatherTower.idleAnim.play('idleWeather', true);
+		// this.weatherGroup.callAll('animations.add','animations', 'idleWeather', weatherFrames, 5, true);
+		// this.weatherGroup.callAll('play', null, 'idleWeather');
 		game.input.onDown.remove(getTileProperties, this);
 		this.game.happiness -= 100;
 		this.happinessText.text = ': ' + this.game.happiness;
@@ -278,9 +282,9 @@ var gamePlayState = {
 		this.lazyCircleGroup.add(this.lazyTower.circle);
 	},
 
-	render: function() {
-		game.debug.body(this.player);
-	},
+	// render: function() {
+	// 	game.debug.body(this.player);
+	// },
 
 	update: function(){
 		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
@@ -299,7 +303,7 @@ var gamePlayState = {
 
 		if (hitEnemy) {
 			this.game.money -= 10;
-			console.log("Money = " +this.game.money);
+			//console.log("Money = " +this.game.money);
 			this.moneyText.text = ': ' + this.game.money;
 			this.target = this.bobaG.getClosestTo(this.wallet);
 			this.target.destroy();
@@ -311,7 +315,6 @@ var gamePlayState = {
 				this.weatherTower.ammo = this.weatherTower.ammo +1;
 				this.reloadSFX.play();
 			}
-			console.log("Weather Tower ammo = " + this.weatherTower.ammo);
 		}
 
 		// collision detection for Weather Tower and Enemies
@@ -339,15 +342,15 @@ game.physics.arcade.overlap(this.shirtG, this.lazyCircleGroup, towerAttack, lazi
 		var playerTicketCollision = game.physics.arcade.collide(this.ticketG, this.player);
 		var playerShirtCollision = game.physics.arcade.collide(this.shirtG, this.player);
 
-		if (playerBobaCollision) {
-			console.log("player collided with boba");
-		} else if (playerCartCollision) {
-			console.log("player collided with cart");
-		} else if (playerTicketCollision) {
-			console.log("player collided with ticket");
-		} else if (playerShirtCollision) {
-			console.log("player collided with shirt");
-		}
+		// if (playerBobaCollision) {
+		// 	console.log("player collided with boba");
+		// } else if (playerCartCollision) {
+		// 	console.log("player collided with cart");
+		// } else if (playerTicketCollision) {
+		// 	console.log("player collided with ticket");
+		// } else if (playerShirtCollision) {
+		// 	console.log("player collided with shirt");
+		// }
 
 		// game over condition
 		if (this.game.money == 0 || this.game.happiness == 0) {
@@ -403,12 +406,19 @@ game.physics.arcade.overlap(this.shirtG, this.lazyCircleGroup, towerAttack, lazi
 	function makeMarker(){
 		marker.lineStyle(2, 0xffffff, 1);
 		marker.drawRect(0, 0, 32, 32);
-		console.log(bool);
+		//console.log(bool);
 	}
 
 function towerAttack(obj1, obj2){
 		obj1.health -= 50;
-		console.log(obj1.health);
+		if(obj1.health <= 0){
+			console.log('hello');
+			obj1.body.velocity = 0;
+			obj1.deathAnim.play('death', false, true);
+		}
+		obj1.alpha -= .3;
+
+		//console.log(obj1.health);
 }
 
 
@@ -419,15 +429,16 @@ function weatherAmmo(obj1, obj2){
 		if(tower.ammo>0){
 			tower.ammo -= 1;
 			tower.attackSpeed = 100;
-			console.log('ammo?');
+			tower.attackAnim.play('weatherAttack', false);
+			tower.attackAnim.onComplete.add(function(){
+				tower.idleAnim.play('idleWeather', true);
+			});
 			return true;
 		}else if(tower.ammo<=0){
-			console.log('no ammo');
 			return false;
 		}
 	}else if(tower.attackSpeed >= 0){
 		tower.attackSpeed -= 1;
-		console.log(tower.attackSpeed);
 		return false;
 	}
 }
@@ -437,15 +448,12 @@ function recycleAmmo(obj1, obj2){
 		if(tower.ammo>0){
 			tower.ammo -= 1;
 			tower.attackSpeed = 100;
-			console.log('ammo?');
 			return true;
 		}else if(tower.ammo<=0){
-			console.log('no ammo');
 			return false;
 		}
 	}else if(tower.attackSpeed >= 0){
 		tower.attackSpeed -= 1;
-		console.log(tower.attackSpeed);
 		return false;
 	}
 }
@@ -455,15 +463,12 @@ function recycleAmmo(obj1, obj2){
 			if(tower.ammo>0){
 				tower.ammo -= 1;
 				tower.attackSpeed = 100;
-				console.log('ammo?');
 				return true;
 			}else if(tower.ammo<=0){
-				console.log('no ammo');
 				return false;
 			}
 		}else if(tower.attackSpeed >= 0){
 			tower.attackSpeed -= 1;
-			console.log(tower.attackSpeed);
 			return false;
 		}
 	}
