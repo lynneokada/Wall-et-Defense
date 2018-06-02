@@ -79,10 +79,10 @@ var gamePlayState = {
 		ticketTimer.loop(3000, this.spawnTicket, this, this.ticketG);
 		ticketTimer.start();
 
-		// this.shirtG = this.add.group();
-		// shirtTimer = game.time.create(false);
-		// shirtTimer.loop(4000, this.spawnShirt, this, this.shirtG);
-		// shirtTimer.start();
+		this.shirtG = this.add.group();
+		shirtTimer = game.time.create(false);
+		shirtTimer.loop(4000, this.spawnShirt, this, this.shirtG);
+		shirtTimer.start();
 		// ------------------------------------------------
 
 		// Spawn weather tower
@@ -164,6 +164,8 @@ var gamePlayState = {
 	spawnShirt: function(group) {
 		this.shirt = new Shirt(game, -50, 500, 'Clothes0001');
 		this.shirt.scale.setTo(.2,.2);
+		this.shirt.deathAnim = this.shirt.animations.add('death', Phaser.Animation.generateFrameNames('Clothes', 2, 10, '', 4), 15);
+
 		this.shirtG.add(this.shirt);
 	},
 
@@ -282,9 +284,9 @@ var gamePlayState = {
 		this.lazyCircleGroup.add(this.lazyTower.circle);
 	},
 
-	render: function() {
-		game.debug.physicsGroup(this.weatherCircleGroup);
-	},
+	// render: function() {
+	// 	game.debug.physicsGroup(this.weatherCircleGroup);
+	// },
 
 	update: function(){
 		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
