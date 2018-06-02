@@ -65,11 +65,11 @@ var gamePlayState = {
 		this.spawnPlayer();
 
 		// ENEMY TIMER SET UP -----------------------------
-		// this.bobaG = this.add.group();
-		// bobaTimer = game.time.create(false);
-		// bobaTimer.loop(5000, this.spawnBoba, this, this.bobaG);
-		// bobaTimer.start();
-		//
+		this.bobaG = this.add.group();
+		bobaTimer = game.time.create(false);
+		bobaTimer.loop(5000, this.spawnBoba, this, this.bobaG);
+		bobaTimer.start();
+
 		this.cartG = this.add.group();
 		cartTimer = game.time.create(false);
 		cartTimer.loop(3000, this.spawnCart, this, this.cartG);
@@ -138,12 +138,15 @@ var gamePlayState = {
 	},
 
 	spawnBoba: function(group){
-		this.boba = new Boba(game, game.world.width/2, -50, 'Boba0002');
-		this.boba2 = new Boba(game, -50, 550, 'Boba0002');
-		this.boba.scale.setTo(.4, .4);
-		this.boba2.scale.setTo(.4, .4);
+		this.boba = new Boba(game, game.world.width/2, -50, 'Boba0001');
+		this.boba2 = new Boba(game, -50, 550, 'Boba0001');
+		this.boba.scale.setTo(.15, .15);
+		this.boba2.scale.setTo(.15, .15);
 		this.bobaG.add(this.boba);
 		this.bobaG.add(this.boba2);
+		this.boba.deathAnim = this.boba.animations.add('death', Phaser.Animation.generateFrameNames('Boba', 1, 13, '', 4), 11);
+		this.boba2.deathAnim = this.boba2.animations.add('death', Phaser.Animation.generateFrameNames('Boba', 1, 13, '', 4), 11);
+
 	},
 
 	spawnCart: function(group) {
@@ -285,9 +288,9 @@ var gamePlayState = {
 		this.lazyCircleGroup.add(this.lazyTower.circle);
 	},
 
-	// render: function() {
-	// 	game.debug.physicsGroup(this.weatherCircleGroup);
-	// },
+	render: function() {
+		game.debug.physicsGroup(this.bobaG);
+	},
 
 	update: function(){
 		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
@@ -423,7 +426,6 @@ var gamePlayState = {
 
 function towerAttack(obj1, obj2){
 		obj1.Health -= 50;
-		// obj1.deathAnim.play('death', false, true);
 
 		if(obj1.Health <= 0){
 			obj1.body.velocity = 0;
@@ -442,6 +444,7 @@ function weatherAmmo(obj1, obj2){
 		if(tower.ammo>0){
 			tower.ammo -= 1;
 			tower.attackSpeed = 100;
+			tower.idleAnim.stop();
 			tower.attackAnim.play('weatherAttack', false);
 			tower.attackAnim.onComplete.add(function(){
 				tower.idleAnim.play('idleWeather', true);
