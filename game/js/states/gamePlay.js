@@ -26,10 +26,11 @@ var gamePlayState = {
 		// GUI indicators for happiness and money values
 		this.happinessText = game.add.text(60, 5, ': ' + this.game.happiness, {fontSize: '24px', fill: '#ffffff'});
 		this.moneyText = game.add.text(60, 50, ': ' + this.game.money, {fontSize: '24px', fill: '#ffffff'});
-		this.happiness = game.add.sprite(0, 0, 'gameAtlas', 'Happiness0001');
-		this.happiness.scale.setTo(.1,.1);
-		this.money = game.add.sprite(0, 45, 'gameAtlas', 'Money0001');
-		this.money.scale.setTo(.1, .1);
+		this.happinessIcon = game.add.sprite(0, 0, 'gameAtlas', 'Happiness0001');
+		this.happinessFrames = Phaser.Animation.generateFrameNames('Happiness', 1, 3, '', 4);
+		this.happinessIcon.scale.setTo(.1,.1);
+		this.moneyIcon = game.add.sprite(0, 45, 'gameAtlas', 'Money0001');
+		this.moneyIcon.scale.setTo(.1, .1);
 
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -64,11 +65,11 @@ var gamePlayState = {
 		this.spawnPlayer();
 
 		// ENEMY TIMER SET UP -----------------------------
-		// this.bobaG = this.add.group();
-		// bobaTimer = game.time.create(false);
-		// bobaTimer.loop(5000, this.spawnBoba, this, this.bobaG);
-		// bobaTimer.start();
-		//
+		this.bobaG = this.add.group();
+		bobaTimer = game.time.create(false);
+		bobaTimer.loop(5000, this.spawnBoba, this, this.bobaG);
+		bobaTimer.start();
+
 		this.cartG = this.add.group();
 		cartTimer = game.time.create(false);
 		cartTimer.loop(3000, this.spawnCart, this, this.cartG);
@@ -79,10 +80,10 @@ var gamePlayState = {
 		ticketTimer.loop(3000, this.spawnTicket, this, this.ticketG);
 		ticketTimer.start();
 
-		// this.shirtG = this.add.group();
-		// shirtTimer = game.time.create(false);
-		// shirtTimer.loop(4000, this.spawnShirt, this, this.shirtG);
-		// shirtTimer.start();
+		this.shirtG = this.add.group();
+		shirtTimer = game.time.create(false);
+		shirtTimer.loop(4000, this.spawnShirt, this, this.shirtG);
+		shirtTimer.start();
 		// ------------------------------------------------
 
 		// Spawn weather tower
@@ -137,12 +138,15 @@ var gamePlayState = {
 	},
 
 	spawnBoba: function(group){
-		this.boba = new Boba(game, game.world.width/2, -50, 'Boba0002');
-		this.boba2 = new Boba(game, -50, 550, 'Boba0002');
-		this.boba.scale.setTo(.4, .4);
-		this.boba2.scale.setTo(.4, .4);
+		this.boba = new Boba(game, game.world.width/2, -50, 'Boba0001');
+		this.boba2 = new Boba(game, -50, 550, 'Boba0001');
+		this.boba.scale.setTo(.15, .15);
+		this.boba2.scale.setTo(.15, .15);
 		this.bobaG.add(this.boba);
 		this.bobaG.add(this.boba2);
+		this.boba.deathAnim = this.boba.animations.add('death', Phaser.Animation.generateFrameNames('Boba', 1, 13, '', 4), 11);
+		this.boba2.deathAnim = this.boba2.animations.add('death', Phaser.Animation.generateFrameNames('Boba', 1, 13, '', 4), 11);
+
 	},
 
 	spawnCart: function(group) {
@@ -164,6 +168,8 @@ var gamePlayState = {
 	spawnShirt: function(group) {
 		this.shirt = new Shirt(game, -50, 500, 'Clothes0001');
 		this.shirt.scale.setTo(.2,.2);
+		this.shirt.deathAnim = this.shirt.animations.add('death', Phaser.Animation.generateFrameNames('Clothes', 2, 10, '', 4), 15);
+
 		this.shirtG.add(this.shirt);
 	},
 
@@ -262,8 +268,10 @@ var gamePlayState = {
 		this.recycleGroup.add(this.recycleTower);
 		// Animating the Recycle tower
 		var recycleFrames = Phaser.Animation.generateFrameNames('Recycle', 1, 35, '', 4);
-		this.recycleGroup.callAll('animations.add','animations', 'idleRecycle', recycleFrames, 10, true);
-		this.recycleGroup.callAll('play', null, 'idleRecycle');
+		var recycleAttackFrames = Phaser.Animation.generateFrameNames('RecycleAttack', 1, 9, '', 4);
+		this.recycleTower.attackAnim = this.recycleTower.animations.add('recycleAttack', recycleAttackFrames, 10);
+		this.recycleTower.idleAnim = this.recycleTower.animations.add('idleRecycle', recycleFrames, 10);
+		this.recycleTower.idleAnim.play('idleRecycle', true);
 		game.input.onDown.remove(getTileProperties, this);
 		this.game.happiness -= 200;
 		this.happinessText.text = ': ' + this.game.happiness;
@@ -283,8 +291,12 @@ var gamePlayState = {
 	},
 
 	render: function() {
+<<<<<<< HEAD
 		game.debug.body(this.weatherTower);
 		game.debug.body(this.wallet);
+=======
+		game.debug.physicsGroup(this.bobaG);
+>>>>>>> deathandtowerAnimations
 	},
 
 	update: function(){
@@ -321,22 +333,22 @@ var gamePlayState = {
 		game.physics.arcade.collide(this.player, this.wallet);
 
 		// collision detection for Weather Tower and Enemies
-game.physics.arcade.overlap(this.bobaG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
-game.physics.arcade.overlap(this.cartG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
-game.physics.arcade.overlap(this.ticketG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
-game.physics.arcade.overlap(this.shirtG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
+		game.physics.arcade.overlap(this.bobaG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
+		game.physics.arcade.overlap(this.cartG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
+		game.physics.arcade.overlap(this.ticketG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
+		game.physics.arcade.overlap(this.shirtG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
 
-// Collision detection for Recycle Tower and Enemies
-game.physics.arcade.overlap(this.bobaG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
-game.physics.arcade.overlap(this.cartG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
-game.physics.arcade.overlap(this.ticketG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
-game.physics.arcade.overlap(this.shirtG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
+		// Collision detection for Recycle Tower and Enemies
+		game.physics.arcade.overlap(this.bobaG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
+		game.physics.arcade.overlap(this.cartG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
+		game.physics.arcade.overlap(this.ticketG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
+		game.physics.arcade.overlap(this.shirtG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
 
-// // Collision detection for Laziness Tower and Enemies
-game.physics.arcade.overlap(this.bobaG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
-game.physics.arcade.overlap(this.cartG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
-game.physics.arcade.overlap(this.ticketG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
-game.physics.arcade.overlap(this.shirtG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
+		// // Collision detection for Laziness Tower and Enemies
+		game.physics.arcade.overlap(this.bobaG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
+		game.physics.arcade.overlap(this.cartG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
+		game.physics.arcade.overlap(this.ticketG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
+		game.physics.arcade.overlap(this.shirtG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
 
 
 		// collision detection for player and enemies
@@ -354,6 +366,15 @@ game.physics.arcade.overlap(this.shirtG, this.lazyCircleGroup, towerAttack, lazi
 		// } else if (playerShirtCollision) {
 		// 	console.log("player collided with shirt");
 		// }
+
+		// Updates happiness icon texture depending on amount of happiness
+		if(this.game.happiness >300){
+			this.happinessIcon.frameName = 'Happiness0001';
+		}else if(this.game.happiness>200){
+			this.happinessIcon.frameName = 'Happiness0002';
+		}else if(this.game.happiness>0){
+			this.happinessIcon.frameName = 'Happiness0003';
+		}
 
 		// game over condition
 		if (this.game.money == 0 || this.game.happiness == 0) {
@@ -414,7 +435,6 @@ game.physics.arcade.overlap(this.shirtG, this.lazyCircleGroup, towerAttack, lazi
 
 function towerAttack(obj1, obj2){
 		obj1.Health -= 50;
-		// obj1.deathAnim.play('death', false, true);
 
 		if(obj1.Health <= 0){
 			obj1.body.velocity = 0;
@@ -437,6 +457,7 @@ function weatherAmmo(obj1, obj2){
 		if(tower.ammo>0){
 			tower.ammo -= 1;
 			tower.attackSpeed = 100;
+			tower.idleAnim.stop();
 			tower.attackAnim.play('weatherAttack', false);
 			tower.attackAnim.onComplete.add(function(){
 				tower.idleAnim.play('idleWeather', true);
@@ -458,6 +479,7 @@ function recycleAmmo(obj1, obj2){
 		if(tower.ammo>0){
 			tower.ammo -= 1;
 			tower.attackSpeed = 100;
+			tower.idleAnim.stop();
 			tower.attackAnim.play('recycleAttack', false);
 			tower.attackAnim.onComplete.add(function(){
 				tower.idleAnim.play('idleRecycle', true);
