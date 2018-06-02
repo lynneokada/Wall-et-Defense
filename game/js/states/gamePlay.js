@@ -282,9 +282,9 @@ var gamePlayState = {
 		this.lazyCircleGroup.add(this.lazyTower.circle);
 	},
 
-	// render: function() {
-	// 	game.debug.body(this.player);
-	// },
+	render: function() {
+		game.debug.physicsGroup(this.weatherCircleGroup);
+	},
 
 	update: function(){
 		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
@@ -426,7 +426,7 @@ function towerAttack(obj1, obj2){
 function weatherAmmo(obj1, obj2){
 	tower = this.weatherGroup.getClosestTo(obj1);
 
-	if(tower.attackSpeed == 0){
+	if(tower.attackSpeed == 0 && obj1.Health>0){
 		if(tower.ammo>0){
 			tower.ammo -= 1;
 			tower.attackSpeed = 100;
@@ -438,38 +438,51 @@ function weatherAmmo(obj1, obj2){
 		}else if(tower.ammo<=0){
 			return false;
 		}
-	}else if(tower.attackSpeed >= 0){
+	}else if(tower.attackSpeed >= 0 && obj1.Health>0){
 		tower.attackSpeed -= 1;
 		return false;
 	}
+	return false;
 }
 function recycleAmmo(obj1, obj2){
 	tower = this.recycleGroup.getClosestTo(obj1);
-	if(tower.attackSpeed == 0){
+
+	if(tower.attackSpeed == 0 && obj1.Health>0){
 		if(tower.ammo>0){
 			tower.ammo -= 1;
 			tower.attackSpeed = 100;
+			tower.attackAnim.play('recycleAttack', false);
+			tower.attackAnim.onComplete.add(function(){
+				tower.idleAnim.play('idleRecycle', true);
+			});
 			return true;
 		}else if(tower.ammo<=0){
 			return false;
 		}
-	}else if(tower.attackSpeed >= 0){
+	}else if(tower.attackSpeed >= 0 && obj1.Health>0){
 		tower.attackSpeed -= 1;
 		return false;
 	}
+	return false;
 }
 	function lazinessAmmo(obj1, obj2){
 		tower = this.lazyGroup.getClosestTo(obj1);
-		if(tower.attackSpeed == 0){
+
+		if(tower.attackSpeed == 0 && obj1.Health>0){
 			if(tower.ammo>0){
 				tower.ammo -= 1;
 				tower.attackSpeed = 100;
+				tower.attackAnim.play('lazyAttack', false);
+				tower.attackAnim.onComplete.add(function(){
+					tower.idleAnim.play('idleLazy', true);
+				});
 				return true;
 			}else if(tower.ammo<=0){
 				return false;
 			}
-		}else if(tower.attackSpeed >= 0){
+		}else if(tower.attackSpeed >= 0 && obj1.Health>0){
 			tower.attackSpeed -= 1;
 			return false;
 		}
+		return false;
 	}

@@ -12,6 +12,8 @@ function Tower(game, x, y, frame, health, ammo, attack, atkrange, atktargets, at
 	this.circle.immovable = true;
 	this.circle.ammo = ammo;
 	game.physics.enable(this.circle);
+	this.circle.body.setCircle(256);
+
 	// game.add.existing(this.circle);
 	this.circleGroup.add(this.circle);
 
