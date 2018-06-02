@@ -268,8 +268,10 @@ var gamePlayState = {
 		this.recycleGroup.add(this.recycleTower);
 		// Animating the Recycle tower
 		var recycleFrames = Phaser.Animation.generateFrameNames('Recycle', 1, 35, '', 4);
-		this.recycleGroup.callAll('animations.add','animations', 'idleRecycle', recycleFrames, 10, true);
-		this.recycleGroup.callAll('play', null, 'idleRecycle');
+		var recycleAttackFrames = Phaser.Animation.generateFrameNames('RecycleAttack', 1, 9, '', 4);
+		this.recycleTower.attackAnim = this.recycleTower.animations.add('recycleAttack', recycleAttackFrames, 10);
+		this.recycleTower.idleAnim = this.recycleTower.animations.add('idleRecycle', recycleFrames, 10);
+		this.recycleTower.idleAnim.play('idleRecycle', true);
 		game.input.onDown.remove(getTileProperties, this);
 		this.game.happiness -= 200;
 		this.happinessText.text = ': ' + this.game.happiness;
@@ -466,6 +468,7 @@ function recycleAmmo(obj1, obj2){
 		if(tower.ammo>0){
 			tower.ammo -= 1;
 			tower.attackSpeed = 100;
+			tower.idleAnim.stop();
 			tower.attackAnim.play('recycleAttack', false);
 			tower.attackAnim.onComplete.add(function(){
 				tower.idleAnim.play('idleRecycle', true);
