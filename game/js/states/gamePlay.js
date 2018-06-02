@@ -128,11 +128,11 @@ var gamePlayState = {
  // Functions for spawning the bank, player and all the enemies
 	spawnWallet: function() {
 		this.wallet = new Wallet(game, game.world.centerX, game.world.centerY, 'Bank0001');
-		this.wallet.body.setSize(205,252,25,3);
+		this.wallet.body.setSize(205,252,25,10);
 	},
 
 	spawnPlayer: function() {
-		this.player = new Player(game, game.world.centerX, game.world.centerY, 'Player0001');
+		this.player = new Player(game, game.world.centerX-250, game.world.centerY-250, 'Player0001');
 		this.player.scale.setTo(0.2,0.2);
 	},
 
@@ -148,7 +148,7 @@ var gamePlayState = {
 	spawnCart: function(group) {
 		this.cart = new Cart(game, game.world.width + 50, 500, 'Cart0001');
 		this.cart.scale.setTo(.2, .2);
-	  this.cart.deathAnim = this.cart.animations.add('death', Phaser.Animation.generateFrameNames('Cart', 1, 7, '', 4), 30);
+	  	this.cart.deathAnim = this.cart.animations.add('death', Phaser.Animation.generateFrameNames('Cart', 1, 7, '', 4), 30);
 
 		this.cartG.add(this.cart);
 	},
@@ -236,7 +236,7 @@ var gamePlayState = {
     },
 
 	spawnWeatherTower: function(){
-		this.weatherTower = new WeatherT(game, game.input.activePointer.worldX -32, game.input.activePointer.worldY -32,'Weather0001', 10, 6, 100, 2000);
+		this.weatherTower = new WeatherT(game, game.input.activePointer.worldX -32, game.input.activePointer.worldY -32,'Weather0001', 10, 10, 100, 2000);
 		this.weatherTower.scale.setTo(.5, .5);
 		this.weatherTower.body.immovable = true;
 		this.weatherGroup.add(this.weatherTower);
@@ -283,7 +283,8 @@ var gamePlayState = {
 	},
 
 	render: function() {
-		game.debug.physicsGroup(this.weatherCircleGroup);
+		game.debug.body(this.weatherTower);
+		game.debug.body(this.wallet);
 	},
 
 	update: function(){
@@ -316,6 +317,8 @@ var gamePlayState = {
 				this.reloadSFX.play();
 			}
 		}
+
+		game.physics.arcade.collide(this.player, this.wallet);
 
 		// collision detection for Weather Tower and Enemies
 game.physics.arcade.overlap(this.bobaG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
@@ -416,6 +419,10 @@ function towerAttack(obj1, obj2){
 		if(obj1.Health <= 0){
 			obj1.body.velocity = 0;
 			obj1.deathAnim.play('death', false, true);
+			console.log("Potential Happy: " + obj1.droppedHappiness);
+			this.game.happiness = this.game.happiness + obj1.droppedHappiness;
+			console.log("Calc Happy: " + this.game.happiness);
+			this.happinessText.text = ': ' + this.game.happiness;
 		}
 		obj1.alpha -= .3;
 

@@ -6,6 +6,7 @@ function Wallet(game, x, y, spriteName) {
 	game.physics.enable(this);
 	this.enableBody = true;
 	this.body.immovable = true;
+	this.body.setSize(100, 50);
 
 	this.happiness = 100;
 	this.money = 100;

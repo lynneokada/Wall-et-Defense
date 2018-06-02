@@ -5,6 +5,7 @@ function Cart(game, x, y, spriteName) {
 	this.speed = 100;
 	this.Health = 100;
 	this.attack = 50;
+	this.droppedHappiness = 50; 
 
 	Enemy.call(this, game, x, y, spriteName);
 	this.body.setSize(475,400,25,120);
@@ -27,3 +28,7 @@ function Cart(game, x, y, spriteName) {
 
 Cart.prototype = Object.create(Enemy.prototype);
 Cart.prototype.constructor = Cart;
+
+Cart.prototype.update = function(){
+
+}
