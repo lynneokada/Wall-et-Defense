@@ -8,7 +8,7 @@ function Player(game, x, y, spriteName) {
 	this.body.setSize(300,460,90,20);
 
 	this.health = 100;
-	this.speed = 80;
+	this.speed = 85;
 
 	cursors = game.input.keyboard.createCursorKeys();
 

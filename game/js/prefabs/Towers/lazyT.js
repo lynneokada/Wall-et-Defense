@@ -1,3 +1,5 @@
+// lazyT.js
+
 function LazyT(game, x, y, frame, health, ammo, attack, atkrange, atkspeed){
 	Tower.call(this, game, x, y, frame, 10, 15, 3, atkrange, 0, atkspeed);
 	this.attackSpeed = 150;

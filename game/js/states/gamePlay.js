@@ -308,6 +308,7 @@ var gamePlayState = {
 	},
 
 	update: function(){
+		this.player.speed = 85;
 		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
 		//var weatherRecharge = game.physics.arcade.overlap(this.player, this.weatherCircleGroup);
 		//var recycleRecharge = game.physics.arcade.overlap(this.player, this.recycleCircleGroup);
@@ -346,9 +347,6 @@ var gamePlayState = {
 		game.physics.arcade.collide(this.player, this.lazyGroup);
 		game.physics.arcade.collide(this.player, this.wallet);
 
-
-
-
 		game.physics.arcade.collide(this.player, this.wallet);
 
 		// collision detection for Weather Tower and Enemies
@@ -363,28 +361,17 @@ var gamePlayState = {
 		game.physics.arcade.overlap(this.ticketG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
 		game.physics.arcade.overlap(this.shirtG, this.recycleCircleGroup, towerAttack, recycleAmmo, this);
 
-		// // Collision detection for Laziness Tower and Enemies
+		// Collision detection for Laziness Tower and Enemies
 		game.physics.arcade.overlap(this.bobaG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
 		game.physics.arcade.overlap(this.cartG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
 		game.physics.arcade.overlap(this.ticketG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
 		game.physics.arcade.overlap(this.shirtG, this.lazyCircleGroup, towerAttack, lazinessAmmo, this);
 
-
 		// collision detection for player and enemies
-		var playerBobaCollision = game.physics.arcade.collide(this.bobaG, this.player);
+		game.physics.arcade.overlap(this.player, this.bobaG, playerBobaCollision, null, this);
 		var playerCartCollision = game.physics.arcade.collide(this.cartG, this.player);
 		var playerTicketCollision = game.physics.arcade.collide(this.ticketG, this.player);
 		var playerShirtCollision = game.physics.arcade.collide(this.shirtG, this.player);
-
-		// if (playerBobaCollision) {
-		// 	console.log("player collided with boba");
-		// } else if (playerCartCollision) {
-		// 	console.log("player collided with cart");
-		// } else if (playerTicketCollision) {
-		// 	console.log("player collided with ticket");
-		// } else if (playerShirtCollision) {
-		// 	console.log("player collided with shirt");
-		// }
 
 		// Updates happiness icon texture depending on amount of happiness
 		if(this.game.happiness >300){
@@ -534,8 +521,6 @@ function recycleAmmo(obj1, obj2){
 		return false;
 	}
 
-
-
 	function weatherRecharge(player, circle){
 
 		reloadableTower = this.weatherGroup.getClosestTo(player);
@@ -566,4 +551,10 @@ function recycleAmmo(obj1, obj2){
 				this.reloadSFX.play();
 			}
 		}
+	}
+
+	function playerBobaCollision(player, enemy) {
+		this.player.speed = 50;	// stun player
+		this.game.happiness -= 1;
+		this.happinessText.text = ': ' + this.game.happiness;
 	}
