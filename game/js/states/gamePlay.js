@@ -16,6 +16,7 @@ var gamePlayState = {
 		game.load.spritesheet('banktile', 'assets/img/WTspritesheetBank.png', 32, 32);
 		game.load.spritesheet('grasstile', 'assets/img/WTspritesheetG.png', 32, 32);
 		game.load.audio('defense', './assets/audio/WalletDefense0001.ogg');
+		game.load.audio('defense2', './assets/audio/WalletDefense0002.ogg');
 		game.load.image('menu-button', 'assets/ui/menu.png');
 		slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
 		slickUI.load('assets/ui/kenney/kenney.json');
@@ -109,6 +110,8 @@ var gamePlayState = {
 		//Audio--------------------------------------------------------------------
 		game.sound.stopAll();
 		game.playMusic = game.add.audio('defense', 0.4, true);
+		game.tiredMusic = game.add.audio('defense2', 0.6, true);
+		tiredMusicPlaying = false;
 		game.playMusic.play();
 
 		// Add sound effects
@@ -194,7 +197,7 @@ var gamePlayState = {
             	wflag = true;
             	this.towerPlacement();
             }
-           
+
         });
         button.add(new SlickUI.Element.Text(0,0, "Weather")).center();
         panel.add(new SlickUI.Element.Text(10,66, "100 :)")).centerHorizontally().text.alpha = 0.5;
@@ -376,7 +379,7 @@ var gamePlayState = {
 			this.target.destroy();
 			this.breach.play();
 		}
-		
+
 
 
 
@@ -426,6 +429,13 @@ var gamePlayState = {
 			this.happinessIcon.frameName = 'Happiness0002';
 		}else if(this.game.happiness>0){
 			this.happinessIcon.frameName = 'Happiness0003';
+		}
+
+		// Changes music based on current amount of money
+		if(this.game.money <= 50 && tiredMusicPlaying == false){
+			game.playMusic.pause();
+			game.tiredMusic.play();
+			tiredMusicPlaying = true;
 		}
 
 		// game over condition
