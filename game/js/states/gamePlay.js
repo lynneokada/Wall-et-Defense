@@ -284,10 +284,16 @@ var gamePlayState = {
 	},
 
 	spawnLazyTower: function(){
-		this.lazyTower = new LazyT(game, game.input.activePointer.worldX - 32, game.input.activePointer.worldY - 32, 'Laziness0001', 10, 6);
+		this.lazyTower = new LazyT(game, game.input.activePointer.worldX - 32, game.input.activePointer.worldY - 32, 'Lazy0001', 10, 6);
 		this.lazyTower.scale.setTo(.2, .2);
 		this.lazyTower.body.immovable = true;
 		this.lazyGroup.add(this.lazyTower);
+		// Animating the Lazy Tower
+		var lazyFrames = Phaser.Animation.generateFrameNames('Lazy', 1, 10, '', 4);
+		var lazyAttackFrames = Phaser.Animation.generateFrameNames('Lazy', 11, 14, '', 4);
+		this.lazyTower.attackAnim = this.lazyTower.animations.add('lazyAttack', lazyAttackFrames, 10);
+		this.lazyTower.idleAnim = this.lazyTower.animations.add('idleLazy', lazyFrames, 10);
+		this.lazyTower.idleAnim.play('idleLazy', true);
 		game.input.onDown.remove(getTileProperties, this);
 		this.game.happiness -= 300;
 		this.happinessText.text = ': ' + this.game.happiness;
@@ -329,7 +335,7 @@ var gamePlayState = {
 
 
 
-		//Player and Tower reloading mechanics 
+		//Player and Tower reloading mechanics
 		game.physics.arcade.overlap(this.player, this.weatherCircleGroup, weatherRecharge, null, this);
 		game.physics.arcade.overlap(this.player, this.recycleCircleGroup, recycleRecharge, null, this);
 		game.physics.arcade.overlap(this.player, this.lazyCircleGroup, lazyRecharge, null, this);
@@ -342,6 +348,8 @@ var gamePlayState = {
 
 
 
+
+		game.physics.arcade.collide(this.player, this.wallet);
 
 		// collision detection for Weather Tower and Enemies
 		game.physics.arcade.overlap(this.bobaG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
@@ -510,6 +518,7 @@ function recycleAmmo(obj1, obj2){
 			if(tower.ammo>0){
 				tower.ammo -= 1;
 				tower.attackSpeed = 100;
+				tower.idleAnim.stop();
 				tower.attackAnim.play('lazyAttack', false);
 				tower.attackAnim.onComplete.add(function(){
 					tower.idleAnim.play('idleLazy', true);
@@ -528,7 +537,7 @@ function recycleAmmo(obj1, obj2){
 
 
 	function weatherRecharge(player, circle){
-		
+
 		reloadableTower = this.weatherGroup.getClosestTo(player);
 		if(this.rKey.downDuration(5)){
 			if (reloadableTower.ammo < 12) {
