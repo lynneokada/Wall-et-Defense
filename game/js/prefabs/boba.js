@@ -3,7 +3,8 @@
 function Boba(game, x, y, spriteName) {
 	this.Health = 100;
 	this.attack = 10;
-	this.droppedHappiness = 15; 
+	this.droppedHappiness = 15;
+	this.stunnedAmt = 1;
 
 	Enemy.call(this, game, x, y, spriteName);
 	this.body.setSize(330,400,80,120);

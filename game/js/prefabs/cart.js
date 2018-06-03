@@ -5,7 +5,8 @@ function Cart(game, x, y, spriteName) {
 	this.speed = 100;
 	this.Health = 100;
 	this.attack = 50;
-	this.droppedHappiness = 50; 
+	this.droppedHappiness = 50;
+	this.stunnedAmt = 2;
 
 	Enemy.call(this, game, x, y, spriteName);
 	this.body.setSize(475,400,25,120);
