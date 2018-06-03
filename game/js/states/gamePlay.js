@@ -6,6 +6,7 @@ var rflag = false;
 var lflag = false;
 var tower = 0;
 var reloadableTower = 0;
+var enemyDying = false;
 
 var gamePlayState = {
 	preload: function() {
@@ -553,42 +554,50 @@ function recycleAmmo(obj1, obj2){
 
 	function playerBobaCollision(player, enemy) {
 		this.player.speed = 0;	// stun player
+		enemy.body.enable = false;
+
 		game.time.events.add(3000, stunPlayer, this);
 		this.game.happiness += 1;
 		this.happinessText.text = ': ' + this.game.happiness;
 		this.game.money -= 1;
 		this.moneyText.text = ': ' + this.game.money;
-		enemy.destroy();
+		enemy.deathAnim.play('death', false, true);
 	}
 
 	function playerCartCollision(player, enemy) {
 		this.player.speed = 0;	// stun player
+		enemy.body.enable = false;
+
 		game.time.events.add(3000, stunPlayer, this);
 		this.game.happiness += 2;
 		this.happinessText.text = ': ' + this.game.happiness;
 		this.game.money -= 2;
 		this.moneyText.text = ': ' + this.game.money;
-		enemy.destroy();
+		enemy.deathAnim.play('death', false, true);
+
 	}
 
 	function playerTicketCollision(player, enemy) {
 		this.player.speed = 0;	// stun player
+		enemy.body.enable = false;
+
 		game.time.events.add(3000, stunPlayer, this);
 		this.game.happiness += 1;
 		this.happinessText.text = ': ' + this.game.happiness;
 		this.game.money -= 1;
 		this.moneyText.text = ': ' + this.game.money;
-		enemy.destroy();
+		enemy.deathAnim.play('death', false, true);
 	}
 
 	function playerShirtCollision(player, enemy) {
 		this.player.speed = 0;	// stun player
+		enemy.body.enable = false;
 		game.time.events.add(3000, stunPlayer, this);
 		this.game.happiness += 2;
 		this.happinessText.text = ': ' + this.game.happiness;
 		this.game.money -= 2;
 		this.moneyText.text = ': ' + this.game.money;
-		enemy.destroy();
+		enemy.deathAnim.play('death', false, true);
 	}
 
 	function stunPlayer() {
