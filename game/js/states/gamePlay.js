@@ -308,7 +308,6 @@ var gamePlayState = {
 	},
 
 	update: function(){
-		this.player.speed = 85;
 		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
 		//var weatherRecharge = game.physics.arcade.overlap(this.player, this.weatherCircleGroup);
 		//var recycleRecharge = game.physics.arcade.overlap(this.player, this.recycleCircleGroup);
@@ -369,9 +368,9 @@ var gamePlayState = {
 
 		// collision detection for player and enemies
 		game.physics.arcade.overlap(this.player, this.bobaG, playerBobaCollision, null, this);
-		var playerCartCollision = game.physics.arcade.collide(this.cartG, this.player);
-		var playerTicketCollision = game.physics.arcade.collide(this.ticketG, this.player);
-		var playerShirtCollision = game.physics.arcade.collide(this.shirtG, this.player);
+		game.physics.arcade.overlap(this.player, this.cartG, playerCartCollision, null, this);
+		game.physics.arcade.overlap(this.player, this.ticketG, playerTicketCollision, null, this);
+		game.physics.arcade.overlap(this.player, this.shirtG, playerShirtCollision, null, this);
 
 		// Updates happiness icon texture depending on amount of happiness
 		if(this.game.happiness >300){
@@ -383,15 +382,13 @@ var gamePlayState = {
 		}
 
 		// game over condition
-		if (this.game.money == 0 || this.game.happiness == 0) {
+		if (this.game.money <= 0 || this.game.happiness <= 0) {
 			game.input.onDown.remove(getTileProperties, this);
 			marker.clear();
 			game.state.start('over');
 		}
 	}
 };
-
-
 
 	function getTileProperties(){
 
@@ -476,6 +473,7 @@ function weatherAmmo(obj1, obj2){
 	}
 	return false;
 }
+
 function recycleAmmo(obj1, obj2){
 	tower = this.recycleGroup.getClosestTo(obj1);
 
@@ -554,7 +552,46 @@ function recycleAmmo(obj1, obj2){
 	}
 
 	function playerBobaCollision(player, enemy) {
-		this.player.speed = 50;	// stun player
-		this.game.happiness -= 1;
+		this.player.speed = 0;	// stun player
+		game.time.events.add(3000, stunPlayer, this);
+		this.game.happiness += 1;
 		this.happinessText.text = ': ' + this.game.happiness;
+		this.game.money -= 1;
+		this.moneyText.text = ': ' + this.game.money;
+		enemy.destroy();
+	}
+
+	function playerCartCollision(player, enemy) {
+		this.player.speed = 0;	// stun player
+		game.time.events.add(3000, stunPlayer, this);
+		this.game.happiness += 2;
+		this.happinessText.text = ': ' + this.game.happiness;
+		this.game.money -= 2;
+		this.moneyText.text = ': ' + this.game.money;
+		enemy.destroy();
+	}
+
+	function playerTicketCollision(player, enemy) {
+		this.player.speed = 0;	// stun player
+		game.time.events.add(3000, stunPlayer, this);
+		this.game.happiness += 1;
+		this.happinessText.text = ': ' + this.game.happiness;
+		this.game.money -= 1;
+		this.moneyText.text = ': ' + this.game.money;
+		enemy.destroy();
+	}
+
+	function playerShirtCollision(player, enemy) {
+		this.player.speed = 0;	// stun player
+		game.time.events.add(3000, stunPlayer, this);
+		this.game.happiness += 2;
+		this.happinessText.text = ': ' + this.game.happiness;
+		this.game.money -= 2;
+		this.moneyText.text = ': ' + this.game.money;
+		enemy.destroy();
+	}
+
+	function stunPlayer() {
+		console.log("player stunned");
+		this.player.speed = 85;
 	}

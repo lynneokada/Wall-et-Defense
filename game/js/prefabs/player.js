@@ -51,5 +51,4 @@ Player.prototype.update = function() {
 	if (this.body.y > game.world.height-this.body.height) {
 		this.body.y = game.world.height-this.body.height;
 	}
-
 }
