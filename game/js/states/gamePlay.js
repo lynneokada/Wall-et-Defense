@@ -184,30 +184,38 @@ var gamePlayState = {
 
         panel.add(button = new SlickUI.Element.Button(0, 30, 140, 40)).events.onInputUp.add(function () {
             console.log('Clicked Weather Tower');
-            rflag = false;
-            lflag = false;
-            wflag = true;
-            this.towerPlacement();
+            if(this.game.happiness>=100){
+            	rflag = false;
+            	lflag = false;
+            	wflag = true;
+            	this.towerPlacement();
+            }
+           
         });
         button.add(new SlickUI.Element.Text(0,0, "Weather")).center();
         panel.add(new SlickUI.Element.Text(10,66, "100 :)")).centerHorizontally().text.alpha = 0.5;
 
         panel.add(button = new SlickUI.Element.Button(0, 100, 140, 40)).events.onInputUp.add(function () {
             console.log('Clicked Recycle Tower');
-            wflag = false;
-            lflag = false;
-            rflag = true;
-            this.towerPlacement();
+            if(this.game.happiness>=200){
+            	rflag = true;
+            	lflag = false;
+            	wflag = false;
+            	this.towerPlacement();
+            }
         });
         button.add(new SlickUI.Element.Text(0,0, "Recycle")).center();
         panel.add(new SlickUI.Element.Text(10,136, "200 :)")).centerHorizontally().text.alpha = 0.5;
 
         panel.add(button = new SlickUI.Element.Button(0, 165, 140, 40)).events.onInputUp.add(function () {
             console.log('Clicked Laziness Tower');
-            rflag = false;
-            wflag = false;
-            lflag = true;
-            this.towerPlacement();
+            if(this.game.happiness>=300){
+            	console.log("in lazy loop preliminary spawn");
+            	rflag = false;
+            	lflag = true;
+            	wflag = false;
+            	this.towerPlacement();
+            }
         });
         button.add(new SlickUI.Element.Text(0,0, "Laziness")).center();
         panel.add(new SlickUI.Element.Text(0,201, "300 :)")).centerHorizontally().text.alpha = 0.5;
