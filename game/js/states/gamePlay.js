@@ -6,6 +6,7 @@ var rflag = false;
 var lflag = false;
 var tower = 0;
 var reloadableTower = 0;
+var enemyDying = false;
 
 var gamePlayState = {
 	preload: function() {
@@ -139,6 +140,9 @@ var gamePlayState = {
 	spawnPlayer: function() {
 		this.player = new Player(game, game.world.centerX-250, game.world.centerY-250, 'Player0001');
 		this.player.scale.setTo(0.2,0.2);
+		this.player.stunnedAnim = this.player.animations.add('stunned', Phaser.Animation.generateFrameNames('Player', 2, 10, '', 4), 12);
+		this.player.normAnim = this.player.animations.add('normal', Phaser.Animation.generateFrameNames('Player', 1, 1, '', 4), 1);
+
 	},
 
 	spawnBoba: function(group){
@@ -308,12 +312,12 @@ var gamePlayState = {
 		this.lazyCircleGroup.add(this.lazyTower.circle);
 	},
 
-	render: function() {
-		game.debug.body(this.weatherTower);
-		game.debug.body(this.wallet);
-
-		game.debug.physicsGroup(this.bobaG);
-	},
+	// render: function() {
+	// 	game.debug.body(this.weatherTower);
+	// 	game.debug.body(this.wallet);
+	//
+	// 	game.debug.physicsGroup(this.bobaG);
+	// },
 
 	update: function(){
 		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
@@ -448,7 +452,7 @@ function towerAttack(obj1, obj2){
 		obj1.Health -= 50;
 
 		if(obj1.Health <= 0){
-			obj1.body.velocity = 0;
+			obj1.body.enable = false;
 			obj1.deathAnim.play('death', false, true);
 			this.game.happiness = this.game.happiness + obj1.droppedHappiness;
 			this.happinessText.text = ': ' + this.game.happiness;
@@ -561,45 +565,57 @@ function recycleAmmo(obj1, obj2){
 
 	function playerBobaCollision(player, enemy) {
 		this.player.speed = 0;	// stun player
+		enemy.body.enable = false;
+		this.player.stunnedAnim.play('stunnedAnim', true);
+
 		game.time.events.add(3000, stunPlayer, this);
 		this.game.happiness += 1;
 		this.happinessText.text = ': ' + this.game.happiness;
 		this.game.money -= 1;
 		this.moneyText.text = ': ' + this.game.money;
-		enemy.destroy();
+		enemy.deathAnim.play('death', false, true);
 	}
 
 	function playerCartCollision(player, enemy) {
 		this.player.speed = 0;	// stun player
+		enemy.body.enable = false;
+		this.player.stunnedAnim.play('stunnedAnim', true);
+
 		game.time.events.add(3000, stunPlayer, this);
 		this.game.happiness += 2;
 		this.happinessText.text = ': ' + this.game.happiness;
 		this.game.money -= 2;
 		this.moneyText.text = ': ' + this.game.money;
-		enemy.destroy();
+		enemy.deathAnim.play('death', false, true);
+
 	}
 
 	function playerTicketCollision(player, enemy) {
 		this.player.speed = 0;	// stun player
+		enemy.body.enable = false;
+		this.player.stunnedAnim.play('stunnedAnim', true);
 		game.time.events.add(3000, stunPlayer, this);
 		this.game.happiness += 1;
 		this.happinessText.text = ': ' + this.game.happiness;
 		this.game.money -= 1;
 		this.moneyText.text = ': ' + this.game.money;
-		enemy.destroy();
+		enemy.deathAnim.play('death', false, true);
 	}
 
 	function playerShirtCollision(player, enemy) {
 		this.player.speed = 0;	// stun player
+		enemy.body.enable = false;
+		this.player.stunnedAnim.play('stunnedAnim', true);
 		game.time.events.add(3000, stunPlayer, this);
 		this.game.happiness += 2;
 		this.happinessText.text = ': ' + this.game.happiness;
 		this.game.money -= 2;
 		this.moneyText.text = ': ' + this.game.money;
-		enemy.destroy();
+		enemy.deathAnim.play('death', false, true);
 	}
 
 	function stunPlayer() {
 		console.log("player stunned");
 		this.player.speed = 85;
+		this.player.normAnim.play('normal', true);
 	}
