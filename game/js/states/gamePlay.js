@@ -188,30 +188,38 @@ var gamePlayState = {
 
         panel.add(button = new SlickUI.Element.Button(0, 30, 140, 40)).events.onInputUp.add(function () {
             console.log('Clicked Weather Tower');
-            rflag = false;
-            lflag = false;
-            wflag = true;
-            this.towerPlacement();
+            if(this.game.happiness>=100){
+            	rflag = false;
+            	lflag = false;
+            	wflag = true;
+            	this.towerPlacement();
+            }
+           
         });
         button.add(new SlickUI.Element.Text(0,0, "Weather")).center();
         panel.add(new SlickUI.Element.Text(10,66, "100 :)")).centerHorizontally().text.alpha = 0.5;
 
         panel.add(button = new SlickUI.Element.Button(0, 100, 140, 40)).events.onInputUp.add(function () {
             console.log('Clicked Recycle Tower');
-            wflag = false;
-            lflag = false;
-            rflag = true;
-            this.towerPlacement();
+            if(this.game.happiness>=200){
+            	rflag = true;
+            	lflag = false;
+            	wflag = false;
+            	this.towerPlacement();
+            }
         });
         button.add(new SlickUI.Element.Text(0,0, "Recycle")).center();
         panel.add(new SlickUI.Element.Text(10,136, "200 :)")).centerHorizontally().text.alpha = 0.5;
 
         panel.add(button = new SlickUI.Element.Button(0, 165, 140, 40)).events.onInputUp.add(function () {
             console.log('Clicked Laziness Tower');
-            rflag = false;
-            wflag = false;
-            lflag = true;
-            this.towerPlacement();
+            if(this.game.happiness>=300){
+            	console.log("in lazy loop preliminary spawn");
+            	rflag = false;
+            	lflag = true;
+            	wflag = false;
+            	this.towerPlacement();
+            }
         });
         button.add(new SlickUI.Element.Text(0,0, "Laziness")).center();
         panel.add(new SlickUI.Element.Text(0,201, "300 :)")).centerHorizontally().text.alpha = 0.5;
@@ -312,7 +320,10 @@ var gamePlayState = {
 	// },
 
 	update: function(){
-		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
+		var bobaBreach = game.physics.arcade.collide(this.bobaG, this.wallet);
+		var shirtBreach = game.physics.arcade.collide(this.shirtG, this.wallet);
+		var cartBreach = game.physics.arcade.collide(this.cartG, this.wallet);
+		var ticketBreach = game.physics.arcade.collide(this.ticketG, this.wallet);
 		//var weatherRecharge = game.physics.arcade.overlap(this.player, this.weatherCircleGroup);
 		//var recycleRecharge = game.physics.arcade.overlap(this.player, this.recycleCircleGroup);
 		//var lazyRecharge = game.physics.arcade.overlap(this.player, this.lazyCircleGroup);
@@ -328,14 +339,46 @@ var gamePlayState = {
 			game.input.onDown.add(getTileProperties, this);
 		}
 
-		if (hitEnemy) {
-			this.game.money -= 10;
+
+
+		if (bobaBreach) {
+			this.game.money -= 1;
 			//console.log("Money = " +this.game.money);
 			this.moneyText.text = ': ' + this.game.money;
 			this.target = this.bobaG.getClosestTo(this.wallet);
 			this.target.destroy();
 			this.breach.play();
 		}
+
+		if(shirtBreach){
+			this.game.money -= 3;
+			//console.log("Money = " +this.game.money);
+			this.moneyText.text = ': ' + this.game.money;
+			this.target = this.shirtG.getClosestTo(this.wallet);
+			this.target.destroy();
+			this.breach.play();
+		}
+
+		if(cartBreach){
+			this.game.money -= 10;
+			//console.log("Money = " +this.game.money);
+			this.moneyText.text = ': ' + this.game.money;
+			this.target = this.cartG.getClosestTo(this.wallet);
+			this.target.destroy();
+			this.breach.play();
+		}
+
+		if(ticketBreach){
+			this.game.money -= 5;
+			//console.log("Money = " +this.game.money);
+			this.moneyText.text = ': ' + this.game.money;
+			this.target = this.ticketG.getClosestTo(this.wallet);
+			this.target.destroy();
+			this.breach.play();
+		}
+		
+
+
 
 
 
