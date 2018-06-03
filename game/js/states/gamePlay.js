@@ -320,7 +320,10 @@ var gamePlayState = {
 	// },
 
 	update: function(){
-		var hitEnemy = game.physics.arcade.collide(this.bobaG, this.wallet);
+		var bobaBreach = game.physics.arcade.collide(this.bobaG, this.wallet);
+		var shirtBreach = game.physics.arcade.collide(this.shirtG, this.wallet);
+		var cartBreach = game.physics.arcade.collide(this.cartG, this.wallet);
+		var ticketBreach = game.physics.arcade.collide(this.ticketG, this.wallet);
 		//var weatherRecharge = game.physics.arcade.overlap(this.player, this.weatherCircleGroup);
 		//var recycleRecharge = game.physics.arcade.overlap(this.player, this.recycleCircleGroup);
 		//var lazyRecharge = game.physics.arcade.overlap(this.player, this.lazyCircleGroup);
@@ -336,14 +339,46 @@ var gamePlayState = {
 			game.input.onDown.add(getTileProperties, this);
 		}
 
-		if (hitEnemy) {
-			this.game.money -= 10;
+
+
+		if (bobaBreach) {
+			this.game.money -= 1;
 			//console.log("Money = " +this.game.money);
 			this.moneyText.text = ': ' + this.game.money;
 			this.target = this.bobaG.getClosestTo(this.wallet);
 			this.target.destroy();
 			this.breach.play();
 		}
+
+		if(shirtBreach){
+			this.game.money -= 3;
+			//console.log("Money = " +this.game.money);
+			this.moneyText.text = ': ' + this.game.money;
+			this.target = this.shirtG.getClosestTo(this.wallet);
+			this.target.destroy();
+			this.breach.play();
+		}
+
+		if(cartBreach){
+			this.game.money -= 10;
+			//console.log("Money = " +this.game.money);
+			this.moneyText.text = ': ' + this.game.money;
+			this.target = this.cartG.getClosestTo(this.wallet);
+			this.target.destroy();
+			this.breach.play();
+		}
+
+		if(ticketBreach){
+			this.game.money -= 5;
+			//console.log("Money = " +this.game.money);
+			this.moneyText.text = ': ' + this.game.money;
+			this.target = this.ticketG.getClosestTo(this.wallet);
+			this.target.destroy();
+			this.breach.play();
+		}
+		
+
+
 
 
 
