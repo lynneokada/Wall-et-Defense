@@ -133,7 +133,9 @@ var gamePlayState = {
 
 		// set up infinite enemy waves
 		if (enemyCounter > 30 && enemyCounter % 5 == 0) {
-			console.log(enemyCounter)
+			console.log(enemyCounter);
+			this.spawnTicket(-50,game.world.height/2);
+			this.spawnCart(game.world.width+100,game.world.height/2);
 		}
 	},
 
@@ -151,31 +153,31 @@ var gamePlayState = {
 
 	},
 
-	spawnBoba: function(x, y){
+	spawnBoba: function(x,y){
 		this.boba = new Boba(game, x, y, 'Boba0001');
 		this.boba.scale.setTo(.15, .15);
 		this.bobaG.add(this.boba);
 		this.boba.deathAnim = this.boba.animations.add('death', Phaser.Animation.generateFrameNames('Boba', 1, 13, '', 4), 11);
 	},
 
-	spawnCart: function() {
-		this.cart = new Cart(game, game.world.width + 50, 500, 'Cart0001');
+	spawnCart: function(x,y) {
+		this.cart = new Cart(game, x, y, 'Cart0001');
 		this.cart.scale.setTo(.2, .2);
 	  	this.cart.deathAnim = this.cart.animations.add('death', Phaser.Animation.generateFrameNames('Cart', 1, 7, '', 4), 30);
 
 		this.cartG.add(this.cart);
 	},
 
-	spawnTicket: function() {
-		this.ticket = new Ticket(game, game.world.width/2, game.world.height+50, 'Ticket0001');
+	spawnTicket: function(x,y) {
+		this.ticket = new Ticket(game, x, y, 'Ticket0001');
 		this.ticket.scale.setTo(.2,.2);
 		this.ticket.deathAnim = this.ticket.animations.add('death', Phaser.Animation.generateFrameNames('Ticket', 2, 3, '', 4), 2);
 
 		this.ticketG.add(this.ticket);
 	},
 
-	spawnShirt: function() {
-		this.shirt = new Shirt(game, -50, 500, 'Clothes0001');
+	spawnShirt: function(x,y) {
+		this.shirt = new Shirt(game, x, y, 'Clothes0001');
 		this.shirt.scale.setTo(.2,.2);
 		this.shirt.deathAnim = this.shirt.animations.add('death', Phaser.Animation.generateFrameNames('Clothes', 2, 10, '', 4), 15);
 
