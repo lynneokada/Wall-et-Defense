@@ -7,6 +7,7 @@ var lflag = false;
 var tower = 0;
 var reloadableTower = 0;
 var enemyDying = false;
+var enemyCounter = 0;
 
 var gamePlayState = {
 	preload: function() {
@@ -72,24 +73,14 @@ var gamePlayState = {
 
 		// ENEMY TIMER SET UP -----------------------------
 		this.bobaG = this.add.group();
-		bobaTimer = game.time.create(false);
-		bobaTimer.loop(5000, this.spawnBoba, this, this.bobaG);
-		bobaTimer.start();
-
 		this.cartG = this.add.group();
-		cartTimer = game.time.create(false);
-		cartTimer.loop(3000, this.spawnCart, this, this.cartG);
-		cartTimer.start();
-
 		this.ticketG = this.add.group();
-		ticketTimer = game.time.create(false);
-		ticketTimer.loop(3000, this.spawnTicket, this, this.ticketG);
-		ticketTimer.start();
-
 		this.shirtG = this.add.group();
-		shirtTimer = game.time.create(false);
-		shirtTimer.loop(4000, this.spawnShirt, this, this.shirtG);
-		shirtTimer.start();
+
+		// this.generateEnemyWaves();
+		enemyTimer = game.time.create(false);
+		enemyTimer.loop(Phaser.Timer.SECOND, this.updateCounter, this);
+		enemyTimer.start();
 		// ------------------------------------------------
 
 		// Spawn weather tower
@@ -118,9 +109,6 @@ var gamePlayState = {
 		this.reloadSFX = game.add.audio('reloadSound', 0.1);
 		this.breach = game.add.audio('breach', 0.2);
 
-
-
-
 		// // Makes a button to mute music
 		if (game.sound.mute == true){
 			game.zero = 'MusicNote0002';
@@ -132,6 +120,21 @@ var gamePlayState = {
 		//------------------------------------------------------------------
 		this.initializeTowerSelection();
 
+	},
+	
+	updateCounter: function() {
+	// create a clock for enemy spawning
+	    enemyCounter++;
+	    // set up warm-up enemy waves
+		if (enemyCounter % 5 == 0 && enemyCounter < 30) {
+			console.log(enemyCounter);
+			this.generateEnemyWaves();
+		}
+
+		// set up infinite enemy waves
+		if (enemyCounter > 30 && enemyCounter % 5 == 0) {
+			console.log(enemyCounter)
+		}
 	},
 
  // Functions for spawning the bank, player and all the enemies
@@ -148,19 +151,14 @@ var gamePlayState = {
 
 	},
 
-	spawnBoba: function(group){
-		this.boba = new Boba(game, game.world.width/2, -50, 'Boba0001');
-		this.boba2 = new Boba(game, -50, 550, 'Boba0001');
+	spawnBoba: function(x, y){
+		this.boba = new Boba(game, x, y, 'Boba0001');
 		this.boba.scale.setTo(.15, .15);
-		this.boba2.scale.setTo(.15, .15);
 		this.bobaG.add(this.boba);
-		this.bobaG.add(this.boba2);
 		this.boba.deathAnim = this.boba.animations.add('death', Phaser.Animation.generateFrameNames('Boba', 1, 13, '', 4), 11);
-		this.boba2.deathAnim = this.boba2.animations.add('death', Phaser.Animation.generateFrameNames('Boba', 1, 13, '', 4), 11);
-
 	},
 
-	spawnCart: function(group) {
+	spawnCart: function() {
 		this.cart = new Cart(game, game.world.width + 50, 500, 'Cart0001');
 		this.cart.scale.setTo(.2, .2);
 	  	this.cart.deathAnim = this.cart.animations.add('death', Phaser.Animation.generateFrameNames('Cart', 1, 7, '', 4), 30);
@@ -168,7 +166,7 @@ var gamePlayState = {
 		this.cartG.add(this.cart);
 	},
 
-	spawnTicket: function(group) {
+	spawnTicket: function() {
 		this.ticket = new Ticket(game, game.world.width/2, game.world.height+50, 'Ticket0001');
 		this.ticket.scale.setTo(.2,.2);
 		this.ticket.deathAnim = this.ticket.animations.add('death', Phaser.Animation.generateFrameNames('Ticket', 2, 3, '', 4), 2);
@@ -176,7 +174,7 @@ var gamePlayState = {
 		this.ticketG.add(this.ticket);
 	},
 
-	spawnShirt: function(group) {
+	spawnShirt: function() {
 		this.shirt = new Shirt(game, -50, 500, 'Clothes0001');
 		this.shirt.scale.setTo(.2,.2);
 		this.shirt.deathAnim = this.shirt.animations.add('death', Phaser.Animation.generateFrameNames('Clothes', 2, 10, '', 4), 15);
@@ -315,6 +313,11 @@ var gamePlayState = {
 		this.lazyCircleGroup.add(this.lazyTower.circle);
 	},
 
+	generateEnemyWaves: function(){
+		this.spawnBoba(-50,game.world.height/2);
+		this.spawnBoba(game.world.width+100,game.world.height/2);
+	},
+
 	// render: function() {
 	// 	game.debug.body(this.weatherTower);
 	// 	game.debug.body(this.wallet);
@@ -341,8 +344,6 @@ var gamePlayState = {
 			game.input.addMoveCallback(updateMarker, this);
 			game.input.onDown.add(getTileProperties, this);
 		}
-
-
 
 		if (bobaBreach) {
 			this.game.money -= 1;
@@ -379,11 +380,6 @@ var gamePlayState = {
 			this.target.destroy();
 			this.breach.play();
 		}
-
-
-
-
-
 
 		//Player and Tower reloading mechanics
 		game.physics.arcade.overlap(this.player, this.weatherCircleGroup, weatherRecharge, null, this);
