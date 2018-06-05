@@ -6,7 +6,6 @@ var rflag = false;
 var lflag = false;
 var tower = 0;
 var reloadableTower = 0;
-var enemyDying = false;
 var enemyCounter = 0;
 
 var gamePlayState = {
@@ -121,7 +120,7 @@ var gamePlayState = {
 		this.initializeTowerSelection();
 
 	},
-	
+
 	updateCounter: function() {
 	// create a clock for enemy spawning
 	    enemyCounter++;
@@ -268,7 +267,7 @@ var gamePlayState = {
 		// Animating the weather tower
 		var weatherFrames = Phaser.Animation.generateFrameNames('Weather', 1, 6, '', 4);
     var weatherAttackFrames = Phaser.Animation.generateFrameNames('Weather', 7, 8, '', 4);
-		this.weatherTower.attackAnim = this.weatherTower.animations.add('attack', weatherAttackFrames, 2);
+		this.weatherTower.attackAnim = this.weatherTower.animations.add('attack', weatherAttackFrames, 4);
 		this.weatherTower.idleAnim = this.weatherTower.animations.add('idleWeather', weatherFrames, 7);
 		this.weatherTower.idleAnim.play('idleWeather', true);
 		// this.weatherGroup.callAll('animations.add','animations', 'idleWeather', weatherFrames, 5, true);
@@ -507,16 +506,17 @@ function towerAttack(obj1, obj2){
 
 
 function weatherAmmo(obj1, obj2){
-	tower = this.weatherGroup.getClosestTo(obj1);
+	tower = this.weatherGroup.getClosestTo(obj2);
 
 	if(tower.attackSpeed == 0 && obj1.Health>0){
 		if(tower.ammo>0){
 			tower.ammo -= 1;
 			tower.attackSpeed = 100;
+
 			tower.idleAnim.stop();
 			tower.attackAnim.play('weatherAttack', false);
-			tower.attackAnim.onComplete.add(function(){
-				tower.idleAnim.play('idleWeather', true);
+			tower.attackAnim.onComplete.addOnce(function(){
+				tower.idleAnim.play('idleWeather', false);
 			});
 			return true;
 		}else if(tower.ammo<=0){
@@ -529,8 +529,11 @@ function weatherAmmo(obj1, obj2){
 	return false;
 }
 
+function playIdleWeather(){
+	tower.idleAnim.play('idleWeather', true);
+}
 function recycleAmmo(obj1, obj2){
-	tower = this.recycleGroup.getClosestTo(obj1);
+	tower = this.recycleGroup.getClosestTo(obj2);
 
 	if(tower.attackSpeed == 0 && obj1.Health>0){
 		if(tower.ammo>0){
@@ -538,7 +541,7 @@ function recycleAmmo(obj1, obj2){
 			tower.attackSpeed = 100;
 			tower.idleAnim.stop();
 			tower.attackAnim.play('recycleAttack', false);
-			tower.attackAnim.onComplete.add(function(){
+			tower.attackAnim.onComplete.addOnce(function(){
 				tower.idleAnim.play('idleRecycle', true);
 			});
 			return true;
@@ -552,7 +555,7 @@ function recycleAmmo(obj1, obj2){
 	return false;
 }
 	function lazinessAmmo(obj1, obj2){
-		tower = this.lazyGroup.getClosestTo(obj1);
+		tower = this.lazyGroup.getClosestTo(obj2);
 
 		if(tower.attackSpeed == 0 && obj1.Health>0){
 			if(tower.ammo>0){
@@ -560,7 +563,7 @@ function recycleAmmo(obj1, obj2){
 				tower.attackSpeed = 100;
 				tower.idleAnim.stop();
 				tower.attackAnim.play('lazyAttack', false);
-				tower.attackAnim.onComplete.add(function(){
+				tower.attackAnim.onComplete.addOnce(function(){
 					tower.idleAnim.play('idleLazy', true);
 				});
 				return true;
