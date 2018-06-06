@@ -437,10 +437,7 @@ var gamePlayState = {
 	// },
 
 	update: function(){
-		var bobaBreach = game.physics.arcade.collide(this.bobaG, this.wallet);
-		var shirtBreach = game.physics.arcade.collide(this.shirtG, this.wallet);
-		var cartBreach = game.physics.arcade.collide(this.cartG, this.wallet);
-		var ticketBreach = game.physics.arcade.collide(this.ticketG, this.wallet);
+
 		//var weatherRecharge = game.physics.arcade.overlap(this.player, this.weatherCircleGroup);
 		//var recycleRecharge = game.physics.arcade.overlap(this.player, this.recycleCircleGroup);
 		//var lazyRecharge = game.physics.arcade.overlap(this.player, this.lazyCircleGroup);
@@ -456,7 +453,7 @@ var gamePlayState = {
 			game.input.onDown.add(getTileProperties, this);
 		}
 
-		if (bobaBreach) {
+		/*if (bobaBreach) {
 			this.game.money -= 1;
 			//console.log("Money = " +this.game.money);
 			this.moneyText.text = ': ' + this.game.money;
@@ -490,7 +487,7 @@ var gamePlayState = {
 			this.target = this.ticketG.getClosestTo(this.wallet);
 			this.target.destroy();
 			this.breach.play();
-		}
+		}*/
 
 		//Player and Tower reloading mechanics
 		game.physics.arcade.overlap(this.player, this.weatherCircleGroup, weatherRecharge, null, this);
@@ -504,6 +501,12 @@ var gamePlayState = {
 		game.physics.arcade.collide(this.player, this.wallet);
 
 		game.physics.arcade.collide(this.player, this.wallet);
+
+		//collision dectection for enemies and wallet
+		game.physics.arcade.overlap(this.wallet, this.bobaG, enemyWalletCollision, null, this);
+	    game.physics.arcade.overlap(this.wallet, this.shirtG, enemyWalletCollision, null, this);
+		game.physics.arcade.overlap(this.wallet, this.cartG, enemyWalletCollision, null, this);
+		game.physics.arcade.overlap(this.wallet, this.ticketG, enemyWalletCollision, null, this);
 
 		// collision detection for Weather Tower and Enemies
 		game.physics.arcade.overlap(this.bobaG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
@@ -737,4 +740,12 @@ function recycleAmmo(obj1, obj2){
 		console.log("player stunned");
 		this.player.speed = 85;
 		this.player.normAnim.play('normal', true);
+	}
+
+
+	function enemyWalletCollision(wallet, enemy){
+		enemy.kill();
+		this.game.money = this.game.money - enemy.walletDamage;
+		this.moneyText.text = ': ' + this.game.money;
+		this.breach.play();
 	}
