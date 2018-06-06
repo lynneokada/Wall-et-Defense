@@ -207,26 +207,42 @@ var gamePlayState = {
 				this.spawnBoba(-126,game.world.height/2+30);
 				break;
 			case 5:
-				console.log("5");
+				console.log("5");	// 4 carts from left and right
 				this.spawnCart(-50, game.world.height/2);
 				this.spawnCart(game.world.width+75, game.world.height/2);
 				this.spawnCart(-100, game.world.height/2);
 				this.spawnCart(game.world.width+125, game.world.height/2);
 				break;
 			case 6:
-				console.log("6");
+				console.log("6");	// 1 shirt from top, 1 ticket from bottom
+				this.spawnShirt(game.world.width/2,-50);
+				this.spawnTicket(game.world.width/2,game.world.height+100);
 				break;
 			case 7:
-				console.log("7");
+				console.log("7");	// 4 shirts from top and bottom
+				this.spawnShirt(game.world.width/2,-50);
+				this.spawnShirt(game.world.width/2,game.world.height+75);
+				this.spawnShirt(game.world.width/2,-100);
+				this.spawnShirt(game.world.width/2,game.world.height+125);
 				break;
 			case 8:
-				console.log("8");
+				console.log("8");	// 4 tickets all around
+				this.spawnTicket(game.world.width/2,-50);
+				this.spawnTicket(game.world.width/2,game.world.height+100);
+				this.spawnTicket(game.world.width+150,game.world.height/2);
+				this.spawnTicket(-200,game.world.height/2);
 				break;
 			case 9:
-				console.log("9");
+				console.log("9");	// 4 bobas all around
+				this.spawnBoba(game.world.width/2,-50);
+				this.spawnBoba(game.world.width/2,game.world.height+100);
+				this.spawnBoba(game.world.width+150,game.world.height/2);
+				this.spawnBoba(-200,game.world.height/2);
 				break;
 			case 10:
-				console.log("10");
+				console.log("10");	// 2 carts top and bottom
+				this.spawnCart(game.world.width/2,-50);
+				this.spawnBoba(game.world.width/2,game.world.height+150);
 				break;
 			default:
 				break;
