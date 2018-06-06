@@ -515,9 +515,7 @@ function weatherAmmo(obj1, obj2){
 
 			tower.idleAnim.stop();
 			tower.attackAnim.play('weatherAttack', false);
-			tower.attackAnim.onComplete.addOnce(function(){
-				tower.idleAnim.play('idleWeather', false);
-			});
+			tower.attackAnim.onComplete.addOnce(playIdle, this, tower);
 			return true;
 		}else if(tower.ammo<=0){
 			return false;
@@ -529,9 +527,6 @@ function weatherAmmo(obj1, obj2){
 	return false;
 }
 
-function playIdleWeather(){
-	tower.idleAnim.play('idleWeather', true);
-}
 function recycleAmmo(obj1, obj2){
 	tower = this.recycleGroup.getClosestTo(obj2);
 
@@ -541,9 +536,7 @@ function recycleAmmo(obj1, obj2){
 			tower.attackSpeed = 100;
 			tower.idleAnim.stop();
 			tower.attackAnim.play('recycleAttack', false);
-			tower.attackAnim.onComplete.addOnce(function(){
-				tower.idleAnim.play('idleRecycle', true);
-			});
+			tower.attackAnim.onComplete.addOnce(playIdle, this, tower);
 			return true;
 		}else if(tower.ammo<=0){
 			return false;
@@ -563,9 +556,7 @@ function recycleAmmo(obj1, obj2){
 				tower.attackSpeed = 100;
 				tower.idleAnim.stop();
 				tower.attackAnim.play('lazyAttack', false);
-				tower.attackAnim.onComplete.addOnce(function(){
-					tower.idleAnim.play('idleLazy', true);
-				});
+				tower.attackAnim.onComplete.addOnce(playIdle, this, tower);
 				return true;
 			}else if(tower.ammo<=0){
 				return false;
@@ -577,6 +568,10 @@ function recycleAmmo(obj1, obj2){
 		return false;
 	}
 
+	function playIdle(tower){
+		tower.idleAnim.play(true);
+	}
+	
 	function weatherRecharge(player, circle){
 
 		reloadableTower = this.weatherGroup.getClosestTo(player);
