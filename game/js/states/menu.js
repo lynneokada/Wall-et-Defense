@@ -6,16 +6,24 @@ var menuState = {
 		game.load.atlas('gameAtlas', 'assets/img/spriteatlas.png', 'assets/img/sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
 	},
 	create: function() {
-		this.game.add.sprite(0, 0, 'gameAtlas', 'TitleBG');
+		this.game.add.sprite(0, 0, 'gameAtlas', 'WalletTitle');
 		//var gameTitle = game.add.text(game.world.centerX, 200, 'Wall-et Defense', {fontSize: '44px', fill: '#ffffff'});
 
-		var startButtonText = game.add.text(game.world.centerX - 50, game.world.centerY + 100, 'START', {fontSize: '24px', fill: '#ffffff'});
+		var startButtonText = game.add.text(game.world.centerX - 50, game.world.centerY +20, 'START', {fontSize: '24px', fill: '#ffffff'});
 		startButtonText.inputEnabled = true;
 		startButtonText.events.onInputDown.add(startTapped, this);
 
-		var tutorialButtonText = game.add.text(game.world.centerX - 50, game.world.centerY + 150, 'Tutorial', {fontSize: '24px', fill: '#ffffff'});
+		var controlsButtonText = game.add.text(game.world.centerX - 50, game.world.centerY + 50, 'Controls', {fontSize: '24px', fill: '#ffffff'});
+		controlsButtonText.inputEnabled = true;
+		controlsButtonText.events.onInputDown.add(controlsTapped, this);
+
+		var tutorialButtonText = game.add.text(game.world.centerX - 50, game.world.centerY + 80, 'Tutorial', {fontSize: '24px', fill: '#ffffff'});
 		tutorialButtonText.inputEnabled = true;
 		tutorialButtonText.events.onInputDown.add(tutorialTapped, this);
+
+		var creditsButtonText = game.add.text(game.world.centerX - 50, game.world.centerY + 110, 'Credits', {fontSize: '24px', fill: '#ffffff'});
+		creditsButtonText.inputEnabled = true;
+		creditsButtonText.events.onInputDown.add(creditsTapped, this);
 
 		// Background music
 		game.sound.stopAll();
@@ -41,6 +49,14 @@ function startTapped(item) {
 
 function tutorialTapped(item) {
 	game.state.start('tutorial');
+}
+
+function controlsTapped(item) {
+	game.state.start('controls');
+}
+
+function creditsTapped(item) {
+	game.state.start('credits');
 }
 function muteSound(item) {
 	game.sound.mute =! game.sound.mute;
