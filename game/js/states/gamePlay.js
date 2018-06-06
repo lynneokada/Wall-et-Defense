@@ -497,12 +497,7 @@ var gamePlayState = {
 		game.physics.arcade.overlap(this.player, this.recycleCircleGroup, recycleRecharge, null, this);
 		game.physics.arcade.overlap(this.player, this.lazyCircleGroup, lazyRecharge, null, this);
 
-		//player's collision with towers and bank
-		game.physics.arcade.collide(this.player, this.weatherGroup);
-		game.physics.arcade.collide(this.player, this.recycleGroup);
-		game.physics.arcade.collide(this.player, this.lazyGroup);
-		game.physics.arcade.collide(this.player, this.wallet);
-
+		//player's collision with bank
 		game.physics.arcade.collide(this.player, this.wallet);
 
 		// collision detection for Weather Tower and Enemies
