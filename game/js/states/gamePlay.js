@@ -123,18 +123,128 @@ var gamePlayState = {
 
 	updateCounter: function() {
 	// create a clock for enemy spawning
+	// enemies cannot hit bank simultaneously
 	    enemyCounter++;
-	    // set up warm-up enemy waves
-		if (enemyCounter % 5 == 0 && enemyCounter < 30) {
-			console.log(enemyCounter);
-			this.generateEnemyWaves();
+	    // wave 1 -- easy
+		if (enemyCounter == 5) {
+			console.log("wave 1");
+			this.spawnBoba(-50,game.world.height/2);
+		}
+		// wave 2
+		if (enemyCounter == 12) {
+			console.log("wave 2");
+			this.spawnBoba(game.world.width+50,game.world.height/2);
+		}
+		// wave 3
+		if (enemyCounter == 19) {
+			console.log("wave 3");
+			this.spawnBoba(game.world.width/2, -50);
+		}
+		// wave 4 
+		if (enemyCounter == 25) {
+			console.log("wave 4");
+			this.spawnBoba(game.world.width/2, game.world.height+50);
+		}
+
+		// wave 5 -- medium
+		if (enemyCounter == 33) {
+			console.log("wave 5");
+			this.spawnTicket(-50,game.world.height/2);
+			this.spawnTicket(game.world.width+75,game.world.height/2);
+		}
+		// wave 6
+		if (enemyCounter == 40) {
+			console.log("wave 6");
+			this.spawnShirt(game.world.width/2,-50);
+			this.spawnShirt(game.world.width/2,game.world.height+75);
+		}
+		// wave 7
+		if (enemyCounter == 47) {
+			console.log("wave 7");
+			this.spawnBoba(game.world.width/2 - 30, -50);
+			this.spawnBoba(game.world.width/2 + 30, -75);
+		}
+		// wave 8
+		if (enemyCounter == 53) {
+			console.log("wave 8");
+			this.spawnBoba(-50, game.world.height/2 - 30);
+			this.spawnBoba(-75, game.world.height/2 + 30);
 		}
 
 		// set up infinite enemy waves
-		if (enemyCounter > 30 && enemyCounter % 5 == 0) {
+		if (enemyCounter > 53 && enemyCounter % 5 == 0) {
 			console.log(enemyCounter);
-			this.spawnTicket(-50,game.world.height/2);
-			this.spawnCart(game.world.width+100,game.world.height/2);
+			this.spawnRandomizer();
+		}
+	},
+
+	spawnRandomizer: function() {
+		var randNum = game.rnd.integerInRange(1, 10);
+		switch(randNum) {
+			case 1:
+				console.log("1"); 	// 3 boba from top
+				this.spawnBoba(game.world.width/2,-50);
+				this.spawnBoba(game.world.width/2-30,-126);
+				this.spawnBoba(game.world.width/2+30,-125);
+				break;
+			case 2:
+				console.log("2");	// 3 boba from bottom
+				this.spawnBoba(game.world.width/2,game.world.height+50);
+				this.spawnBoba(game.world.width/2-30,game.world.height+126);
+				this.spawnBoba(game.world.width/2+30,game.world.height+125);
+				break;
+			case 3: 
+				console.log("3");	// 3 boba from right
+				this.spawnBoba(game.world.width+50,game.world.height/2);
+				this.spawnBoba(game.world.width+125,game.world.height/2-30);
+				this.spawnBoba(game.world.width+126,game.world.height/2+30);
+				break;
+			case 4:
+				console.log("4");	// 3 boba from left
+				this.spawnBoba(-50,game.world.height/2);
+				this.spawnBoba(-125,game.world.height/2-30);
+				this.spawnBoba(-126,game.world.height/2+30);
+				break;
+			case 5:
+				console.log("5");	// 4 carts from left and right
+				this.spawnCart(-50, game.world.height/2);
+				this.spawnCart(game.world.width+150, game.world.height/2);
+				this.spawnCart(-250, game.world.height/2);
+				this.spawnCart(game.world.width+350, game.world.height/2);
+				break;
+			case 6:
+				console.log("6");	// 1 shirt from top, 1 ticket from bottom
+				this.spawnShirt(game.world.width/2,-50);
+				this.spawnTicket(game.world.width/2,game.world.height+100);
+				break;
+			case 7:
+				console.log("7");	// 4 shirts from top and bottom
+				this.spawnShirt(game.world.width/2,-50);
+				this.spawnShirt(game.world.width/2,game.world.height+150);
+				this.spawnShirt(game.world.width/2,-250);
+				this.spawnShirt(game.world.width/2,game.world.height+350);
+				break;
+			case 8:
+				console.log("8");	// 4 tickets all around
+				this.spawnTicket(game.world.width/2,-50);
+				this.spawnTicket(game.world.width/2,game.world.height+100);
+				this.spawnTicket(game.world.width+150,game.world.height/2);
+				this.spawnTicket(-200,game.world.height/2);
+				break;
+			case 9:
+				console.log("9");	// 4 bobas all around
+				this.spawnBoba(game.world.width/2,-50);
+				this.spawnBoba(game.world.width/2,game.world.height+150);
+				this.spawnBoba(game.world.width+250,game.world.height/2);
+				this.spawnBoba(-350,game.world.height/2);
+				break;
+			case 10:
+				console.log("10");	// 2 carts top and bottom
+				this.spawnCart(game.world.width/2,-50);
+				this.spawnCart(game.world.width/2,game.world.height+350);
+				break;
+			default:
+				break;
 		}
 	},
 
@@ -327,10 +437,7 @@ var gamePlayState = {
 	// },
 
 	update: function(){
-		var bobaBreach = game.physics.arcade.collide(this.bobaG, this.wallet);
-		var shirtBreach = game.physics.arcade.collide(this.shirtG, this.wallet);
-		var cartBreach = game.physics.arcade.collide(this.cartG, this.wallet);
-		var ticketBreach = game.physics.arcade.collide(this.ticketG, this.wallet);
+
 		//var weatherRecharge = game.physics.arcade.overlap(this.player, this.weatherCircleGroup);
 		//var recycleRecharge = game.physics.arcade.overlap(this.player, this.recycleCircleGroup);
 		//var lazyRecharge = game.physics.arcade.overlap(this.player, this.lazyCircleGroup);
@@ -346,7 +453,7 @@ var gamePlayState = {
 			game.input.onDown.add(getTileProperties, this);
 		}
 
-		if (bobaBreach) {
+		/*if (bobaBreach) {
 			this.game.money -= 1;
 			//console.log("Money = " +this.game.money);
 			this.moneyText.text = ': ' + this.game.money;
@@ -380,20 +487,21 @@ var gamePlayState = {
 			this.target = this.ticketG.getClosestTo(this.wallet);
 			this.target.destroy();
 			this.breach.play();
-		}
+		}*/
 
 		//Player and Tower reloading mechanics
 		game.physics.arcade.overlap(this.player, this.weatherCircleGroup, weatherRecharge, null, this);
 		game.physics.arcade.overlap(this.player, this.recycleCircleGroup, recycleRecharge, null, this);
 		game.physics.arcade.overlap(this.player, this.lazyCircleGroup, lazyRecharge, null, this);
 
-		//player's collision with towers and bank
-		game.physics.arcade.collide(this.player, this.weatherGroup);
-		game.physics.arcade.collide(this.player, this.recycleGroup);
-		game.physics.arcade.collide(this.player, this.lazyGroup);
+		//player's collision with bank
 		game.physics.arcade.collide(this.player, this.wallet);
 
-		game.physics.arcade.collide(this.player, this.wallet);
+		//collision dectection for enemies and wallet
+		game.physics.arcade.overlap(this.wallet, this.bobaG, enemyWalletCollision, null, this);
+	    game.physics.arcade.overlap(this.wallet, this.shirtG, enemyWalletCollision, null, this);
+		game.physics.arcade.overlap(this.wallet, this.cartG, enemyWalletCollision, null, this);
+		game.physics.arcade.overlap(this.wallet, this.ticketG, enemyWalletCollision, null, this);
 
 		// collision detection for Weather Tower and Enemies
 		game.physics.arcade.overlap(this.bobaG, this.weatherCircleGroup, towerAttack, weatherAmmo, this);
@@ -437,6 +545,7 @@ var gamePlayState = {
 
 		// game over condition
 		if (this.game.money <= 0 || this.game.happiness <= 0) {
+			enemyCounter = 0;
 			game.input.onDown.remove(getTileProperties, this);
 			marker.clear();
 			game.state.start('over');
@@ -621,4 +730,13 @@ function recycleAmmo(obj1, obj2){
 		console.log("player stunned");
 		this.player.speed = 85;
 		this.player.normAnim.play('normal', true);
+	}
+
+
+	function enemyWalletCollision(wallet, enemy){
+		enemy.kill();
+		console.log("this enemy is: "+ enemy.walletDamage);
+		this.game.money = this.game.money - enemy.walletDamage;
+		this.moneyText.text = ': ' + this.game.money;
+		this.breach.play();
 	}

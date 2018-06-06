@@ -6,6 +6,7 @@ function Shirt(game, x, y, spriteName) {
 	this.attack = 10;
 	this.droppedHappiness = 25;
 	this.stunnedAmt = 2;
+	this.walletDamage = 3;
 
 	Enemy.call(this, game, x, y, spriteName);
 	this.body.setSize(470,350,20,100);

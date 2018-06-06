@@ -7,6 +7,7 @@ function Ticket(game, x, y, spriteName) {
 	this.attack = 50;
 	this.droppedHappiness = 35;
 	this.stunnedAmt = 1;
+	this.walletDamage = 5;
 	
 	Enemy.call(this, game, x, y, spriteName);
 	this.body.setSize(500,240,10,150);
