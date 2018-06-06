@@ -173,7 +173,7 @@ var gamePlayState = {
 		}
 
 		// set up infinite enemy waves
-		if (enemyCount > 53 && enemyCounter % 5 == 0) {
+		if (enemyCounter > 53 && enemyCounter % 5 == 0) {
 			console.log(enemyCounter);
 			this.spawnRandomizer();
 		}
@@ -221,9 +221,9 @@ var gamePlayState = {
 			case 7:
 				console.log("7");	// 4 shirts from top and bottom
 				this.spawnShirt(game.world.width/2,-50);
-				this.spawnShirt(game.world.width/2,game.world.height+75);
-				this.spawnShirt(game.world.width/2,-100);
-				this.spawnShirt(game.world.width/2,game.world.height+125);
+				this.spawnShirt(game.world.width/2,game.world.height+150);
+				this.spawnShirt(game.world.width/2,-250);
+				this.spawnShirt(game.world.width/2,game.world.height+350);
 				break;
 			case 8:
 				console.log("8");	// 4 tickets all around
@@ -235,14 +235,14 @@ var gamePlayState = {
 			case 9:
 				console.log("9");	// 4 bobas all around
 				this.spawnBoba(game.world.width/2,-50);
-				this.spawnBoba(game.world.width/2,game.world.height+100);
-				this.spawnBoba(game.world.width+150,game.world.height/2);
-				this.spawnBoba(-200,game.world.height/2);
+				this.spawnBoba(game.world.width/2,game.world.height+150);
+				this.spawnBoba(game.world.width+250,game.world.height/2);
+				this.spawnBoba(-350,game.world.height/2);
 				break;
 			case 10:
 				console.log("10");	// 2 carts top and bottom
 				this.spawnCart(game.world.width/2,-50);
-				this.spawnBoba(game.world.width/2,game.world.height+150);
+				this.spawnBoba(game.world.width/2,game.world.height+350);
 				break;
 			default:
 				break;
