@@ -123,57 +123,57 @@ var gamePlayState = {
 	},
 	
 	updateCounter: function() {
-	// // create a clock for enemy spawning
-	// // enemies cannot hit bank simultaneously
+	// create a clock for enemy spawning
+	// enemies cannot hit bank simultaneously
 	    enemyCounter++;
-	//     // wave 1 -- easy
-	// 	if (enemyCounter == 5) {
-	// 		console.log("wave 1");
-	// 		this.spawnBoba(-50,game.world.height/2);
-	// 	}
-	// 	// wave 2
-	// 	if (enemyCounter == 12) {
-	// 		console.log("wave 2");
-	// 		this.spawnBoba(game.world.width+50,game.world.height/2);
-	// 	}
-	// 	// wave 3
-	// 	if (enemyCounter == 19) {
-	// 		console.log("wave 3");
-	// 		this.spawnBoba(game.world.width/2, -50);
-	// 	}
-	// 	// wave 4 
-	// 	if (enemyCounter == 25) {
-	// 		console.log("wave 4");
-	// 		this.spawnBoba(game.world.width/2, game.world.height+50);
-	// 	}
+	    // wave 1 -- easy
+		if (enemyCounter == 5) {
+			console.log("wave 1");
+			this.spawnBoba(-50,game.world.height/2);
+		}
+		// wave 2
+		if (enemyCounter == 12) {
+			console.log("wave 2");
+			this.spawnBoba(game.world.width+50,game.world.height/2);
+		}
+		// wave 3
+		if (enemyCounter == 19) {
+			console.log("wave 3");
+			this.spawnBoba(game.world.width/2, -50);
+		}
+		// wave 4 
+		if (enemyCounter == 25) {
+			console.log("wave 4");
+			this.spawnBoba(game.world.width/2, game.world.height+50);
+		}
 
-	// 	// wave 5 -- medium
-	// 	if (enemyCounter == 33) {
-	// 		console.log("wave 5");
-	// 		this.spawnTicket(-50,game.world.height/2);
-	// 		this.spawnTicket(game.world.width+75,game.world.height/2);
-	// 	}
-	// 	// wave 6
-	// 	if (enemyCounter == 40) {
-	// 		console.log("wave 6");
-	// 		this.spawnShirt(game.world.width/2,-50);
-	// 		this.spawnShirt(game.world.width/2,game.world.height+75);
-	// 	}
-	// 	// wave 7
-	// 	if (enemyCounter == 47) {
-	// 		console.log("wave 7");
-	// 		this.spawnBoba(game.world.width/2 - 30, -50);
-	// 		this.spawnBoba(game.world.width/2 + 30, -75);
-	// 	}
-	// 	// wave 8
-	// 	if (enemyCounter == 53) {
-	// 		console.log("wave 8");
-	// 		this.spawnBoba(-50, game.world.height/2 - 30);
-	// 		this.spawnBoba(-75, game.world.height/2 + 30);
-	// 	}
+		// wave 5 -- medium
+		if (enemyCounter == 33) {
+			console.log("wave 5");
+			this.spawnTicket(-50,game.world.height/2);
+			this.spawnTicket(game.world.width+75,game.world.height/2);
+		}
+		// wave 6
+		if (enemyCounter == 40) {
+			console.log("wave 6");
+			this.spawnShirt(game.world.width/2,-50);
+			this.spawnShirt(game.world.width/2,game.world.height+75);
+		}
+		// wave 7
+		if (enemyCounter == 47) {
+			console.log("wave 7");
+			this.spawnBoba(game.world.width/2 - 30, -50);
+			this.spawnBoba(game.world.width/2 + 30, -75);
+		}
+		// wave 8
+		if (enemyCounter == 53) {
+			console.log("wave 8");
+			this.spawnBoba(-50, game.world.height/2 - 30);
+			this.spawnBoba(-75, game.world.height/2 + 30);
+		}
 
 		// set up infinite enemy waves
-		if (enemyCounter % 5 == 0) {
+		if (enemyCount > 53 && enemyCounter % 5 == 0) {
 			console.log(enemyCounter);
 			this.spawnRandomizer();
 		}
