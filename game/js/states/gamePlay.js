@@ -209,9 +209,9 @@ var gamePlayState = {
 			case 5:
 				console.log("5");	// 4 carts from left and right
 				this.spawnCart(-50, game.world.height/2);
-				this.spawnCart(game.world.width+75, game.world.height/2);
-				this.spawnCart(-100, game.world.height/2);
-				this.spawnCart(game.world.width+125, game.world.height/2);
+				this.spawnCart(game.world.width+150, game.world.height/2);
+				this.spawnCart(-250, game.world.height/2);
+				this.spawnCart(game.world.width+350, game.world.height/2);
 				break;
 			case 6:
 				console.log("6");	// 1 shirt from top, 1 ticket from bottom
@@ -242,7 +242,7 @@ var gamePlayState = {
 			case 10:
 				console.log("10");	// 2 carts top and bottom
 				this.spawnCart(game.world.width/2,-50);
-				this.spawnBoba(game.world.width/2,game.world.height+350);
+				this.spawnCart(game.world.width/2,game.world.height+350);
 				break;
 			default:
 				break;
