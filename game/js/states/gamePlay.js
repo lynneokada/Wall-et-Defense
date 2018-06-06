@@ -740,6 +740,7 @@ function recycleAmmo(obj1, obj2){
 
 	function enemyWalletCollision(wallet, enemy){
 		enemy.kill();
+		console.log("this enemy is: "+ enemy.walletDamage);
 		this.game.money = this.game.money - enemy.walletDamage;
 		this.moneyText.text = ': ' + this.game.money;
 		this.breach.play();
