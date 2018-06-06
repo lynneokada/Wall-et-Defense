@@ -724,7 +724,7 @@ function recycleAmmo(obj1, obj2){
 		this.player.stunnedAnim.play('stunnedAnim', true);
 
 		game.time.events.add(3000, stunPlayer, this);
-		this.game.happiness += enemy.stunnedAmt;
+		this.game.happiness += enemy.droppedHappiness*2;
 		this.happinessText.text = ': ' + this.game.happiness;
 		this.game.money -= enemy.stunnedAmt;
 		this.moneyText.text = ': ' + this.game.money;
@@ -740,7 +740,6 @@ function recycleAmmo(obj1, obj2){
 
 	function enemyWalletCollision(wallet, enemy){
 		enemy.kill();
-		console.log("this enemy is: "+ enemy.walletDamage);
 		this.game.money = this.game.money - enemy.walletDamage;
 		this.moneyText.text = ': ' + this.game.money;
 		this.breach.play();
