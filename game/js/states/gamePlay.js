@@ -109,10 +109,24 @@ var gamePlayState = {
 		//------------------------------------------------------------------
 		this.initializeTowerSelection();
 
+		// create a new objectPath object to store polyline data
+		// this isn't necessary, but it saves some typing :)
+		// (fyi: we *wouldn't* want to do this if we updated our map JSON on the fly)
+		var objectPath = {
+			polyline: map.objects.Path[0].polyline,
+			x: map.objects.Path[0].x,
+			y: map.objects.Path[0].y
+		};
+
+		// this.currentPosition = {
+		// 	x: this.enemy.x,
+		// 	y: this.enemy.y
+		// };
 
 		// setup the graphics "pen" to draw the path we import from Tiled JSON data
 		this.pathLine = game.add.graphics(0 ,0);
 		// lineStyle(lineWidth, color, alpha)
+		this.pathLine.visible = false;
 		this.pathLine.lineStyle(1, 0x0088FF, 1);
 		this.pathLine.moveTo(objectPath.x, objectPath.y);
 
@@ -121,6 +135,7 @@ var gamePlayState = {
 			y: [objectPath.y],
 			a: 0
 		};
+
 
 		let nextX, nextY;
 		for(let i = 1; i < objectPath.polyline.length; i++) {
@@ -133,6 +148,8 @@ var gamePlayState = {
 			this.pathPoints.x.push(nextX);
 			this.pathPoints.y.push(nextY);
 		}
+		this.interpIncrement = 1 / game.width;	// acts as a movement rate
+		this.i = 0;								// acts as a starting position
 
 	},
 
@@ -262,36 +279,7 @@ var gamePlayState = {
 				break;
 		}
 	},
-	// create a new objectPath object to store polyline data
-	// this isn't necessary, but it saves some typing :)
-	// (fyi: we *wouldn't* want to do this if we updated our map JSON on the fly)
-	var objectPath = {
-		polyline: this.map.objects.Path[0].polyline,
-		x: this.map.objects.Path[0].x,
-		y: this.map.objects.Path[0].y
-	};
-	
-	this.interpIncrement = 1 / game.width;	// acts as a movement rate
-	this.i = 0;								// acts as a starting position
-	// Borrowing from Nathan's slides
-	// plotMotion function adapts some code from Andrew Grant's motion paths tutorial
-	// https://codepen.io/andrewgrant/post/phaser-motion-paths
-	plotMotion: function() {
-		// plot the motion of the sprite
-		var posx = this.math.linearInterpolation(this.pathPoints.x, this.i);
-		var posy = this.math.linearInterpolation(this.pathPoints.y, this.i);
-		this.bobaG.x = posx;
-		this.bobaG.y = posy;
-		// update current position so we can check angle against last position
-		// this.currentPosition = {
-		// 	x: posx,
-		// 	y:posy
-		// };
-		// var angle = this.math.angleBetweenPoints(this.lastPosition, this.currentPosition)-Math.PI/2;
-		// this.enemy.rotation = angle;
-		this.i += this.interpIncrement;
-	}
-};
+
 
 
  // Functions for spawning the bank, player and all the enemies
@@ -552,6 +540,9 @@ var gamePlayState = {
 			tiredMusicPlaying = true;
 		}
 
+		this.lastPosition = this.currentPosition;
+		this.bobaG.forEach(this.plotMotion, this, this);
+
 		// game over condition
 		if (this.game.money <= 0 || this.game.happiness <= 0) {
 			enemyCounter = 0;
@@ -559,8 +550,23 @@ var gamePlayState = {
 			marker.clear();
 			game.state.start('over');
 		}
+	},
+	// Borrowing from Nathan's slides
+	// plotMotion function adapts some code from Andrew Grant's motion paths tutorial
+	// https://codepen.io/andrewgrant/post/phaser-motion-paths
+	plotMotion: function(enemy) {
+		// plot the motion of the sprite
+		var posx = this.math.linearInterpolation(this.pathPoints.x, this.i);
+		var posy = this.math.linearInterpolation(this.pathPoints.y, this.i);
+		enemy.x = posx;
+		enemy.y = posy;
+
+		// var angle = this.math.angleBetweenPoints(this.lastPosition, this.currentPosition)-Math.PI/2;
+		// this.enemy.rotation = angle;
+		this.i += this.interpIncrement;
 	}
 };
+
 
 	function getTileProperties(){
 

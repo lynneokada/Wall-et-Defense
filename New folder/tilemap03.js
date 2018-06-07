@@ -15,7 +15,7 @@ var Load = function(game) {};
 Load.prototype = {
 	preload: function() {
 		// load tilemap data (key, url, data, format)
-		game.load.tilemap('map', 'assets/pathtest.json', null, Phaser.Tilemap.TILED_JSON);	
+		game.load.tilemap('map', 'assets/pathtest.json', null, Phaser.Tilemap.TILED_JSON);
 		// load tilemap spritesheet (key, url, frameWidth, frameHeight)
 		game.load.image('tilesheet', 'assets/tiles_sheet.png');
 		// load other images
@@ -43,11 +43,11 @@ Play.prototype = {
 		// a single map may use multiple tilesets
 		this.map.addTilesetImage('pathtest', 'tilesheet');
 
-		// create new TilemapLayer object 
+		// create new TilemapLayer object
 		// A Tilemap Layer is a set of map data combined with a tileset
 		this.SeaLayer = this.map.createLayer('Sea');
 		this.TileLayer = this.map.createLayer('Tiles');
-		
+
 		// set the world size to match the size of the Tilemap layer
 		this.TileLayer.resizeWorld();
 
@@ -66,7 +66,7 @@ Play.prototype = {
 		// setup cursor control
 		this.cursors = game.input.keyboard.createCursorKeys();
 
-		// create a new objectPath object to store polyline data 
+		// create a new objectPath object to store polyline data
 		// this isn't necessary, but it saves some typing :)
 		// (fyi: we *wouldn't* want to do this if we updated our map JSON on the fly)
 		var objectPath = {
@@ -106,7 +106,7 @@ Play.prototype = {
 		this.enemy.anchor.setTo(0.5, 0.5);
 		game.physics.enable(this.enemy, Phaser.Physics.ARCADE);
 		this.currentPosition = {
-			x: this.enemy.x, 
+			x: this.enemy.x,
 			y: this.enemy.y
 		};
 
@@ -134,9 +134,9 @@ Play.prototype = {
 		} else {
 			this.player.body.angularVelocity = 0;
 		}
-	    
+
 	    // simple check to reset sprite position
-	    if (this.i >= 1) 
+	    if (this.i >= 1)
 	    	{ this.i = 0 };
 	    // move the enemy sprite
 	    this.lastPosition = this.currentPosition;
@@ -152,7 +152,7 @@ Play.prototype = {
 		this.enemy.y = posy;
 		// update current position so we can check angle against last position
 		this.currentPosition = {
-			x: posx, 
+			x: posx,
 			y:posy
 		};
 		var angle = this.math.angleBetweenPoints(this.lastPosition, this.currentPosition)-Math.PI/2;
