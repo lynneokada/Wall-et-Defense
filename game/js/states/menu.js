@@ -1,10 +1,7 @@
 // menu.js
 
 var menuState = {
-	preload: function(){
-		game.load.audio('dramatic', './assets/audio/WalletTitle0001.ogg');
-		game.load.atlas('gameAtlas', 'assets/img/spriteatlas.png', 'assets/img/sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
-	},
+
 	create: function() {
 		this.game.add.sprite(0, 0, 'gameAtlas', 'WalletTitle');
 		//var gameTitle = game.add.text(game.world.centerX, 200, 'Wall-et Defense', {fontSize: '44px', fill: '#ffffff'});
