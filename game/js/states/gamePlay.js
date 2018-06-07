@@ -109,6 +109,31 @@ var gamePlayState = {
 		//------------------------------------------------------------------
 		this.initializeTowerSelection();
 
+
+		// setup the graphics "pen" to draw the path we import from Tiled JSON data
+		this.pathLine = game.add.graphics(0 ,0);
+		// lineStyle(lineWidth, color, alpha)
+		this.pathLine.lineStyle(1, 0x0088FF, 1);
+		this.pathLine.moveTo(objectPath.x, objectPath.y);
+
+		this.pathPoints = {
+			x: [objectPath.x],
+			y: [objectPath.y],
+			a: 0
+		};
+
+		let nextX, nextY;
+		for(let i = 1; i < objectPath.polyline.length; i++) {
+			// Tiled polyline data gives x,y coordinates *relative* to x,y position of starting point,
+			// so we always need to coordinates to that base value
+			nextX = objectPath.x + objectPath.polyline[i][0];
+			nextY = objectPath.y + objectPath.polyline[i][1];
+			this.pathLine.lineTo(nextX, nextY);
+			// push coordinates into pathPoints object
+			this.pathPoints.x.push(nextX);
+			this.pathPoints.y.push(nextY);
+		}
+
 	},
 
 	updateCounter: function() {
@@ -237,6 +262,37 @@ var gamePlayState = {
 				break;
 		}
 	},
+	// create a new objectPath object to store polyline data
+	// this isn't necessary, but it saves some typing :)
+	// (fyi: we *wouldn't* want to do this if we updated our map JSON on the fly)
+	var objectPath = {
+		polyline: this.map.objects.Path[0].polyline,
+		x: this.map.objects.Path[0].x,
+		y: this.map.objects.Path[0].y
+	};
+	
+	this.interpIncrement = 1 / game.width;	// acts as a movement rate
+	this.i = 0;								// acts as a starting position
+	// Borrowing from Nathan's slides
+	// plotMotion function adapts some code from Andrew Grant's motion paths tutorial
+	// https://codepen.io/andrewgrant/post/phaser-motion-paths
+	plotMotion: function() {
+		// plot the motion of the sprite
+		var posx = this.math.linearInterpolation(this.pathPoints.x, this.i);
+		var posy = this.math.linearInterpolation(this.pathPoints.y, this.i);
+		this.bobaG.x = posx;
+		this.bobaG.y = posy;
+		// update current position so we can check angle against last position
+		// this.currentPosition = {
+		// 	x: posx,
+		// 	y:posy
+		// };
+		// var angle = this.math.angleBetweenPoints(this.lastPosition, this.currentPosition)-Math.PI/2;
+		// this.enemy.rotation = angle;
+		this.i += this.interpIncrement;
+	}
+};
+
 
  // Functions for spawning the bank, player and all the enemies
 	spawnWallet: function() {
@@ -370,8 +426,7 @@ var gamePlayState = {
 		this.weatherTower.attackAnim = this.weatherTower.animations.add('attack', weatherAttackFrames, 4);
 		this.weatherTower.idleAnim = this.weatherTower.animations.add('idleWeather', weatherFrames, 7);
 		this.weatherTower.idleAnim.play('idleWeather', true);
-		// this.weatherGroup.callAll('animations.add','animations', 'idleWeather', weatherFrames, 5, true);
-		// this.weatherGroup.callAll('play', null, 'idleWeather');
+
 		game.input.onDown.remove(getTileProperties, this);
 		this.game.happiness -= 100;
 		this.happinessText.text = ': ' + this.game.happiness;
@@ -443,42 +498,6 @@ var gamePlayState = {
 			game.input.onDown.add(getTileProperties, this);
 		}
 
-		/*if (bobaBreach) {
-			this.game.money -= 1;
-			//console.log("Money = " +this.game.money);
-			this.moneyText.text = ': ' + this.game.money;
-			this.target = this.bobaG.getClosestTo(this.wallet);
-			this.target.destroy();
-			this.breach.play();
-		}
-
-		if(shirtBreach){
-			this.game.money -= 3;
-			//console.log("Money = " +this.game.money);
-			this.moneyText.text = ': ' + this.game.money;
-			this.target = this.shirtG.getClosestTo(this.wallet);
-			this.target.destroy();
-			this.breach.play();
-		}
-
-		if(cartBreach){
-			this.game.money -= 10;
-			//console.log("Money = " +this.game.money);
-			this.moneyText.text = ': ' + this.game.money;
-			this.target = this.cartG.getClosestTo(this.wallet);
-			this.target.destroy();
-			this.breach.play();
-		}
-
-		if(ticketBreach){
-			this.game.money -= 5;
-			//console.log("Money = " +this.game.money);
-			this.moneyText.text = ': ' + this.game.money;
-			this.target = this.ticketG.getClosestTo(this.wallet);
-			this.target.destroy();
-			this.breach.play();
-		}*/
-
 		//Player and Tower reloading mechanics
 		game.physics.arcade.overlap(this.player, this.weatherCircleGroup, weatherRecharge, null, this);
 		game.physics.arcade.overlap(this.player, this.recycleCircleGroup, recycleRecharge, null, this);
@@ -489,7 +508,7 @@ var gamePlayState = {
 
 		//collision dectection for enemies and wallet
 		game.physics.arcade.overlap(this.wallet, this.bobaG, enemyWalletCollision, null, this);
-	    game.physics.arcade.overlap(this.wallet, this.shirtG, enemyWalletCollision, null, this);
+	  game.physics.arcade.overlap(this.wallet, this.shirtG, enemyWalletCollision, null, this);
 		game.physics.arcade.overlap(this.wallet, this.cartG, enemyWalletCollision, null, this);
 		game.physics.arcade.overlap(this.wallet, this.ticketG, enemyWalletCollision, null, this);
 
