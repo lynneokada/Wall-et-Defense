@@ -16,7 +16,7 @@ var gamePlayState = {
 
 	},
 	create: function() {
-		this.game.happiness = 500;
+		this.game.happiness = 525;
 		this.game.money = 100;
 		var rKey;
 		this.rKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
@@ -303,7 +303,7 @@ var gamePlayState = {
 
         panel.add(button = new SlickUI.Element.Button(0, 100, 140, 40)).events.onInputUp.add(function () {
             console.log('Clicked Recycle Tower');
-            if(this.game.happiness>=200){
+            if(this.game.happiness>=150){
             	rflag = true;
             	lflag = false;
             	wflag = false;
@@ -311,12 +311,11 @@ var gamePlayState = {
             }
         });
         button.add(new SlickUI.Element.Text(0,0, "Recycle")).center();
-        panel.add(new SlickUI.Element.Text(10,136, "200 :)")).centerHorizontally().text.alpha = 0.5;
+        panel.add(new SlickUI.Element.Text(10,136, "150 :)")).centerHorizontally().text.alpha = 0.5;
 
         panel.add(button = new SlickUI.Element.Button(0, 165, 140, 40)).events.onInputUp.add(function () {
             console.log('Clicked Laziness Tower');
-            if(this.game.happiness>=300){
-            	console.log("in lazy loop preliminary spawn");
+            if(this.game.happiness>=250){
             	rflag = false;
             	lflag = true;
             	wflag = false;
@@ -324,7 +323,7 @@ var gamePlayState = {
             }
         });
         button.add(new SlickUI.Element.Text(0,0, "Laziness")).center();
-        panel.add(new SlickUI.Element.Text(0,201, "300 :)")).centerHorizontally().text.alpha = 0.5;
+        panel.add(new SlickUI.Element.Text(0,201, "250 :)")).centerHorizontally().text.alpha = 0.5;
 
         panel.add(button = new SlickUI.Element.Button(0, 230, 140, 40)).events.onInputUp.add(function () {
         	console.log("clicked close");
@@ -391,7 +390,7 @@ var gamePlayState = {
 		this.recycleTower.idleAnim = this.recycleTower.animations.add('idleRecycle', recycleFrames, 10);
 		this.recycleTower.idleAnim.play('idleRecycle', true);
 		game.input.onDown.remove(getTileProperties, this);
-		this.game.happiness -= 200;
+		this.game.happiness -= 150;
 		this.happinessText.text = ': ' + this.game.happiness;
 		this.recycleCircleGroup.add(this.recycleTower.circle);
 
@@ -409,7 +408,7 @@ var gamePlayState = {
 		this.lazyTower.idleAnim = this.lazyTower.animations.add('idleLazy', lazyFrames, 10);
 		this.lazyTower.idleAnim.play('idleLazy', true);
 		game.input.onDown.remove(getTileProperties, this);
-		this.game.happiness -= 300;
+		this.game.happiness -= 250;
 		this.happinessText.text = ': ' + this.game.happiness;
 		this.lazyCircleGroup.add(this.lazyTower.circle);
 	},
@@ -428,10 +427,6 @@ var gamePlayState = {
 
 	update: function(){
 
-		//var weatherRecharge = game.physics.arcade.overlap(this.player, this.weatherCircleGroup);
-		//var recycleRecharge = game.physics.arcade.overlap(this.player, this.recycleCircleGroup);
-		//var lazyRecharge = game.physics.arcade.overlap(this.player, this.lazyCircleGroup);
-
 		if(bool == false){
 			marker.clear();
 		//	console.log("clearing");
@@ -443,41 +438,7 @@ var gamePlayState = {
 			game.input.onDown.add(getTileProperties, this);
 		}
 
-		/*if (bobaBreach) {
-			this.game.money -= 1;
-			//console.log("Money = " +this.game.money);
-			this.moneyText.text = ': ' + this.game.money;
-			this.target = this.bobaG.getClosestTo(this.wallet);
-			this.target.destroy();
-			this.breach.play();
-		}
-
-		if(shirtBreach){
-			this.game.money -= 3;
-			//console.log("Money = " +this.game.money);
-			this.moneyText.text = ': ' + this.game.money;
-			this.target = this.shirtG.getClosestTo(this.wallet);
-			this.target.destroy();
-			this.breach.play();
-		}
-
-		if(cartBreach){
-			this.game.money -= 10;
-			//console.log("Money = " +this.game.money);
-			this.moneyText.text = ': ' + this.game.money;
-			this.target = this.cartG.getClosestTo(this.wallet);
-			this.target.destroy();
-			this.breach.play();
-		}
-
-		if(ticketBreach){
-			this.game.money -= 5;
-			//console.log("Money = " +this.game.money);
-			this.moneyText.text = ': ' + this.game.money;
-			this.target = this.ticketG.getClosestTo(this.wallet);
-			this.target.destroy();
-			this.breach.play();
-		}*/
+	
 
 		//Player and Tower reloading mechanics
 		game.physics.arcade.overlap(this.player, this.weatherCircleGroup, weatherRecharge, null, this);
@@ -562,12 +523,12 @@ var gamePlayState = {
 			console.log("bool2: "+ bool);
 		}
 
-		if(tile.properties.grass = true && rflag == true && this.game.happiness > 199){
+		if(tile.properties.grass = true && rflag == true && this.game.happiness > 149){
 			this.spawnRecycleTower();
 			bool = false;
 		}
 
-		if(tile.properties.grass = true && lflag == true && this.game.happiness > 299){
+		if(tile.properties.grass = true && lflag == true && this.game.happiness > 249){
 			this.spawnLazyTower();
 			bool = false;
 		}
