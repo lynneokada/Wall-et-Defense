@@ -685,7 +685,7 @@ function recycleAmmo(obj1, obj2){
 
 		reloadableTower = this.weatherGroup.getClosestTo(player);
 		if(this.rKey.downDuration(5)){
-			if (reloadableTower.ammo < 12) {
+			if (reloadableTower.ammo < 6) {
 				reloadableTower.ammo++;
 				this.reloadSFX.play();
 			}
