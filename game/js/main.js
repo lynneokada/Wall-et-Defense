@@ -14,4 +14,4 @@ game.state.add('controls', controlsState);
 
 
 
-game.state.start('menu');
+game.state.start('boot');

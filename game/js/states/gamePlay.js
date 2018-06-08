@@ -10,18 +10,10 @@ var enemyCounter = 0;
 
 var gamePlayState = {
 	preload: function() {
-		game.load.atlas('gameAtlas', 'assets/img/spriteatlas.png', 'assets/img/sprites.json', Phaser.Loader.TEXTURE_ATLAS_JSON_HASH);
-		game.load.tilemap('levelOne', 'assets/img/WTTileMapOne.json', null, Phaser.Tilemap.TILED_JSON);
-		game.load.spritesheet('tilesheet', 'assets/img/WTspritesheetR.png', 32, 32);
-		game.load.spritesheet('banktile', 'assets/img/WTspritesheetBank.png', 32, 32);
-		game.load.spritesheet('grasstile', 'assets/img/WTspritesheetG.png', 32, 32);
-		game.load.audio('defense', './assets/audio/WalletDefense0001.ogg');
-		game.load.audio('defense2', './assets/audio/WalletDefense0002.ogg');
-		game.load.image('menu-button', 'assets/ui/menu.png');
+
 		slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
 		slickUI.load('assets/ui/kenney/kenney.json');
-		game.load.audio('breach', './assets/audio/WalletBreach0001.ogg');
-		game.load.audio('reloadSound', './assets/audio/WalletReload0001.ogg');
+
 	},
 	create: function() {
 		this.game.happiness = 500;
@@ -37,8 +29,6 @@ var gamePlayState = {
 		this.happinessIcon.scale.setTo(.1,.1);
 		this.moneyIcon = game.add.sprite(0, 45, 'gameAtlas', 'Money0001');
 		this.moneyIcon.scale.setTo(.1, .1);
-
-		game.physics.startSystem(Phaser.Physics.ARCADE);
 
 		game.stage.setBackgroundColor('#87CEEB');
 
@@ -140,7 +130,7 @@ var gamePlayState = {
 			console.log("wave 3");
 			this.spawnBoba(game.world.width/2, -50);
 		}
-		// wave 4 
+		// wave 4
 		if (enemyCounter == 25) {
 			console.log("wave 4");
 			this.spawnBoba(game.world.width/2, game.world.height+50);
@@ -193,7 +183,7 @@ var gamePlayState = {
 				this.spawnBoba(game.world.width/2-30,game.world.height+126);
 				this.spawnBoba(game.world.width/2+30,game.world.height+125);
 				break;
-			case 3: 
+			case 3:
 				console.log("3");	// 3 boba from right
 				this.spawnBoba(game.world.width+50,game.world.height/2);
 				this.spawnBoba(game.world.width+125,game.world.height/2-30);
@@ -680,7 +670,7 @@ function recycleAmmo(obj1, obj2){
 	function playIdle(tower){
 		tower.idleAnim.play(true);
 	}
-	
+
 	function weatherRecharge(player, circle){
 
 		reloadableTower = this.weatherGroup.getClosestTo(player);
