@@ -66,7 +66,6 @@ var gamePlayState = {
 		this.ticketG = this.add.group();
 		this.shirtG = this.add.group();
 
-		// this.generateEnemyWaves();
 		enemyTimer = game.time.create(false);
 		enemyTimer.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 		enemyTimer.start();
@@ -358,6 +357,8 @@ var gamePlayState = {
         });
     },
 
+		// Functions for spawning Towers
+
 	spawnWeatherTower: function(){
 		this.weatherTower = new WeatherT(game, game.input.activePointer.worldX -32, game.input.activePointer.worldY -32,'Weather0001', 10, 10, 100, 2000);
 		this.weatherTower.scale.setTo(.5, .5);
@@ -369,8 +370,7 @@ var gamePlayState = {
 		this.weatherTower.attackAnim = this.weatherTower.animations.add('attack', weatherAttackFrames, 4);
 		this.weatherTower.idleAnim = this.weatherTower.animations.add('idleWeather', weatherFrames, 7);
 		this.weatherTower.idleAnim.play('idleWeather', true);
-		// this.weatherGroup.callAll('animations.add','animations', 'idleWeather', weatherFrames, 5, true);
-		// this.weatherGroup.callAll('play', null, 'idleWeather');
+
 		game.input.onDown.remove(getTileProperties, this);
 		this.game.happiness -= 100;
 		this.happinessText.text = ': ' + this.game.happiness;
@@ -389,6 +389,7 @@ var gamePlayState = {
 		this.recycleTower.attackAnim = this.recycleTower.animations.add('recycleAttack', recycleAttackFrames, 10);
 		this.recycleTower.idleAnim = this.recycleTower.animations.add('idleRecycle', recycleFrames, 10);
 		this.recycleTower.idleAnim.play('idleRecycle', true);
+
 		game.input.onDown.remove(getTileProperties, this);
 		this.game.happiness -= 150;
 		this.happinessText.text = ': ' + this.game.happiness;
@@ -407,23 +408,12 @@ var gamePlayState = {
 		this.lazyTower.attackAnim = this.lazyTower.animations.add('lazyAttack', lazyAttackFrames, 10);
 		this.lazyTower.idleAnim = this.lazyTower.animations.add('idleLazy', lazyFrames, 10);
 		this.lazyTower.idleAnim.play('idleLazy', true);
+
 		game.input.onDown.remove(getTileProperties, this);
 		this.game.happiness -= 250;
 		this.happinessText.text = ': ' + this.game.happiness;
 		this.lazyCircleGroup.add(this.lazyTower.circle);
 	},
-
-	generateEnemyWaves: function(){
-		this.spawnBoba(-50,game.world.height/2);
-		this.spawnBoba(game.world.width+100,game.world.height/2);
-	},
-
-	// render: function() {
-	// 	game.debug.body(this.weatherTower);
-	// 	game.debug.body(this.wallet);
-	//
-	// 	game.debug.physicsGroup(this.bobaG);
-	// },
 
 	update: function(){
 
@@ -438,7 +428,7 @@ var gamePlayState = {
 			game.input.onDown.add(getTileProperties, this);
 		}
 
-	
+
 
 		//Player and Tower reloading mechanics
 		game.physics.arcade.overlap(this.player, this.weatherCircleGroup, weatherRecharge, null, this);
@@ -561,7 +551,6 @@ function towerAttack(obj1, obj2){
 		}
 		obj1.alpha -= .3;
 
-		//console.log(obj1.Health);
 }
 
 
@@ -678,7 +667,6 @@ function recycleAmmo(obj1, obj2){
 	}
 
 	function stunPlayer() {
-		console.log("player stunned");
 		this.player.speed = 85;
 		this.player.normAnim.play('normal', true);
 	}
