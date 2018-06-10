@@ -11,7 +11,7 @@ function Cart(game, x, y, spriteName) {
 	this.location = 0;
 	this.initX = x;
 	this.initY = y;
-	this.alphaLoss = .2;
+	this.alphaLoss = .1;
 
 
 	Enemy.call(this, game, x, y, spriteName);
