@@ -8,7 +8,11 @@ function Ticket(game, x, y, spriteName) {
 	this.droppedHappiness = 25;
 	this.stunnedAmt = 1;
 	this.walletDamage = 5;
-	
+	this.location = 0;
+	this.initX = x;
+	this.initY = y;
+	this.alphaLoss = .3;
+
 	Enemy.call(this, game, x, y, spriteName);
 	this.body.setSize(500,240,10,150);
 	if (x < 0) {
