@@ -123,24 +123,39 @@ var gamePlayState = {
 		if (enemyCounter == 5) {
 			console.log("wave 1");
 			this.spawnBoba(-50,game.world.height/2);
+			this.spawnBoba(-200,game.world.height/2);
+			this.spawnBoba(-350,game.world.height/2);
 			highscore++;
 		}
 		// wave 2
 		if (enemyCounter == 12) {
 			console.log("wave 2");
 			this.spawnBoba(game.world.width+50,game.world.height/2);
+			this.spawnBoba(game.world.width+200,game.world.height/2);
+			this.spawnBoba(game.world.width+350,game.world.height/2);
+			this.spawnBoba(game.world.width+500,game.world.height/2);
+			this.spawnBoba(game.world.width+650,game.world.height/2);
 			highscore++;
 		}
 		// wave 3
 		if (enemyCounter == 19) {
 			console.log("wave 3");
 			this.spawnBoba(game.world.width/2, -50);
+			this.spawnBoba(game.world.width/2, -100);
+			this.spawnBoba(game.world.width/2, -150);
+			this.spawnBoba(game.world.width/2, -200);
+			this.spawnBoba(game.world.width/2, -250);
+			this.spawnBoba(game.world.width/2, -300);
 			highscore++;
 		}
 		// wave 4
 		if (enemyCounter == 25) {
 			console.log("wave 4");
 			this.spawnBoba(game.world.width/2, game.world.height+50);
+			this.spawnBoba(game.world.width/2, game.world.height+100);
+			this.spawnBoba(game.world.width/2, game.world.height+150);
+			this.spawnBoba(game.world.width/2, game.world.height+200);
+			this.spawnShirt(game.world.width/2,game.world.height+75);
 			highscore++;
 		}
 
@@ -183,19 +198,14 @@ var gamePlayState = {
 			this.spawnCart(-50, game.world.height/2);
 			this.spawnCart(game.world.width+150, game.world.height/2);
 			this.spawnCart(-250, game.world.height/2);
-			this.spawnCart(game.world.width+350, game.world.height/2);
 		}
 
 		if(enemyCounter == 70){
-			this.spawnShirt(game.world.width/2,-50);
-			this.spawnShirt(game.world.width/2,game.world.height+150);
 			this.spawnShirt(game.world.width/2,-250);
 			this.spawnShirt(game.world.width/2,game.world.height+350);
 
 			this.spawnTicket(game.world.width/2,-50);
 			this.spawnTicket(game.world.width/2,game.world.height+100);
-			this.spawnTicket(game.world.width+150,game.world.height/2);
-			this.spawnTicket(-200,game.world.height/2);
 		    done = true;
 			highscore++;
 		}
@@ -524,7 +534,7 @@ var gamePlayState = {
 		}
 
 		// game over condition
-		if (this.game.money <= 90 || this.game.happiness <= 0) {
+		if (this.game.money <= 0 || this.game.happiness <= 0) {
 			console.log("highscore: "+highscore);
 			window.localStorage.setItem( 'highscore',highscore);
 			enemyCounter = 0;
