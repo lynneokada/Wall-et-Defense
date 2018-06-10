@@ -264,6 +264,17 @@ var gameplayTwoState = {
 			this.spawnBoba(-75, game.world.height/2 + 30);
 		}
 
+		if (this.game.happiness>= 600 && enemyCounter % 5 == 0){
+			this.spawnCart(game.world.width/2, game.world.height-50);
+			this.spawnCart(game.world.width/2, game.world.height-50);
+			this.spawnCart(game.world.width/2, game.world.height-50);
+			this.spawnCart(game.world.width/2, game.world.height-50);
+			this.spawnCart(game.world.width/2, game.world.height+75);
+			this.spawnCart(game.world.width/2, game.world.height+75);
+			this.spawnCart(game.world.width/2, game.world.height+75);
+			this.spawnCart(game.world.width/2, game.world.height+75);
+		}
+
 		// set up infinite enemy waves
 		if (enemyCounter > 53 && enemyCounter % 5 == 0) {
 			console.log(enemyCounter);
