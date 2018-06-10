@@ -7,7 +7,11 @@ var gameOverState = {
 		game.endMusic = game.add.audio('endMusic', 1.0, true);
 		game.endMusic.play();
 
+		console.log(window.localStorage.getItem('highscore'));
+		
+
 		this.game.add.sprite(0, 0, 'gameAtlas', 'WalletOver');
+		var hscore = game.add.text(60, 50, 'You survived ' + String(window.localStorage.getItem('highscore') + ' waves'), {fontSize: '24px', fill: '#ffffff'});
 
         // menuText = game.add.text(300, 100, "Game Over!" , {fontSize: '32px' , fill: '#000'}); //game over output message
 				var replayButtonText = game.add.text(game.world.centerX - 50, game.world.centerY + 100, 'Try Again', {fontSize: '48px', fill: '#000'});
