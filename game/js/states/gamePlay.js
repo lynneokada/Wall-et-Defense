@@ -19,6 +19,7 @@ var gamePlayState = {
 
 	},
 	create: function() {
+		done = false;
 		highscore = 0;
 		this.game.happiness = 525;
 		this.game.money = 100;
@@ -743,8 +744,3 @@ function recycleAmmo(obj1, obj2){
 	function levelTwoTapped(item){
 		game.state.start("playTwo");
 	}
-
-
-
-
-
