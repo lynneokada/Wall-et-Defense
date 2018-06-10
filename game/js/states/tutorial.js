@@ -2,7 +2,7 @@
 
 var tutorialState = {
 	create: function() {
-		this.tutorialFrames = Phaser.Animation.generateFrameNames('Tutorial', 1, 13, '', 4);
+		this.tutorialFrames = Phaser.Animation.generateFrameNames('Tutorial', 1, 14, '', 4);
 		this.tutorialSlide = this.game.add.sprite(0, 0, 'gameAtlas', 'Tutorial0001');
 		this.tutorialAnimation = this.tutorialSlide.animations.add('tutorial', this.tutorialFrames, 1);
 
@@ -20,7 +20,7 @@ var tutorialState = {
 		if(this.enterKey.downDuration(5)){
 			this.tutorialAnimation.next();
 			this.tutorialCount += 1;
-			if(this.tutorialCount == 13){
+			if(this.tutorialCount == 14){
 				game.state.start('menu');
 			}
 		}
