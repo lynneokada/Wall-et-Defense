@@ -36,13 +36,11 @@ var gameplayTwoState = {
 		map = game.add.tilemap('levelTwo');
 
 		map.addTilesetImage('WTMap2spritesheetR', 'tilesheet');
-		map.addTilesetImage('WTMap2spritesheetBank', 'banktile');
 		map.addTilesetImage('WTMap2spritesheetG', 'grasstile')
 
 		map.setCollisionByExclusion([]);
 
 		mapLayer = map.createLayer('Roads');
-		bankLayer = map.createLayer('Bank');
 		grassLayer = map.createLayer('Grass');
 
 		mapLayer.resizeWorld();
