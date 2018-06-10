@@ -19,6 +19,7 @@ var gamePlayState = {
 
 	},
 	create: function() {
+		done = false;
 		highscore = 0;
 		this.game.happiness = 525;
 		this.game.money = 100;
@@ -524,7 +525,7 @@ var gamePlayState = {
 		}
 
 		// game over condition
-		if (this.game.money <= 90 || this.game.happiness <= 0) {
+		if (this.game.money <= 0 || this.game.happiness <= 0) {
 			console.log("highscore: "+highscore);
 			window.localStorage.setItem( 'highscore',highscore);
 			enemyCounter = 0;
@@ -733,8 +734,3 @@ function recycleAmmo(obj1, obj2){
 	function levelTwoTapped(item){
 		game.state.start("playTwo");
 	}
-
-
-
-
-
