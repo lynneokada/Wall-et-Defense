@@ -14,21 +14,21 @@ function Boba(game, x, y, spriteName) {
 	Enemy.call(this, game, x, y, spriteName);
 
 	this.body.setSize(330,400,80,120);
-	// if (x < 0) {
-	// 	this.speed = 50;
-	// 	this.body.velocity.x = this.speed;
-	// } else if (x > game.world.width) {
-	// 	this.speed = -50;
-	// 	this.body.velocity.x = this.speed;
-	// }
-	//
-	// if (y < 0) {
-	// 	this.speed = 50;
-	// 	this.body.velocity.y = this.speed;
-	// } else if (y > game.world.height) {
-	// 	this.speed = -50;
-	// 	this.body.velocity.y = this.speed;
-	// }
+	if (x < 0) {
+		this.speed = 50;
+		this.body.velocity.x = this.speed;
+	} else if (x > game.world.width) {
+		this.speed = -50;
+		this.body.velocity.x = this.speed;
+	}
+
+	if (y < 0) {
+		this.speed = 50;
+		this.body.velocity.y = this.speed;
+	} else if (y > game.world.height) {
+		this.speed = -50;
+		this.body.velocity.y = this.speed;
+	}
 }
 
 Boba.prototype = Object.create(Enemy.prototype);
