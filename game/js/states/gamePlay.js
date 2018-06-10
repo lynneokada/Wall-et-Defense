@@ -8,6 +8,8 @@ var tower = 0;
 var reloadableTower = 0;
 var enemyCounter = 0;
 var done;
+var highscore = 0;
+
 
 var gamePlayState = {
 	preload: function() {
@@ -17,6 +19,7 @@ var gamePlayState = {
 
 	},
 	create: function() {
+		highscore = 0;
 		this.game.happiness = 525;
 		this.game.money = 100;
 		var rKey;
@@ -39,13 +42,11 @@ var gamePlayState = {
 		map = game.add.tilemap('levelOne');
 
 		map.addTilesetImage('WTspritesheetR', 'tilesheet');
-		map.addTilesetImage('WTspritesheetBank', 'banktile');
 		map.addTilesetImage('WTspritesheetG', 'grasstile')
 
 		map.setCollisionByExclusion([]);
 
 		mapLayer = map.createLayer('Roads');
-		bankLayer = map.createLayer('Bank');
 		grassLayer = map.createLayer('Grass');
 
 		mapLayer.resizeWorld();
@@ -111,134 +112,36 @@ var gamePlayState = {
 		this.game.soundButton.scale.setTo(0.3, 0.3);
 		//------------------------------------------------------------------
 		this.initializeTowerSelection();
-
-		// create a new objectPath object to store polyline data
-		var objectPath1 = { // Spawning from the left
-			polyline: map.objects.Path[0].polyline,
-			x: map.objects.Path[0].x,
-			y: map.objects.Path[0].y
-		};
-		var objectPath2 = { // Spawning from the right
-			polyline: map.objects.Path[1].polyline,
-			x: map.objects.Path[1].x,
-			y: map.objects.Path[1].y
-		};
-		var objectPath3 = { // Spawning from the top
-			polyline: map.objects.Path[2].polyline,
-			x: map.objects.Path[2].x,
-			y: map.objects.Path[2].y
-		};
-		var objectPath4 = { // Spawning from the bottom
-			polyline: map.objects.Path[3].polyline,
-			x: map.objects.Path[3].x,
-			y: map.objects.Path[3].y
-		};
-		// this.currentPosition = {
-		// 	x: this.enemy.x,
-		// 	y: this.enemy.y
-		// };
-
-		// setup the graphics "pen" to draw the path we import from Tiled JSON data
-		// this.pathLine = game.add.graphics(0 ,0);
-		// // lineStyle(lineWidth, color, alpha)
-		// this.pathLine.visible = false;
-		// this.pathLine.lineStyle(1, 0x0088FF, 1);
-		// this.pathLine.moveTo(objectPath1.x, objectPath1.y);
-
-		this.path1Points = {
-			x: [objectPath1.x],
-			y: [objectPath1.y],
-			a: 0
-		};
-		this.path2Points = {
-			x: [objectPath2.x],
-			y: [objectPath2.y],
-			a: 0
-		};
-		this.path3Points = {
-			x: [objectPath3.x],
-			y: [objectPath3.y],
-			a: 0
-		};
-		this.path4Points = {
-			x: [objectPath4.x],
-			y: [objectPath4.y],
-			a: 0
-		};
-
-
-		let nextX1, nextY1;
-		for(let i = 1; i < objectPath1.polyline.length; i++) {
-			// Tiled polyline data gives x,y coordinates *relative* to x,y position of starting point,
-			// so we always need to coordinates to that base value
-			nextX1 = objectPath1.x + objectPath1.polyline[i][0];
-			nextY1 = objectPath1.y + objectPath1.polyline[i][1];
-			// this.pathLine.lineTo(nextX, nextY);
-			// push coordinates into pathPoints object
-			this.path1Points.x.push(nextX1);
-			this.path1Points.y.push(nextY1);
-		}
-		let nextX2, nextY2;
-		for(let i = 1; i < objectPath2.polyline.length; i++) {
-			// Tiled polyline data gives x,y coordinates *relative* to x,y position of starting point,
-			// so we always need to coordinates to that base value
-			nextX2 = objectPath2.x + objectPath2.polyline[i][0];
-			nextY2 = objectPath2.y + objectPath2.polyline[i][1];
-			// this.pathLine.lineTo(nextX, nextY);
-			// push coordinates into pathPoints object
-			this.path2Points.x.push(nextX2);
-			this.path2Points.y.push(nextY2);
-		}
-		let nextX3, nextY3;
-		for(let i = 1; i < objectPath3.polyline.length; i++) {
-			// Tiled polyline data gives x,y coordinates *relative* to x,y position of starting point,
-			// so we always need to coordinates to that base value
-			nextX3 = objectPath3.x + objectPath3.polyline[i][0];
-			nextY3 = objectPath3.y + objectPath3.polyline[i][1];
-			// this.pathLine.lineTo(nextX, nextY);
-			// push coordinates into pathPoints object
-			this.path3Points.x.push(nextX3);
-			this.path3Points.y.push(nextY3);
-		}
-		let nextX4, nextY4;
-		for(let i = 1; i < objectPath4.polyline.length; i++) {
-			// Tiled polyline data gives x,y coordinates *relative* to x,y position of starting point,
-			// so we always need to coordinates to that base value
-			nextX4 = objectPath4.x + objectPath4.polyline[i][0];
-			nextY4 = objectPath4.y + objectPath4.polyline[i][1];
-			// this.pathLine.lineTo(nextX, nextY);
-			// push coordinates into pathPoints object
-			this.path4Points.x.push(nextX4);
-			this.path4Points.y.push(nextY4);
-		}
-		this.interpIncrement = 1 / game.width;	// acts as a movement rate
-
 	},
 
 	updateCounter: function() {
 	// create a clock for enemy spawning
 	// enemies cannot hit bank simultaneously
 	    enemyCounter++;
+
 	    // wave 1 -- easy
 		if (enemyCounter == 5) {
 			console.log("wave 1");
 			this.spawnBoba(-50,game.world.height/2);
-
+			highscore++;
 		}
 		// wave 2
 		if (enemyCounter == 12) {
 			console.log("wave 2");
 			this.spawnBoba(game.world.width+50,game.world.height/2);
+			highscore++;
 		}
 		// wave 3
 		if (enemyCounter == 19) {
 			console.log("wave 3");
 			this.spawnBoba(game.world.width/2, -50);
+			highscore++;
 		}
 		// wave 4
 		if (enemyCounter == 25) {
 			console.log("wave 4");
 			this.spawnBoba(game.world.width/2, game.world.height+50);
+			highscore++;
 		}
 
 		// wave 5 -- medium
@@ -246,24 +149,28 @@ var gamePlayState = {
 			console.log("wave 5");
 			this.spawnTicket(-50,game.world.height/2);
 			this.spawnTicket(game.world.width+75,game.world.height/2);
+			highscore++;
 		}
 		// wave 6
 		if (enemyCounter == 40) {
 			console.log("wave 6");
 			this.spawnShirt(game.world.width/2,-50);
 			this.spawnShirt(game.world.width/2,game.world.height+75);
+			highscore++;
 		}
 		// wave 7
 		if (enemyCounter == 47) {
 			console.log("wave 7");
 			this.spawnBoba(game.world.width/2 - 30, -50);
 			this.spawnBoba(game.world.width/2 + 30, -75);
+			highscore++;
 		}
 		// wave 8
 		if (enemyCounter == 53) {
 			console.log("wave 8");
 			this.spawnBoba(-50, game.world.height/2 - 30);
 			this.spawnBoba(-75, game.world.height/2 + 30);
+			highscore++;
 		}
 
 		// set up infinite enemy waves
@@ -290,6 +197,7 @@ var gamePlayState = {
 			this.spawnTicket(game.world.width+150,game.world.height/2);
 			this.spawnTicket(-200,game.world.height/2);
 		    done = true;
+			highscore++;
 		}
 
 	},
@@ -615,62 +523,20 @@ var gamePlayState = {
 			tiredMusicPlaying = true;
 		}
 
-		this.lastPosition = this.currentPosition;
-		this.bobaG.forEachAlive(this.plotMotion, this, this);
-
 		// game over condition
-		if (this.game.money <= 0 || this.game.happiness <= 0) {
+		if (this.game.money <= 90 || this.game.happiness <= 0) {
+			console.log("highscore: "+highscore);
+			window.localStorage.setItem( 'highscore',highscore);
 			enemyCounter = 0;
 			game.input.onDown.remove(getTileProperties, this);
 			marker.clear();
 			game.state.start('over');
 		}
 	},
-	// Borrowing from Nathan's slides
-	// plotMotion function adapts some code from Andrew Grant's motion paths tutorial
-	// https://codepen.io/andrewgrant/post/phaser-motion-paths
-	plotMotion: function(enemy) {
-		// plot the motion of the sprite
-		if(enemy.initX < game.world.width/2){ // If spawning from the left
-			var posx = this.math.linearInterpolation(this.path1Points.x, enemy.location);
-			var posy = this.math.linearInterpolation(this.path1Points.y, enemy.location);
-			enemy.x = posx;
-			enemy.y = posy;
-		}else if(enemy.initX > game.world.width){ // if spawning from the right
-			var posx = this.math.linearInterpolation(this.path2Points.x, enemy.location);
-			var posy = this.math.linearInterpolation(this.path2Points.y, enemy.location);
-			enemy.x = posx;
-			enemy.y = posy;
-		} else if(enemy.initY < game.world.height/2){ // if spawning from the top
-			var posx = this.math.linearInterpolation(this.path3Points.x, enemy.location);
-			var posy = this.math.linearInterpolation(this.path3Points.y, enemy.location);
-			enemy.x = posx;
-			enemy.y = posy;
-		} else if(enemy.initY > game.world.height){ // if spawning from the bottom
-			var posx = this.math.linearInterpolation(this.path4Points.x, enemy.location);
-			var posy = this.math.linearInterpolation(this.path4Points.y, enemy.location);
-			enemy.x = posx;
-			enemy.y = posy;
-		}
-		enemy.location += this.interpIncrement;
+}
 
-	}
 
-		// var angle = this.math.angleBetweenPoints(this.lastPosition, this.currentPosition)-Math.PI/2;
-		// this.enemy.rotation = angle;
-		// enemy.location += this.interpIncrement;
-	// },
-	// plotMotion2: function(enemy) {
-	// 	// plot the motion of the sprite
-	// 	var posx = this.math.linearInterpolation(this.path2Points.x, enemy.location);
-	// 	var posy = this.math.linearInterpolation(this.path2Points.y, enemy.location);
-	// 	enemy.x = posx;
-	// 	enemy.y = posy;
-	//
-	// 	// var angle = this.math.angleBetweenPoints(this.lastPosition, this.currentPosition)-Math.PI/2;
-	// 	// this.enemy.rotation = angle;
-	// 	enemy.location += this.interpIncrement;
-};
+
 
 
 	function getTileProperties(){

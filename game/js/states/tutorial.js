@@ -20,7 +20,7 @@ var tutorialState = {
 		if(this.enterKey.downDuration(5)){
 			this.tutorialAnimation.next();
 			this.tutorialCount += 1;
-			if(this.tutorialCount == 12){
+			if(this.tutorialCount == 13){
 				game.state.start('menu');
 			}
 		}
