@@ -27,9 +27,21 @@
 	<script type="text/javascript" src="js/prefabs/Towers/recycleT.js"></script>
 	<script type="text/javascript" src="js/prefabs/Towers/lazyT.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
+
+	<script>
+	window.onload = function () { window.focus(); }
+	window.onclick = function () { window.focus(); }
+
+	function preventUseOfDefaultKeys(event) {
+				 if ([32, 37, 38, 39, 40].indexOf(event.keyCode) > -1) {
+						 event.preventDefault();
+				 }
+			 }
+	</script>
+
 	<link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
-<body>
+<body onkeydown="preventUseOfDefaultKeys(event);" >
 	<h1>Wall-et Defense</h1>
 </body>
 </html>
