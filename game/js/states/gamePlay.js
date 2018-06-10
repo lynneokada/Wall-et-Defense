@@ -713,7 +713,7 @@ function towerAttack(obj1, obj2){
 			this.game.happiness = this.game.happiness + obj1.droppedHappiness;
 			this.happinessText.text = ': ' + this.game.happiness;
 		}
-		obj1.alpha -= .3;
+		obj1.alpha -= obj1.alphaLoss;
 
 		//console.log(obj1.Health);
 }

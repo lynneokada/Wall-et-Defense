@@ -7,11 +7,12 @@ function Boba(game, x, y, spriteName) {
 	this.stunnedAmt = 10;
 	this.walletDamage = 1;
 	this.location = 0;
-
-
-	Enemy.call(this, game, x, y, spriteName);
 	this.initX = x;
 	this.initY = y;
+	this.alphaLoss = .5;
+
+	Enemy.call(this, game, x, y, spriteName);
+
 	this.body.setSize(330,400,80,120);
 	// if (x < 0) {
 	// 	this.speed = 50;
