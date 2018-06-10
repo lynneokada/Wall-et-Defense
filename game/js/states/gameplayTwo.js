@@ -1,4 +1,4 @@
-// gamePlay.js
+// gameplayTwo.js
 
 var bool = false;
 var wflag = false;
@@ -8,15 +8,16 @@ var tower = 0;
 var reloadableTower = 0;
 var enemyCounter = 0;
 
-var gamePlayState = {
+var gameplayTwoState = {
 	preload: function() {
 
+		game.load.tilemap('levelTwo', 'assets/img/WTDMap2.json', null, Phaser.Tilemap.TILED_JSON);
 		slickUI = game.plugins.add(Phaser.Plugin.SlickUI);
 		slickUI.load('assets/ui/kenney/kenney.json');
 
 	},
 	create: function() {
-		this.game.happiness = 525;
+		this.game.happiness = 500;
 		this.game.money = 100;
 		var rKey;
 		this.rKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
@@ -32,16 +33,14 @@ var gamePlayState = {
 
 		game.stage.setBackgroundColor('#87CEEB');
 
-		map = game.add.tilemap('levelOne');
+		map = game.add.tilemap('levelTwo');
 
-		map.addTilesetImage('WTspritesheetR', 'tilesheet');
-		map.addTilesetImage('WTspritesheetBank', 'banktile');
-		map.addTilesetImage('WTspritesheetG', 'grasstile')
+		map.addTilesetImage('WTMap2spritesheetR', 'tilesheet');
+		map.addTilesetImage('WTMap2spritesheetG', 'grasstile')
 
 		map.setCollisionByExclusion([]);
 
 		mapLayer = map.createLayer('Roads');
-		bankLayer = map.createLayer('Bank');
 		grassLayer = map.createLayer('Grass');
 
 		mapLayer.resizeWorld();
@@ -66,6 +65,7 @@ var gamePlayState = {
 		this.ticketG = this.add.group();
 		this.shirtG = this.add.group();
 
+		// this.generateEnemyWaves();
 		enemyTimer = game.time.create(false);
 		enemyTimer.loop(Phaser.Timer.SECOND, this.updateCounter, this);
 		enemyTimer.start();
@@ -119,16 +119,16 @@ var gamePlayState = {
 			x: map.objects.Path[1].x,
 			y: map.objects.Path[1].y
 		};
-		var objectPath3 = { // Spawning from the top
-			polyline: map.objects.Path[2].polyline,
-			x: map.objects.Path[2].x,
-			y: map.objects.Path[2].y
-		};
-		var objectPath4 = { // Spawning from the bottom
-			polyline: map.objects.Path[3].polyline,
-			x: map.objects.Path[3].x,
-			y: map.objects.Path[3].y
-		};
+		// var objectPath3 = { // Spawning from the top
+		// 	polyline: map.objects.Path[2].polyline,
+		// 	x: map.objects.Path[2].x,
+		// 	y: map.objects.Path[2].y
+		// };
+		// var objectPath4 = { // Spawning from the bottom
+		// 	polyline: map.objects.Path[3].polyline,
+		// 	x: map.objects.Path[3].x,
+		// 	y: map.objects.Path[3].y
+		// };
 		// this.currentPosition = {
 		// 	x: this.enemy.x,
 		// 	y: this.enemy.y
@@ -151,16 +151,16 @@ var gamePlayState = {
 			y: [objectPath2.y],
 			a: 0
 		};
-		this.path3Points = {
-			x: [objectPath3.x],
-			y: [objectPath3.y],
-			a: 0
-		};
-		this.path4Points = {
-			x: [objectPath4.x],
-			y: [objectPath4.y],
-			a: 0
-		};
+		// this.path3Points = {
+		// 	x: [objectPath3.x],
+		// 	y: [objectPath3.y],
+		// 	a: 0
+		// };
+		// this.path4Points = {
+		// 	x: [objectPath4.x],
+		// 	y: [objectPath4.y],
+		// 	a: 0
+		// };
 
 
 		let nextX1, nextY1;
@@ -185,28 +185,28 @@ var gamePlayState = {
 			this.path2Points.x.push(nextX2);
 			this.path2Points.y.push(nextY2);
 		}
-		let nextX3, nextY3;
-		for(let i = 1; i < objectPath3.polyline.length; i++) {
-			// Tiled polyline data gives x,y coordinates *relative* to x,y position of starting point,
-			// so we always need to coordinates to that base value
-			nextX3 = objectPath3.x + objectPath3.polyline[i][0];
-			nextY3 = objectPath3.y + objectPath3.polyline[i][1];
-			// this.pathLine.lineTo(nextX, nextY);
-			// push coordinates into pathPoints object
-			this.path3Points.x.push(nextX3);
-			this.path3Points.y.push(nextY3);
-		}
-		let nextX4, nextY4;
-		for(let i = 1; i < objectPath4.polyline.length; i++) {
-			// Tiled polyline data gives x,y coordinates *relative* to x,y position of starting point,
-			// so we always need to coordinates to that base value
-			nextX4 = objectPath4.x + objectPath4.polyline[i][0];
-			nextY4 = objectPath4.y + objectPath4.polyline[i][1];
-			// this.pathLine.lineTo(nextX, nextY);
-			// push coordinates into pathPoints object
-			this.path4Points.x.push(nextX4);
-			this.path4Points.y.push(nextY4);
-		}
+		// let nextX3, nextY3;
+		// for(let i = 1; i < objectPath3.polyline.length; i++) {
+		// 	// Tiled polyline data gives x,y coordinates *relative* to x,y position of starting point,
+		// 	// so we always need to coordinates to that base value
+		// 	nextX3 = objectPath3.x + objectPath3.polyline[i][0];
+		// 	nextY3 = objectPath3.y + objectPath3.polyline[i][1];
+		// 	// this.pathLine.lineTo(nextX, nextY);
+		// 	// push coordinates into pathPoints object
+		// 	this.path3Points.x.push(nextX3);
+		// 	this.path3Points.y.push(nextY3);
+		// }
+		// let nextX4, nextY4;
+		// for(let i = 1; i < objectPath4.polyline.length; i++) {
+		// 	// Tiled polyline data gives x,y coordinates *relative* to x,y position of starting point,
+		// 	// so we always need to coordinates to that base value
+		// 	nextX4 = objectPath4.x + objectPath4.polyline[i][0];
+		// 	nextY4 = objectPath4.y + objectPath4.polyline[i][1];
+		// 	// this.pathLine.lineTo(nextX, nextY);
+		// 	// push coordinates into pathPoints object
+		// 	this.path4Points.x.push(nextX4);
+		// 	this.path4Points.y.push(nextY4);
+		// }
 		this.interpIncrement = 1 / game.width;	// acts as a movement rate
 
 	},
@@ -343,7 +343,7 @@ var gamePlayState = {
 
  // Functions for spawning the bank, player and all the enemies
 	spawnWallet: function() {
-		this.wallet = new Wallet(game, game.world.centerX, game.world.centerY, 'Bank0001');
+		this.wallet = new Wallet(game, 120, 900, 'Bank0001');
 		this.wallet.body.setSize(205,252,25,10);
 	},
 
@@ -406,7 +406,7 @@ var gamePlayState = {
 
         panel.add(button = new SlickUI.Element.Button(0, 100, 140, 40)).events.onInputUp.add(function () {
             console.log('Clicked Recycle Tower');
-            if(this.game.happiness>=150){
+            if(this.game.happiness>=200){
             	rflag = true;
             	lflag = false;
             	wflag = false;
@@ -414,11 +414,12 @@ var gamePlayState = {
             }
         });
         button.add(new SlickUI.Element.Text(0,0, "Recycle")).center();
-        panel.add(new SlickUI.Element.Text(10,136, "150 :)")).centerHorizontally().text.alpha = 0.5;
+        panel.add(new SlickUI.Element.Text(10,136, "200 :)")).centerHorizontally().text.alpha = 0.5;
 
         panel.add(button = new SlickUI.Element.Button(0, 165, 140, 40)).events.onInputUp.add(function () {
             console.log('Clicked Laziness Tower');
-            if(this.game.happiness>=250){
+            if(this.game.happiness>=300){
+            	console.log("in lazy loop preliminary spawn");
             	rflag = false;
             	lflag = true;
             	wflag = false;
@@ -426,7 +427,7 @@ var gamePlayState = {
             }
         });
         button.add(new SlickUI.Element.Text(0,0, "Laziness")).center();
-        panel.add(new SlickUI.Element.Text(0,201, "250 :)")).centerHorizontally().text.alpha = 0.5;
+        panel.add(new SlickUI.Element.Text(0,201, "300 :)")).centerHorizontally().text.alpha = 0.5;
 
         panel.add(button = new SlickUI.Element.Button(0, 230, 140, 40)).events.onInputUp.add(function () {
         	console.log("clicked close");
@@ -461,8 +462,6 @@ var gamePlayState = {
         });
     },
 
-		// Functions for spawning Towers
-
 	spawnWeatherTower: function(){
 		this.weatherTower = new WeatherT(game, game.input.activePointer.worldX -32, game.input.activePointer.worldY -32,'Weather0001', 10, 10, 100, 2000);
 		this.weatherTower.scale.setTo(.5, .5);
@@ -493,9 +492,8 @@ var gamePlayState = {
 		this.recycleTower.attackAnim = this.recycleTower.animations.add('recycleAttack', recycleAttackFrames, 10);
 		this.recycleTower.idleAnim = this.recycleTower.animations.add('idleRecycle', recycleFrames, 10);
 		this.recycleTower.idleAnim.play('idleRecycle', true);
-
 		game.input.onDown.remove(getTileProperties, this);
-		this.game.happiness -= 150;
+		this.game.happiness -= 200;
 		this.happinessText.text = ': ' + this.game.happiness;
 		this.recycleCircleGroup.add(this.recycleTower.circle);
 
@@ -512,14 +510,29 @@ var gamePlayState = {
 		this.lazyTower.attackAnim = this.lazyTower.animations.add('lazyAttack', lazyAttackFrames, 10);
 		this.lazyTower.idleAnim = this.lazyTower.animations.add('idleLazy', lazyFrames, 10);
 		this.lazyTower.idleAnim.play('idleLazy', true);
-
 		game.input.onDown.remove(getTileProperties, this);
-		this.game.happiness -= 250;
+		this.game.happiness -= 300;
 		this.happinessText.text = ': ' + this.game.happiness;
 		this.lazyCircleGroup.add(this.lazyTower.circle);
 	},
 
+	generateEnemyWaves: function(){
+		this.spawnBoba(-50,game.world.height/2);
+		this.spawnBoba(game.world.width+100,game.world.height/2);
+	},
+
+	// render: function() {
+	// 	game.debug.body(this.weatherTower);
+	// 	game.debug.body(this.wallet);
+	//
+	// 	game.debug.physicsGroup(this.bobaG);
+	// },
+
 	update: function(){
+
+		//var weatherRecharge = game.physics.arcade.overlap(this.player, this.weatherCircleGroup);
+		//var recycleRecharge = game.physics.arcade.overlap(this.player, this.recycleCircleGroup);
+		//var lazyRecharge = game.physics.arcade.overlap(this.player, this.lazyCircleGroup);
 
 		if(bool == false){
 			marker.clear();
@@ -587,7 +600,12 @@ var gamePlayState = {
 		}
 
 		this.lastPosition = this.currentPosition;
+		// Moves enemies on their preset paths
 		this.bobaG.forEachAlive(this.plotMotion, this, this);
+		this.ticketG.forEachAlive(this.plotMotion, this, this);
+		this.cartG.forEachAlive(this.plotMotion, this, this);
+		this.shirtG.forEachAlive(this.plotMotion, this, this);
+
 
 		// game over condition
 		if (this.game.money <= 0 || this.game.happiness <= 0) {
@@ -613,13 +631,13 @@ var gamePlayState = {
 			enemy.x = posx;
 			enemy.y = posy;
 		} else if(enemy.initY < game.world.height/2){ // if spawning from the top
-			var posx = this.math.linearInterpolation(this.path3Points.x, enemy.location);
-			var posy = this.math.linearInterpolation(this.path3Points.y, enemy.location);
+			var posx = this.math.linearInterpolation(this.path2Points.x, enemy.location);
+			var posy = this.math.linearInterpolation(this.path2Points.y, enemy.location);
 			enemy.x = posx;
 			enemy.y = posy;
 		} else if(enemy.initY > game.world.height){ // if spawning from the bottom
-			var posx = this.math.linearInterpolation(this.path4Points.x, enemy.location);
-			var posy = this.math.linearInterpolation(this.path4Points.y, enemy.location);
+			var posx = this.math.linearInterpolation(this.path1Points.x, enemy.location);
+			var posy = this.math.linearInterpolation(this.path1Points.y, enemy.location);
 			enemy.x = posx;
 			enemy.y = posy;
 		}
@@ -663,12 +681,12 @@ var gamePlayState = {
 			console.log("bool2: "+ bool);
 		}
 
-		if(tile.properties.grass = true && rflag == true && this.game.happiness > 149){
+		if(tile.properties.grass = true && rflag == true && this.game.happiness > 199){
 			this.spawnRecycleTower();
 			bool = false;
 		}
 
-		if(tile.properties.grass = true && lflag == true && this.game.happiness > 249){
+		if(tile.properties.grass = true && lflag == true && this.game.happiness > 299){
 			this.spawnLazyTower();
 			bool = false;
 		}
@@ -695,12 +713,14 @@ function towerAttack(obj1, obj2){
 
 		if(obj1.Health <= 0){
 			obj1.body.enable = false;
+			obj1.alive = false;
 			obj1.deathAnim.play('death', false, true);
 			this.game.happiness = this.game.happiness + obj1.droppedHappiness;
 			this.happinessText.text = ': ' + this.game.happiness;
 		}
 		obj1.alpha -= obj1.alphaLoss;
 
+		//console.log(obj1.Health);
 }
 
 
@@ -775,7 +795,7 @@ function recycleAmmo(obj1, obj2){
 
 		reloadableTower = this.weatherGroup.getClosestTo(player);
 		if(this.rKey.downDuration(5)){
-			if (reloadableTower.ammo < 6) {
+			if (reloadableTower.ammo < 12) {
 				reloadableTower.ammo++;
 				this.reloadSFX.play();
 			}
@@ -817,6 +837,7 @@ function recycleAmmo(obj1, obj2){
 	}
 
 	function stunPlayer() {
+		console.log("player stunned");
 		this.player.speed = 85;
 		this.player.normAnim.play('normal', true);
 	}
