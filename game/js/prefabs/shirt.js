@@ -4,9 +4,9 @@ function Shirt(game, x, y, spriteName) {
 	this.speed = 50;
 	this.Health = 150;
 	this.attack = 10;
-	this.droppedHappiness = 15;
+	this.droppedHappiness = 25;
 	this.stunnedAmt = 2;
-	this.walletDamage = 3;
+	this.walletDamage = 8;
 	this.location = 0;
 	this.initX = x;
 	this.initY = y;

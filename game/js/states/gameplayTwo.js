@@ -17,10 +17,11 @@ var gameplayTwoState = {
 
 	},
 	create: function() {
-		this.game.happiness = 500;
+		this.game.happiness = 525;
 		this.game.money = 100;
 		var rKey;
 		this.rKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
+		enemyCounter = 0;
 
 		// GUI indicators for happiness and money values
 		this.happinessText = game.add.text(60, 5, ': ' + this.game.happiness, {fontSize: '24px', fill: '#ffffff'});
@@ -219,6 +220,7 @@ var gameplayTwoState = {
 		if (enemyCounter == 5) {
 			console.log("wave 1");
 			this.spawnBoba(-50,game.world.height/2);
+			this.spawnCart(game.world.width, game.world.height);
 
 		}
 		// wave 2
@@ -289,6 +291,7 @@ var gameplayTwoState = {
 				this.spawnBoba(game.world.width+50,game.world.height/2);
 				this.spawnBoba(game.world.width+125,game.world.height/2-30);
 				this.spawnBoba(game.world.width+126,game.world.height/2+30);
+				this.spawnCart(game.world.width, game.world.height);
 				break;
 			case 4:
 				console.log("4");	// 3 boba from left
@@ -795,7 +798,7 @@ function recycleAmmo(obj1, obj2){
 
 		reloadableTower = this.weatherGroup.getClosestTo(player);
 		if(this.rKey.downDuration(5)){
-			if (reloadableTower.ammo < 12) {
+			if (reloadableTower.ammo < 6) {
 				reloadableTower.ammo++;
 				this.reloadSFX.play();
 			}
@@ -816,7 +819,7 @@ function recycleAmmo(obj1, obj2){
 	function lazyRecharge(player, circle){
 		reloadableTower = this.lazyGroup.getClosestTo(player);
 		if(this.rKey.downDuration(5)){
-			if (reloadableTower.ammo < 15) {
+			if (reloadableTower.ammo < 12) {
 				reloadableTower.ammo++;
 				this.reloadSFX.play();
 			}

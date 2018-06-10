@@ -22,10 +22,6 @@ var menuState = {
 		creditsButtonText.inputEnabled = true;
 		creditsButtonText.events.onInputDown.add(creditsTapped, this);
 
-		var levelButtonText = game.add.text(game.world.centerX - 50, game.world.centerY + 140, 'Level', {fontSize: '24px', fill: '#ffffff'});
-		levelButtonText.inputEnabled = true;
-		levelButtonText.events.onInputDown.add(levelTapped, this);
-
 		// Background music
 		game.sound.stopAll();
 		game.menuMusic = game.add.audio('dramatic', 0.5, true);
@@ -58,10 +54,6 @@ function controlsTapped(item) {
 
 function creditsTapped(item) {
 	game.state.start('credits');
-}
-
-function levelTapped(item){
-	game.state.start("playTwo");
 }
 
 function muteSound(item) {

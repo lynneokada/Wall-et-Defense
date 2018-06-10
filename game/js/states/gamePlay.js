@@ -7,6 +7,7 @@ var lflag = false;
 var tower = 0;
 var reloadableTower = 0;
 var enemyCounter = 0;
+var done;
 
 var gamePlayState = {
 	preload: function() {
@@ -20,6 +21,9 @@ var gamePlayState = {
 		this.game.money = 100;
 		var rKey;
 		this.rKey = game.input.keyboard.addKey(Phaser.Keyboard.R);
+		this.victoryText = 0;
+		this.nextLevelText = 0;
+
 
 		// GUI indicators for happiness and money values
 		this.happinessText = game.add.text(60, 5, ': ' + this.game.happiness, {fontSize: '24px', fill: '#ffffff'});
@@ -263,10 +267,31 @@ var gamePlayState = {
 		}
 
 		// set up infinite enemy waves
-		if (enemyCounter > 53 && enemyCounter % 5 == 0) {
+		/*if (enemyCounter > 53 && enemyCounter % 5 == 0) {
 			console.log(enemyCounter);
 			this.spawnRandomizer();
+		}*/
+		if(enemyCounter == 60){
+			console.log("wave 9");
+			this.spawnCart(-50, game.world.height/2);
+			this.spawnCart(game.world.width+150, game.world.height/2);
+			this.spawnCart(-250, game.world.height/2);
+			this.spawnCart(game.world.width+350, game.world.height/2);
 		}
+
+		if(enemyCounter == 70){
+			this.spawnShirt(game.world.width/2,-50);
+			this.spawnShirt(game.world.width/2,game.world.height+150);
+			this.spawnShirt(game.world.width/2,-250);
+			this.spawnShirt(game.world.width/2,game.world.height+350);
+
+			this.spawnTicket(game.world.width/2,-50);
+			this.spawnTicket(game.world.width/2,game.world.height+100);
+			this.spawnTicket(game.world.width+150,game.world.height/2);
+			this.spawnTicket(-200,game.world.height/2);
+		    done = true;
+		}
+
 	},
 
 	spawnRandomizer: function() {
@@ -406,7 +431,7 @@ var gamePlayState = {
 
         panel.add(button = new SlickUI.Element.Button(0, 100, 140, 40)).events.onInputUp.add(function () {
             console.log('Clicked Recycle Tower');
-            if(this.game.happiness>=150){
+            if(this.game.happiness>=200){
             	rflag = true;
             	lflag = false;
             	wflag = false;
@@ -414,11 +439,11 @@ var gamePlayState = {
             }
         });
         button.add(new SlickUI.Element.Text(0,0, "Recycle")).center();
-        panel.add(new SlickUI.Element.Text(10,136, "150 :)")).centerHorizontally().text.alpha = 0.5;
+        panel.add(new SlickUI.Element.Text(10,136, "200 :)")).centerHorizontally().text.alpha = 0.5;
 
         panel.add(button = new SlickUI.Element.Button(0, 165, 140, 40)).events.onInputUp.add(function () {
             console.log('Clicked Laziness Tower');
-            if(this.game.happiness>=250){
+            if(this.game.happiness>=300){
             	rflag = false;
             	lflag = true;
             	wflag = false;
@@ -426,7 +451,7 @@ var gamePlayState = {
             }
         });
         button.add(new SlickUI.Element.Text(0,0, "Laziness")).center();
-        panel.add(new SlickUI.Element.Text(0,201, "250 :)")).centerHorizontally().text.alpha = 0.5;
+        panel.add(new SlickUI.Element.Text(0,201, "300 :)")).centerHorizontally().text.alpha = 0.5;
 
         panel.add(button = new SlickUI.Element.Button(0, 230, 140, 40)).events.onInputUp.add(function () {
         	console.log("clicked close");
@@ -495,7 +520,7 @@ var gamePlayState = {
 		this.recycleTower.idleAnim.play('idleRecycle', true);
 
 		game.input.onDown.remove(getTileProperties, this);
-		this.game.happiness -= 150;
+		this.game.happiness -= 200;
 		this.happinessText.text = ': ' + this.game.happiness;
 		this.recycleCircleGroup.add(this.recycleTower.circle);
 
@@ -514,7 +539,7 @@ var gamePlayState = {
 		this.lazyTower.idleAnim.play('idleLazy', true);
 
 		game.input.onDown.remove(getTileProperties, this);
-		this.game.happiness -= 250;
+		this.game.happiness -= 300;
 		this.happinessText.text = ': ' + this.game.happiness;
 		this.lazyCircleGroup.add(this.lazyTower.circle);
 	},
@@ -532,6 +557,10 @@ var gamePlayState = {
 			game.input.onDown.add(getTileProperties, this);
 		}
 
+		if(done == true && this.ticketG.countLiving() == 0 && this.shirtG.countLiving() == 0){
+			victoryScreen();
+		}
+
 		//Player and Tower reloading mechanics
 		game.physics.arcade.overlap(this.player, this.weatherCircleGroup, weatherRecharge, null, this);
 		game.physics.arcade.overlap(this.player, this.recycleCircleGroup, recycleRecharge, null, this);
@@ -542,7 +571,7 @@ var gamePlayState = {
 
 		//collision dectection for enemies and wallet
 		game.physics.arcade.overlap(this.wallet, this.bobaG, enemyWalletCollision, null, this);
-	  game.physics.arcade.overlap(this.wallet, this.shirtG, enemyWalletCollision, null, this);
+	  	game.physics.arcade.overlap(this.wallet, this.shirtG, enemyWalletCollision, null, this);
 		game.physics.arcade.overlap(this.wallet, this.cartG, enemyWalletCollision, null, this);
 		game.physics.arcade.overlap(this.wallet, this.ticketG, enemyWalletCollision, null, this);
 
@@ -650,7 +679,6 @@ var gamePlayState = {
 		var y = grassLayer.getTileY(game.input.activePointer.worldY);
 
 		var tile = map.getTile(x, y, grassLayer);
-		var badTile = map.getTile(x, y, )
 
 		currentDataString = JSON.stringify( tile.properties );
 		tile.properties.grass = true;
@@ -663,12 +691,12 @@ var gamePlayState = {
 			console.log("bool2: "+ bool);
 		}
 
-		if(tile.properties.grass = true && rflag == true && this.game.happiness > 149){
+		if(tile.properties.grass = true && rflag == true && this.game.happiness >= 200){
 			this.spawnRecycleTower();
 			bool = false;
 		}
 
-		if(tile.properties.grass = true && lflag == true && this.game.happiness > 249){
+		if(tile.properties.grass = true && lflag == true && this.game.happiness >= 300){
 			this.spawnLazyTower();
 			bool = false;
 		}
@@ -775,7 +803,7 @@ function recycleAmmo(obj1, obj2){
 
 		reloadableTower = this.weatherGroup.getClosestTo(player);
 		if(this.rKey.downDuration(5)){
-			if (reloadableTower.ammo < 6) {
+			if (reloadableTower.ammo < 4) {
 				reloadableTower.ammo++;
 				this.reloadSFX.play();
 			}
@@ -796,7 +824,7 @@ function recycleAmmo(obj1, obj2){
 	function lazyRecharge(player, circle){
 		reloadableTower = this.lazyGroup.getClosestTo(player);
 		if(this.rKey.downDuration(5)){
-			if (reloadableTower.ammo < 15) {
+			if (reloadableTower.ammo < 12) {
 				reloadableTower.ammo++;
 				this.reloadSFX.play();
 			}
@@ -828,3 +856,19 @@ function recycleAmmo(obj1, obj2){
 		this.moneyText.text = ': ' + this.game.money;
 		this.breach.play();
 	}
+
+	function victoryScreen(){
+		this.victoryText = game.add.text(0, 80, 'You sucessfully saved your bank!', {fontSize: '24px', fill: '#ffffff'});
+		this.nextLevelText = game.add.text(0, 110, 'Click this to go to level 2!', {fontSize: '24px', fill: '#ffffff'});
+		this.nextLevelText.inputEnabled = true;
+		this.nextLevelText.events.onInputDown.add(levelTwoTapped, this);
+	}
+
+	function levelTwoTapped(item){
+		game.state.start("playTwo");
+	}
+
+
+
+
+

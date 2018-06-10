@@ -5,9 +5,9 @@ function Cart(game, x, y, spriteName) {
 	this.speed = 35;
 	this.Health = 300;
 	this.attack = 50;
-	this.droppedHappiness = 25;
+	this.droppedHappiness = 40;
 	this.stunnedAmt = 25;
-	this.walletDamage = 10;
+	this.walletDamage = 20;
 	this.location = 0;
 	this.initX = x;
 	this.initY = y;

@@ -5,7 +5,7 @@ function Ticket(game, x, y, spriteName) {
 	this.speed = 75;
 	this.Health = 100;
 	this.attack = 50;
-	this.droppedHappiness = 25;
+	this.droppedHappiness = 35;
 	this.stunnedAmt = 1;
 	this.walletDamage = 5;
 	this.location = 0;
